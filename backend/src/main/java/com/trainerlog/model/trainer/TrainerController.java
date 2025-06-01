@@ -37,4 +37,9 @@ public class TrainerController {
     public void deleteTrainer(@PathVariable UUID id) {
         trainerRepository.deleteById(id);
     }
+    
+    @GetMapping("/ping")
+    public String ping() {
+        return "✅ Backend is working!";
+    }
 }
