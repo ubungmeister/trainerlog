@@ -14,23 +14,23 @@ public class UserService {
     private UserRepository userRepository;
 
     public User createUser(UserRequestDto dto) {
-        // создаём пустого пользователя
+        // create a new user
         User user = new User();
 
-        // заполняем поля из DTO
+        // fill the fields from the DTO
         user.setFullName(dto.fullName);
         user.setEmail(dto.email);
         user.setPassword(dto.password);
         user.setRole(Role.valueOf(dto.role.toUpperCase()));
 
-        // если указан тренер — ищем его в базе
+        // if a trainer is specified, find him in the database
         if (dto.trainerId != null) {
             User trainer = userRepository.findById(dto.trainerId)
                 .orElseThrow(() -> new RuntimeException("Trainer not found"));
             user.setTrainer(trainer);
         }
 
-        // сохраняем пользователя в БД
+        // save the user to the database
         return userRepository.save(user);
     }
 }
