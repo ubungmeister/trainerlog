@@ -1,6 +1,9 @@
-package com.trainerlog.model.user;
+package com.trainerlog.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.trainerlog.model.user.User;
+
 import java.util.List;
 import java.util.UUID;
 

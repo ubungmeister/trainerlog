@@ -1,7 +1,13 @@
-package com.trainerlog.model.user;
+package com.trainerlog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import com.trainerlog.model.user.User;
+import com.trainerlog.model.user.User.Role;
+import com.trainerlog.repository.UserRepository;
+import com.trainerlog.dto.UserRequestDto;
+import com.trainerlog.service.UserService;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,15 +17,17 @@ import java.util.UUID;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public User createUser(@RequestBody UserRequestDto dto) {
+        return userService.createUser(dto);
     }
 
     @GetMapping
@@ -43,13 +51,13 @@ public class UserController {
         return "✅ Backend is working!";
     }
 
-    // Дополнительно: получить всех тренеров
+    // Get All trainers
     @GetMapping("/trainers")
     public List<User> getAllTrainers() {
         return userRepository.findByRole(User.Role.TRAINER);
     }
 
-    // Дополнительно: получить всех клиентов тренера
+    // Get All clients of a trainer
     @GetMapping("/{trainerId}/clients")
     public List<User> getClientsOfTrainer(@PathVariable UUID trainerId) {
         User trainer = userRepository.findById(trainerId)
