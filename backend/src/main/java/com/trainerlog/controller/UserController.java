@@ -1,55 +1,50 @@
 package com.trainerlog.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import lombok.AllArgsConstructor;
 
 import com.trainerlog.model.user.User;
-import com.trainerlog.model.user.User.Role;
 import com.trainerlog.repository.UserRepository;
 import com.trainerlog.dto.UserRequestDto;
+import com.trainerlog.dto.UserResponseDto;
 import com.trainerlog.service.UserService;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserRepository userRepository;
     private final UserService userService;
 
-    @Autowired
-    public UserController(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository;
-        this.userService = userService;
-    }
-
     @PostMapping
-    public User createUser(@RequestBody UserRequestDto dto) {
+    public UserResponseDto createUser(@RequestBody UserRequestDto dto) {
         return userService.createUser(dto);
     }
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public UserResponseDto getUserById(@PathVariable UUID id) {
+        return userService.getUserById(id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable UUID id) {
-        userRepository.deleteById(id);
+        userService.deleteUser(id);
     }
 
-    @GetMapping("/ping")
-    public String ping() {
-        return "✅ Backend is working!";
+    @PutMapping("/{id}")
+    public UserResponseDto updateUser(@PathVariable UUID id, @RequestBody UserRequestDto dto) {
+        return userService.updateUser(id, dto);
     }
+        
 
     // Get All trainers
     @GetMapping("/trainers")
