@@ -33,6 +33,7 @@ export const Signup = () => {
         const payload = { ...data, role: "TRAINER" };
         createUser(payload);
     };
+    // test
     
     return (
         <div className="auth-container">
