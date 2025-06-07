@@ -20,7 +20,6 @@ export const SignIn = () => {
     const onSubmit = (data: FormSchemaType) => {
         login(data, {
             onSuccess: (response) => {
-                console.log("Login successful:", response);
                 localStorage.setItem("token", response.token);
                 window.location.href = "/";
             },
