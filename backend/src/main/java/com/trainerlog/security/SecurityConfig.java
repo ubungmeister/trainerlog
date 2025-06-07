@@ -12,7 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -45,15 +45,14 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("https://trainerlog-beryl.vercel.app"); // Allow your Vercel frontend origin
-        configuration.addAllowedOrigin("http://localhost:5173"); // Allow local development origin
-        configuration.addAllowedMethod("*"); // Allow all HTTP methods
-        configuration.addAllowedHeader("*"); // Allow all headers
-        configuration.setAllowCredentials(true); // Allow credentials (e.g., cookies, authorization headers)
-
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("https://trainerlog-beryl.vercel.app", "http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        config.setAllowCredentials(true);
+    
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply CORS to all paths
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 }
