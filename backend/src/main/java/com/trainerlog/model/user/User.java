@@ -39,8 +39,9 @@ public class User {
     private User trainer;
 
     //if trainer -> has clients
-    @OneToMany(mappedBy = "trainer")
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY)
     @JsonManagedReference
+    @Builder.Default
     private List<User> clients = new ArrayList<>();
 
     public enum Role {
