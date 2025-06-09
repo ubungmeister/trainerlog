@@ -5,6 +5,8 @@ import com.trainerlog.dto.UserResponseDto;
 import com.trainerlog.model.user.User;
 import com.trainerlog.model.user.User.Role;
 import com.trainerlog.repository.UserRepository;
+import com.trainerlog.dto.ClientDto;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -97,5 +99,17 @@ public class UserServiceImpl implements UserService {
         User updatedUser = userRepository.save(user);
         return UserResponseDto.fromEntity(updatedUser);
     }
-    
+
+    @Override
+    @Transactional
+    public List<ClientDto> getAllClientsForTrainer(UUID trainerId) {
+        User trainer = userRepository.findById(trainerId)
+            .orElseThrow(() -> new RuntimeException("Trainer not found"));
+
+        List<ClientDto> clients = trainer.getClients().stream()
+            .map(c -> new ClientDto(c.getId(), c.getFullName(), c.getEmail()))
+            .toList();
+        
+        return clients;
+    }
 }

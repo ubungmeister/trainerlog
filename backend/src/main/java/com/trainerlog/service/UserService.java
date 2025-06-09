@@ -1,4 +1,5 @@
 package com.trainerlog.service;
+import com.trainerlog.dto.ClientDto;
 import com.trainerlog.dto.UserRequestDto;
 import com.trainerlog.dto.UserResponseDto;
 import java.util.List;
@@ -11,5 +12,6 @@ public interface UserService {
     UserResponseDto getUserById(UUID id);
     void deleteUser(UUID id);
     UserResponseDto updateUser(UUID id, UserRequestDto dto);
+    List<ClientDto> getAllClientsForTrainer(UUID trainerId);
 }
 

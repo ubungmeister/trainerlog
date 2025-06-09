@@ -1,17 +1,20 @@
 package com.trainerlog.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import lombok.AllArgsConstructor;
 
 import com.trainerlog.model.user.User;
 import com.trainerlog.repository.UserRepository;
+import com.trainerlog.dto.ClientDto;
 import com.trainerlog.dto.UserRequestDto;
 import com.trainerlog.dto.UserResponseDto;
 import com.trainerlog.service.UserService;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
-
+import com.trainerlog.security.CustomUserPrincipal;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/users")
@@ -27,6 +30,7 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() {
+        System.err.println("users" + userService.getAllUsers());
         return userService.getAllUsers();
     }
 
@@ -53,11 +57,12 @@ public class UserController {
     }
 
     // Get All clients of a trainer
-    @GetMapping("/{trainerId}/clients")
-    public List<User> getClientsOfTrainer(@PathVariable UUID trainerId) {
-        User trainer = userRepository.findById(trainerId)
-                .orElseThrow(() -> new RuntimeException("Trainer not found"));
-
-        return trainer.getClients();
+    @GetMapping("/me/clients")
+    @Transactional
+    public List<ClientDto> getClientsOfTrainer() {
+        Authentication authorization = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserPrincipal user = (CustomUserPrincipal) authorization.getPrincipal();
+        UUID trainerId = user.getId();
+        return userService.getAllClientsForTrainer(trainerId);
     }
 }
