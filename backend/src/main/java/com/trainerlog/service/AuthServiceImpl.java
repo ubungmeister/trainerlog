@@ -36,15 +36,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserResponseDto register(UserRequestDto dto) {
-        if (userRepository.existsByEmail(dto.email)) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
 
         User user = User.builder()
-            .email(dto.email)
-            .password(passwordEncoder.encode(dto.password))
-            .fullName(dto.fullName)
-            .role(User.Role.valueOf(dto.role.toUpperCase()))
+            .email(dto.getEmail())
+            .password(passwordEncoder.encode(dto.getPassword()))
+            .fullName(dto.getFullName())
+            .role(User.Role.valueOf(dto.getRole().toUpperCase()))
             .build();
 
         User savedUser = userRepository.save(user);
