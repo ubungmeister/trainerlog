@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
             .fullName(dto.getFullName())
             .email(dto.getEmail())
             .password(null) // Password is set as null since we don't have user's mode in application
-            .role(Role.valueOf(dto.getRole().toUpperCase()))
+            .role(Role.CLIENT) //clinet by default when we creating new user (client)
             .trainer(trainer);
 
         try {

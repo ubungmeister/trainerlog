@@ -1,6 +1,14 @@
 @import 'tailwindcss';
 @tailwind utilities;
 
+@theme {
+  --color-primary-bg: #2C1B47;
+  --color-primary-menu: #00838F;
+  --color-secondary-menu: #00695C;
+  --color-secondary: #D5B4E7;
+
+}
+
 .auth-container {
   @apply min-h-screen flex items-center justify-center bg-[#2C1B47] p-4;
 }
@@ -24,4 +32,7 @@
 }
 .auth-form .success {
   @apply text-green-500 text-sm mt-2
+}
+.app-container {
+  @apply min-h-screen flex bg-[#2C1B47] p-4;
 }

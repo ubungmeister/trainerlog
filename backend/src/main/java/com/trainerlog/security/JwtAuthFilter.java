@@ -35,7 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             String token = authorizationHeader.substring(7);
             try{
-                //tiken validation and getting user id 
+                //token validation and getting user id 
                 UUID userId = jwtUtil.validateTokenAndGetUserId(token);
                 // getting user from DB
                 User user = userRepository.findById(userId)

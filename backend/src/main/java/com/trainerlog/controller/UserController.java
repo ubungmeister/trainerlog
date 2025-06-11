@@ -36,13 +36,13 @@ public class UserController {
         return userService.createUser(dto, getAuthorizedTrainerId());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public UserResponseDto updateUser(@PathVariable UUID id, @RequestBody UserRequestDto dto) {
             UUID trainerId = getAuthorizedTrainerId(); 
         return userService.updateUser(id, dto, trainerId);
     }
 
-     @DeleteMapping("/{id}")
+     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable UUID id) {
         UUID trainerId = getAuthorizedTrainerId(); 
         userService.deleteUser(id, trainerId);
