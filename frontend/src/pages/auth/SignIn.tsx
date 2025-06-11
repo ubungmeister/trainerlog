@@ -21,6 +21,9 @@ export const SignIn = () => {
         login(data, {
             onSuccess: (response) => {
                 localStorage.setItem("token", response.token);
+                localStorage.setItem("fullName", response.fullName);
+                localStorage.setItem("email", response.email);
+                localStorage.setItem("id", response.id);
                 window.location.href = "/";
             },
             onError: (error) => {

@@ -1,9 +1,10 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PublicOnlyRoute from "./PublicOnlyRoutes";
-import {Home} from "../../../pages/home";
-import {SignIn} from "../../../pages/auth/SignIn";            
-import {Signup} from "../../../pages/auth/SignUp";
+import { SignIn } from "../../../pages/auth/SignIn";            
+import { Signup } from "../../../pages/auth/SignUp";
+import { Home } from "../../../pages/home";
+import ProtectedLayout from "../../../components/layouts/ProtectedLayout";
 
 const AppRoutes = () => {
   return (
@@ -14,10 +15,12 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<ProtectedRoutes />}>
-        <Route path="/" element={<Home />} />
+        <Route element={<ProtectedLayout />}>
+          <Route path="/" element={<Home />} />
+        </Route>
       </Route>
 
-      {/* <Route path="*" element={<Navigate to="/" />} /> */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

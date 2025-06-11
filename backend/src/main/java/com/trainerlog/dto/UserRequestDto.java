@@ -17,10 +17,8 @@ public class UserRequestDto {
     @NotBlank(message = "Email is required")
     private String email;
 
-    private String password;
-
-    @NotBlank(message = "Role is required")
-    private String role;
+    private String password; //for now is null
+    private String role; //set as CLIENT by deafault on the server side
 
     private UUID trainerId; //could be null in case of trainer registration
 }

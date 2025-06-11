@@ -12,7 +12,8 @@ import java.util.UUID;
 public class JwtUtil {
 
     private final String SECRET = "superSecretKeyForJWTGenerationMustBeLongEnough!123";
-    private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 час
+    //TODO: add refreshToken(30 days) + accessToken(1hour)
+    private final long EXPIRATION_TIME = 1000 * 60 * 60  * 24; // token for 24 hours
 
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
