@@ -1,10 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PublicOnlyRoute from "./PublicOnlyRoutes";
-import { SignIn } from "../../../pages/auth/SignIn";            
+import { SignIn } from "../../../pages/auth/SignIn";
 import { Signup } from "../../../pages/auth/SignUp";
 import { Home } from "../../../pages/home";
 import ProtectedLayout from "../../../components/layouts/ProtectedLayout";
+import { ClientPage } from "../../../pages/client/ClientPage";
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoutes />}>
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/client/:clientId" element={<ClientPage />} />
         </Route>
       </Route>
 
