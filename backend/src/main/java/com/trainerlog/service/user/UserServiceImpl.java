@@ -1,17 +1,22 @@
-package com.trainerlog.service;
+package com.trainerlog.service.user;
 
-import com.trainerlog.dto.UserRequestDto;
-import com.trainerlog.dto.UserResponseDto;
-import com.trainerlog.model.user.User;
-import com.trainerlog.model.user.User.Role;
+import com.trainerlog.dto.user.ClientDto;
+import com.trainerlog.dto.user.UserRequestDto;
+import com.trainerlog.dto.user.UserResponseDto;
+import com.trainerlog.model.User;
+import com.trainerlog.model.User.Role;
 import com.trainerlog.repository.UserRepository;
-import com.trainerlog.dto.ClientDto;
+
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Implementation of the UserService interface that handles user-related operations.
@@ -22,6 +27,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
 
     /**
      * Creates a new user associated with a trainer.
@@ -34,10 +41,16 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserResponseDto createUser(UserRequestDto dto, UUID trainerId) {
+        log.info("Attempting to create user for trainerId={}, email={}", trainerId, dto.getEmail());
         User trainer = userRepository.findById(trainerId)
-            .orElseThrow(() -> new RuntimeException("Trainer not found"));
+            .orElseThrow(() -> {
+            log.error("Trainer with id={} not found", trainerId);
+            return new RuntimeException("Trainer not found");
+            });
+                
 
         if (userRepository.existsByEmail(dto.getEmail())) {
+            log.error("Email {} already exists for trainerId={}", dto.getEmail(), trainerId);
             throw new IllegalArgumentException("Email already exists");
         }
 
@@ -50,8 +63,10 @@ public class UserServiceImpl implements UserService {
 
         try {
             User savedUser = userRepository.save(user.build());
+            log.info("User created successfully with id={}", savedUser.getId());
             return UserResponseDto.fromEntity(savedUser);
         } catch (DataIntegrityViolationException e) {
+            log.error("Data integrity violation while creating user: {}", e.getMessage());
             throw new IllegalArgumentException("Email already exists");
         }
     }
@@ -95,10 +110,15 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void deleteUser(UUID id, UUID trainerId) {
+        log.info("Attempting to delete user with id={} for trainerId={}", id, trainerId);
         User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> {
+            log.error("Trainer with id={} not found", trainerId);
+            return new RuntimeException("Trainer not found");
+            });
         
         if (!user.getTrainer().getId().equals(trainerId)) {
+            log.error("Unauthorized deletion attempt for user id={} by trainer id={}", id, trainerId);
             throw new RuntimeException("You are not authorized to delete this user");
         }
         userRepository.delete(user);

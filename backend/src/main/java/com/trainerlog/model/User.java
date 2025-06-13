@@ -1,4 +1,4 @@
-package com.trainerlog.model.user;
+package com.trainerlog.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;

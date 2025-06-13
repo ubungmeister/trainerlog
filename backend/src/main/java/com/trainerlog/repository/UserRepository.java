@@ -1,8 +1,10 @@
 package com.trainerlog.repository;
 
-import com.trainerlog.model.user.User;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
+
+import com.trainerlog.model.User;
+
 import java.util.*;
 
 @Repository

@@ -1,8 +1,10 @@
     package com.trainerlog.security;
 
     import java.util.UUID;
-    import com.trainerlog.model.user.User;
-    import lombok.Data;
+
+import com.trainerlog.model.User;
+
+import lombok.Data;
     import lombok.NoArgsConstructor;
     @Data
     @NoArgsConstructor

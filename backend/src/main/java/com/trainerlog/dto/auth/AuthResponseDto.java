@@ -1,7 +1,9 @@
-package com.trainerlog.dto;
+package com.trainerlog.dto.auth;
 
 import java.util.UUID;
-import com.trainerlog.model.user.User;
+
+import com.trainerlog.model.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -3,6 +3,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse; // import org.springframework.http.HttpMethod;
+
+import com.trainerlog.model.User;
 import com.trainerlog.repository.UserRepository;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,7 +14,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException; // import java.util.List;
 import java.util.UUID;
-import com.trainerlog.model.user.User;
 import java.util.List;
 import org.springframework.stereotype.Component;
 @Component

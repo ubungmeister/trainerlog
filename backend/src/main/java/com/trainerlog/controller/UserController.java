@@ -4,10 +4,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import lombok.AllArgsConstructor;
 
-import com.trainerlog.dto.ClientDto;
-import com.trainerlog.dto.UserRequestDto;
-import com.trainerlog.dto.UserResponseDto;
-import com.trainerlog.service.UserService;
+import com.trainerlog.dto.user.ClientDto;
+import com.trainerlog.dto.user.UserRequestDto;
+import com.trainerlog.dto.user.UserResponseDto;
 
 import jakarta.validation.Valid;
 
@@ -15,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 import java.util.UUID;
 import com.trainerlog.security.CustomUserPrincipal;
+import com.trainerlog.service.user.UserService;
 
 @RestController
 @AllArgsConstructor
