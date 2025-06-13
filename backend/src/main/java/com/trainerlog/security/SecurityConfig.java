@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll() // login, register
                 .requestMatchers("/api/users/**").hasRole("TRAINER")  // Trainer specific endpoints
+                .requestMatchers("/api/exercises/**").hasRole("TRAINER") // Trainer specific endpoints
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,0 +1,30 @@
+package com.trainerlog.model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Builder;
+import java.util.UUID;
+
+@Entity
+@Table(name = "exercises")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Exercise {
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @Column(unique = true)
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by_trainer_id")
+    private User createdByTrainer;
+
+
+    
+}

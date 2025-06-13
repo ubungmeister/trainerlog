@@ -1,12 +1,13 @@
-package com.trainerlog.service;
+package com.trainerlog.service.auth;
 
-import com.trainerlog.dto.AuthRequestDto;
-import com.trainerlog.dto.AuthResponseDto;
-import com.trainerlog.dto.UserRequestDto;
-import com.trainerlog.dto.UserResponseDto;
-import com.trainerlog.model.user.User;
+import com.trainerlog.dto.auth.AuthRequestDto;
+import com.trainerlog.dto.auth.AuthResponseDto;
+import com.trainerlog.dto.user.UserRequestDto;
+import com.trainerlog.dto.user.UserResponseDto;
+import com.trainerlog.model.User;
 import com.trainerlog.repository.UserRepository;
 import com.trainerlog.security.JwtUtil;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

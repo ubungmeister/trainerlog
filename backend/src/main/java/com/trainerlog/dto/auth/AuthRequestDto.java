@@ -1,4 +1,4 @@
-package com.trainerlog.dto;
+package com.trainerlog.dto.auth;
 
 import lombok.Data;
 

@@ -1,7 +1,8 @@
-package com.trainerlog.service;
-import com.trainerlog.dto.ClientDto;
-import com.trainerlog.dto.UserRequestDto;
-import com.trainerlog.dto.UserResponseDto;
+package com.trainerlog.service.user;
+import com.trainerlog.dto.user.ClientDto;
+import com.trainerlog.dto.user.UserRequestDto;
+import com.trainerlog.dto.user.UserResponseDto;
+
 import java.util.List;
 import java.util.UUID;
 
