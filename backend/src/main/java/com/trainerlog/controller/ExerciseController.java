@@ -1,4 +1,5 @@
 package com.trainerlog.controller;
+import lombok.AllArgsConstructor;
 
 import java.util.UUID;
 
@@ -6,9 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.trainerlog.security.CustomUserPrincipal;
-import com.trainerlog.service.user.UserService;
 
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +22,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.trainerlog.service.exercise.ExerciseService;
 import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/exercises")

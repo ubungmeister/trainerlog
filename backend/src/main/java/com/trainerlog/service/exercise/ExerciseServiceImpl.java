@@ -5,7 +5,6 @@ import com.trainerlog.dto.exercise.ExerciseRequestDto;
 import com.trainerlog.dto.exercise.ExerciseResponseDto;
 import java.util.UUID;
 import com.trainerlog.repository.UserRepository;
-import com.trainerlog.service.user.UserServiceImpl;
 import com.trainerlog.repository.ExerciseRepository;
 import com.trainerlog.model.Exercise;
 import java.util.List;
@@ -17,10 +16,8 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
-    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ExerciseServiceImpl.class);
 
-
-    // Add your repository or other dependencies here
 
     /**
      * Creates a new exercise associated with a trainer.
