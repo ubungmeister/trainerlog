@@ -4,7 +4,6 @@ import com.trainerlog.dto.client_exercise.ClientExerciseResponseDto;
 import com.trainerlog.repository.ClientExerciseRepository;
 import com.trainerlog.repository.ExerciseRepository;
 import com.trainerlog.repository.UserRepository;
-import com.trainerlog.service.user.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.trainerlog.model.ClientExercise;
@@ -19,7 +18,7 @@ import org.slf4j.LoggerFactory;
 @AllArgsConstructor
  public class ClientExerciseServiceImpl implements ClientExerciseService {
     
-    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ClientExerciseServiceImpl.class);
 
     private final ClientExerciseRepository clientExerciseRepository;
     private final ExerciseRepository exerciseRepository;
@@ -44,7 +43,15 @@ import org.slf4j.LoggerFactory;
     }
 
 
+    /**
+     * Creates a new client exercise associated with a trainer.
+     *
+     * @param clientExercise  The client exercise creation request data
+     * @param trainerId The UUID of the trainer creating the exercise
+     * @return ClientExerciseResponseDto containing the created exercise's information
+     */
 
+    
     @Override
     public ClientExerciseResponseDto createClientExercise(ClientExerciseRequestDto clientExercise, UUID trainerId) {
         log.info("Attempting to create client exercise for trainerId={}, clientExercise={}", trainerId, clientExercise);
@@ -119,6 +126,15 @@ import org.slf4j.LoggerFactory;
         }
     }
 
+    /**
+     * Updates an existing client exercise's active state.
+     *
+     * @param id The UUID of the client exercise to update
+     * @param clientExercise The client exercise update request data
+     * @param trainerId The UUID of the trainer performing the update
+     * @return ClientExerciseResponseDto containing the updated exercise's information
+     */
+
     @Override
     public ClientExerciseResponseDto updateClientExercise(UUID id, ClientExerciseRequestDto clientExercise, UUID trainerId) {
         log.info("Attempting to update client exercise for trainerId={}, clientExercise={}", trainerId, clientExercise);
@@ -132,10 +148,10 @@ import org.slf4j.LoggerFactory;
             throw new RuntimeException("Client exercise not found for this client");
         }
 
-        // Check if the trainer has permission to create exercises for this client
+        // Check if the trainer has permission to update exercises for this client
         if (!isTrainerAuthorized(trainerId, client)) {
-            log.error("Trainer with id={} is not authorized to create exercises for client with id={}", trainerId, clientExercise.getClientId());
-            throw new RuntimeException("Trainer not authorized to create exercises for this client");
+            log.error("Trainer with id={} is not authorized to update exercises for client with id={}", trainerId, clientExercise.getClientId());
+            throw new RuntimeException("Trainer not authorized to update exercises for this client");
         }
 
         // Update the active state of the client exercise only!
@@ -148,6 +164,14 @@ import org.slf4j.LoggerFactory;
         }
       
     }
+
+    /**
+     * Deletes a client exercise by its ID for a specific client.
+     *
+     * @param id The UUID of the client exercise to delete
+     * @param trainerId The UUID of the trainer performing the deletion
+     * @param clientId The UUID of the client whose exercise is being deleted
+     */
 
     @Override
     public void deleteClientExercise(UUID id, UUID trainerId, UUID clientId) {
@@ -174,6 +198,14 @@ import org.slf4j.LoggerFactory;
         log.info("Client exercise with id={} deleted successfully", id);
     }
 
+    /**
+     * Retrieves all client exercises for a specific client.
+     *
+     * @param clientId The UUID of the client whose exercises are to be retrieved
+     * @param trainerId The UUID of the trainer requesting the exercises
+     * @return List of ClientExerciseResponseDto containing the client's exercises
+     */
+
     @Override
     public List<ClientExerciseResponseDto> getAllClientExercises(UUID clientId, UUID trainerId) {
         log.info("Fetching all client exercises for clientId={} and trainerId={}", clientId, trainerId);
@@ -195,6 +227,15 @@ import org.slf4j.LoggerFactory;
             .toList();
     }
 
+    /**
+     * Retrieves a specific client exercise by its ID for a specific client.
+     *
+     * @param id The UUID of the client exercise to retrieve
+     * @param clientId The UUID of the client whose exercise is being retrieved
+     * @param trainerId The UUID of the trainer requesting the exercise
+     * @return ClientExerciseResponseDto containing the requested exercise's information
+     */
+
     @Override
     public ClientExerciseResponseDto getClientExerciseById(UUID id, UUID clientId, UUID trainerId) {
         log.info("Fetching client exercise by id={} for clientId={} and trainerId={}", id, clientId, trainerId);
@@ -202,7 +243,7 @@ import org.slf4j.LoggerFactory;
         // Check if the client exists
         User client = getClientById(clientId);
 
-        // Check if the trainer has permission to view exercises for this client
+        // Check if the trainer has permission to view exercise for this client
         if (!isTrainerAuthorized(trainerId, client)) {
             log.error("Trainer with id={} is not authorized to view exercises for client with id={}", trainerId, clientId);
             throw new RuntimeException("Trainer not authorized to view exercises for this client");
@@ -218,6 +259,4 @@ import org.slf4j.LoggerFactory;
         return ClientExerciseResponseDto.fromEntity(existingClientExercise);
         
     }
-     
-
 }
