@@ -18,6 +18,11 @@ public class Exercise {
     @GeneratedValue
     private UUID id;
 
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean activeExercise = true;
+
     @Column(unique = true)
     private String name;
 

@@ -1,6 +1,6 @@
 package com.trainerlog.service.user;
 
-import com.trainerlog.dto.user.ClientDto;
+import com.trainerlog.dto.exercise.ClientDto;
 import com.trainerlog.dto.user.UserRequestDto;
 import com.trainerlog.dto.user.UserResponseDto;
 import com.trainerlog.model.User;

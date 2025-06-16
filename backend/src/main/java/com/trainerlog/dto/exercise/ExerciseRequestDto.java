@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExerciseRequestDto {
     private UUID id;
+    private boolean activeExercise;
     @NotBlank(message = "Name is required")
     private String name;
-    
+
 }

@@ -18,6 +18,10 @@ public class ClientExercise {
     @GeneratedValue
     private UUID id;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean activeClientExercise = true;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
