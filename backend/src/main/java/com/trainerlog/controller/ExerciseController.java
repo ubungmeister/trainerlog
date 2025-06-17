@@ -21,6 +21,8 @@ import com.trainerlog.dto.exercise.ExerciseResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.trainerlog.service.exercise.ExerciseService;
+import com.trainerlog.util.SecurityUtil;
+
 import java.util.List;
 
 @RestController
@@ -31,33 +33,26 @@ public class ExerciseController {
 
     private final ExerciseService exerciseService;
 
-        // Authentication method to get the current trainer's ID
-    private UUID getAuthorizedTrainerId() {
-        Authentication authorization = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserPrincipal user = (CustomUserPrincipal) authorization.getPrincipal();
-        return user.getId();
-    }
-
     @PostMapping("/create")
     public ExerciseResponseDto createExercise(@Valid @RequestBody ExerciseRequestDto dto) {
-        UUID trainerId = getAuthorizedTrainerId();
+        UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
         return exerciseService.createExercise(dto, trainerId);
     }
     @PutMapping("/update/{id}")
     public ExerciseResponseDto updateExercise(@PathVariable UUID id, @Valid @RequestBody ExerciseRequestDto dto) {
-        UUID trainerId = getAuthorizedTrainerId();
+        UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
         return exerciseService.updateExercise(id, dto, trainerId);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteExercise(@PathVariable UUID id) {
-        UUID trainerId = getAuthorizedTrainerId();
+        UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
         exerciseService.deleteExercise(id, trainerId);
     }   
 
     @GetMapping("/all")
     public List<ExerciseResponseDto> getAllExercises() {
-        UUID trainerId = getAuthorizedTrainerId();
+        UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
         return exerciseService.getAllExercises(trainerId);
     }
 

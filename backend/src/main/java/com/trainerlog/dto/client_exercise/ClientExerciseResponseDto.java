@@ -1,14 +1,11 @@
 package com.trainerlog.dto.client_exercise;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.util.UUID;
 import jakarta.validation.constraints.NotNull;
 import com.trainerlog.model.ClientExercise;
 
 
 @Data
-@NoArgsConstructor
-
 public class ClientExerciseResponseDto {
 
     private UUID id;
