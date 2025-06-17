@@ -4,10 +4,8 @@ package com.trainerlog.dto.exercise;
 import com.trainerlog.model.Exercise;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 public class ExerciseResponseDto {
     private String id;
     private String name;

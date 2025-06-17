@@ -29,6 +29,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public ExerciseResponseDto createExercise(ExerciseRequestDto dto, UUID trainerId) {
+        
        log.info("Attempting to create exercise for trainerId={}, name={}", trainerId, dto.getName());
        if (exerciseRepository.existsByNameAndCreatedByTrainer_Id(dto.getName(), trainerId)) {
             log.error("Exercise with name={} already exists for trainerId={}", dto.getName(), trainerId);

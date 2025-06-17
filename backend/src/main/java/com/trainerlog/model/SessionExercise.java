@@ -23,8 +23,9 @@ public class SessionExercise {
     @ManyToOne
     private ClientExercise clientExercise;
 
-    private Integer sets;
-    private Integer reps;
+    
+    private Integer sets; 
+    private Integer repetitions;
     private Double weight;
 
     // Additional fields can be added as needed, e.g., rest time, notes, etc.
