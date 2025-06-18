@@ -1,6 +1,6 @@
-import type { UserType } from "../../types/userType";
+import type { UserType } from "types/userType";
 import Avatar from "boring-avatars";
-import { userModalStore } from "../../app/store/user/userModalStore";
+import { userModalStore } from "app/store/user/userModalStore";
 import { Link } from "react-router-dom";
 const avatarNames = [
   "Sally Ride",

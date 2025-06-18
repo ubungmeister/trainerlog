@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
-import {useRegister} from '../../services/auth/useRegister';
+import {useRegister} from 'hooks/auth/useRegister';
 import * as z from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 

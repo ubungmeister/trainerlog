@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../../services/auth/useAuth';
+import { useAuth } from 'hooks/auth/useAuth';
 
 interface ProtectedLayoutProps {
     children?: React.ReactNode;

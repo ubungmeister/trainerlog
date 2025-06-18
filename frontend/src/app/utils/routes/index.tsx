@@ -5,7 +5,7 @@ import { SignIn } from "../../../pages/auth/SignIn";
 import { Signup } from "../../../pages/auth/SignUp";
 import { Home } from "../../../pages/home";
 import ProtectedLayout from "../../../components/layouts/ProtectedLayout";
-import { ClientPage } from "../../../pages/client/ClientPage";
+import { TrainingTable } from "../../../pages/trainingTable/TrainingTable";
 
 const AppRoutes = () => {
   return (
@@ -18,7 +18,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoutes />}>
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/client/:clientId" element={<ClientPage />} />
+          <Route path="/client/:clientId" element={<TrainingTable />} />
         </Route>
       </Route>
 

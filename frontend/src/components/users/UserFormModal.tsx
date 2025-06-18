@@ -1,9 +1,9 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
-import { userModalStore } from "../../app/store/user/userModalStore";
-import { useUpdateUser } from "../../services/users/useUpdateUser";
-import { useDeleteUser } from "../../services/users/useDeleteUser";
+import { userModalStore } from "app/store/user/userModalStore";
+import { useUpdateUser } from "hooks/users/useUpdateUser";
+import { useDeleteUser } from "hooks/users/useDeleteUser";
 import { useQueryClient } from "@tanstack/react-query";
 
 const schema = z.object({
