@@ -11,6 +11,5 @@ public interface ClientExerciseRepository extends JpaRepository<ClientExercise, 
 
     ClientExercise findByIdAndClient_Id(UUID id, UUID clientId);
     List<ClientExercise> findAllByClient_Id(UUID clientId);
-
-    
+    boolean existsByClient_IdAndExercise_Id(UUID clientId, UUID exerciseId);
 }

@@ -32,7 +32,7 @@ public class User {
     private Role role;
 
     // client belongs to the trainer -> no serialization back
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id")
     // doesn't include trainer id to the response (because of the recusrsion)
     @JsonBackReference
