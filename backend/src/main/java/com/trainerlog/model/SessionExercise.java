@@ -1,7 +1,10 @@
 package com.trainerlog.model;
 
+import java.util.UUID;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,18 +13,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "session_exercises")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SessionExercise {
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     private TrainingSession trainingSession;
 
     @ManyToOne
-    private ClientExercise clientExercise;
+    private Exercise exercise;
 
     
     private Integer sets; 
