@@ -13,7 +13,6 @@ const avatarNames = [
 
 const UserItem = ({ user }: { user: UserType }) => {
   const openModal = userModalStore((state) => state.openModal);
-  console.log("id", user.id);
 
   return (
     <div className="flex flex-row items-center gap-2 p-4 border-b border-gray-400">

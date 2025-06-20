@@ -18,7 +18,7 @@ export function useGetAllSessionExercises(clientId: string) {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch training sessions");
+        throw new Error("Failed to fetch session exercises");
       }
 
       return response.json();

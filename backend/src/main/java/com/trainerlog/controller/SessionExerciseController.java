@@ -1,7 +1,6 @@
 package com.trainerlog.controller;
 import lombok.AllArgsConstructor;
 
-import org.springframework.data.repository.support.Repositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

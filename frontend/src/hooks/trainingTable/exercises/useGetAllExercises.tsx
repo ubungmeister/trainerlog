@@ -15,7 +15,7 @@ export function useGetAllExercises() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch training sessions");
+        throw new Error("Failed to fetch exercises");
       }
 
       return response.json();

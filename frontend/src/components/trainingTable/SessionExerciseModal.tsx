@@ -122,7 +122,7 @@ export const UserFormModal = () => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <Label htmlFor="exercise">Weight</Label>
+            <Label htmlFor="weight">Weight</Label>
             <FormInput
               type="number"
               id="weight"
