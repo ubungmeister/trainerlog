@@ -3,7 +3,7 @@ package com.trainerlog.controller;
 import org.springframework.web.bind.annotation.*;
 import lombok.AllArgsConstructor;
 
-import com.trainerlog.dto.exercise.ClientDto;
+import com.trainerlog.dto.user.ClientDto;
 import com.trainerlog.dto.user.UserRequestDto;
 import com.trainerlog.dto.user.UserResponseDto;
 

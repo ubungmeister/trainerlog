@@ -1,7 +1,7 @@
-import { useGetUsers } from "../../services/users/useGetUsers";
-import { type UserType } from "./../../types/userType";
+import { useGetUsers } from "hooks/users/useGetUsers";
+import { type UserType } from "types/userType";
 import UserItem from "./UserItem";
-import { userModalStore } from "../../app/store/user/userModalStore";
+import { userModalStore } from "app/store/user/userModalStore";
 export const UsersList = () => {
   const { data: users, isLoading } = useGetUsers();
 

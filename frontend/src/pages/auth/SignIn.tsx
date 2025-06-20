@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useLogin } from '../../services/auth/useLogin';
+import { useLogin } from 'hooks/auth/useLogin';
 import * as z from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 

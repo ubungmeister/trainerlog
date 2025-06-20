@@ -1,6 +1,7 @@
 package com.trainerlog.controller;
 import lombok.AllArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,10 +38,11 @@ public class SessionExerciseController {
         return sessionExerciseService.updateSessionExercise(id, sessionExerciseRequestDto, trainerId);
     }
     @DeleteMapping("/delete/{id}")
-    public void deleteSessionExercise(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteSessionExercise(@PathVariable UUID id) {
         UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
         sessionExerciseService.deleteSessionExercise(id, trainerId);
-    }
+        return ResponseEntity.noContent().build();
+     }
     @GetMapping("/{id}")
     public SessionExerciseResponseDto getSessionExerciseById(@PathVariable UUID id) {
         UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
