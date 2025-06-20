@@ -1,4 +1,4 @@
-package com.trainerlog.dto.exercise;
+package com.trainerlog.dto.user;
 
 import java.util.UUID;
 

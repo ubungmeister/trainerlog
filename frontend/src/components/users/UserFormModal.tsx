@@ -1,10 +1,11 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
 import { userModalStore } from "app/store/user/userModalStore";
 import { useUpdateUser } from "hooks/users/useUpdateUser";
 import { useDeleteUser } from "hooks/users/useDeleteUser";
 import { useQueryClient } from "@tanstack/react-query";
+import { Label } from "components/ui/Label";
+import { CloseButton } from "components/ui/button/CloseButton";
 
 const schema = z.object({
   fullName: z.string().min(2).max(100),
@@ -14,6 +15,8 @@ const schema = z.object({
 type FormSchemaType = z.infer<typeof schema>;
 
 import { useForm } from "react-hook-form";
+import { FormInput } from "components/ui/FormInput";
+import { SaveButton } from "components/ui/button/SaveButton";
 
 export const UserFormModal = () => {
   const queryClient = useQueryClient();
@@ -76,63 +79,34 @@ export const UserFormModal = () => {
       <div className="flex flex-col w-full max-w-md bg-white rounded-lg shadow-lg p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">{formHeader}</h2>
-          <button
-            onClick={() => closeModal()}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <X />
-          </button>
+          <CloseButton closeModal={() => closeModal()} />
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="fullName"
-            >
-              Name
-            </label>
-            <input
+            <Label htmlFor="fullName">Full Name</Label>
+            <FormInput
               type="text"
               id="fullName"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              {...register("fullName", { required: true })}
+              register={register("fullName", { required: true })}
+              error={errors.fullName?.message}
             />
-            {errors.fullName && (
-              <span className="text-red-500 text-xs italic">
-                {errors.fullName.message}
-              </span>
-            )}
           </div>
           <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
+            <Label htmlFor="email">Email</Label>
+            <FormInput
               type="email"
               id="email"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              {...register("email", { required: true })}
+              register={register("email", { required: true })}
+              error={errors.email?.message}
             />
-            {errors.email && (
-              <span className="text-red-500 text-xs italic">
-                {errors.email.message}
-              </span>
-            )}
           </div>
           <div className="flex items-center justify-center">
-            <button
-              className="bg-secondary text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-primary-bg"
-              type="submit"
-            >
-              Save
-            </button>
+            <SaveButton />
             {user && (
               <button
+                type="button"
                 onClick={onDelete}
-                className="ml-4 bg-red-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-red-600"
+                className="bg-red-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-red-600 ml-2"
               >
                 Delete
               </button>
