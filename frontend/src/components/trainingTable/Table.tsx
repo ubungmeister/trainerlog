@@ -75,7 +75,9 @@ export const Table = ({ clientId }: TableProps) => {
 
   // Function to handle updating a training session, called when a date in the header is clicked
   const handleUpdateTrainingSession = (date: Date) => {
-    const session = trainingSessions.find((s: Session) => s.date === date);
+    const session = trainingSessions.find(
+      (s: Session) => s.date.getTime() === date.getTime(),
+    );
     if (session) {
       openTrainingSessionModal({ session: session });
     } else {
