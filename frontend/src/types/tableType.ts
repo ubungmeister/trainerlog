@@ -11,8 +11,8 @@ export interface ClientExercise {
 }
 
 export interface Session {
-  id: string;
-  date: string;
+  id?: string;
+  date: Date;
   clientId: string;
 }
 

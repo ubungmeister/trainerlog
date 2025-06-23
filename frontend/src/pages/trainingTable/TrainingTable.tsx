@@ -1,16 +1,29 @@
 import { useParams } from "react-router-dom";
 import { Table } from "components/trainingTable/Table";
-import { sessionExerciseModalStore } from "app/store/trainingTable/sessionExerciseModalStore";
-import { UserFormModal } from "components/trainingTable/SessionExerciseModal";
+import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
+import { SessionExerciseModal } from "components/modals/SessionExerciseModal";
+import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
+import { TrainingSessionModal } from "components/modals/TrainingSessionModal";
+import { tableStore } from "app/store/trainingTable/tableStore";
+import { useEffect } from "react";
 
 export const TrainingTable = () => {
   const { clientId } = useParams();
-  const isOpen = sessionExerciseModalStore((state) => state.isOpen);
+  const setClientId = tableStore((state) => state.setClientId);
+  const isSessionExerciseOpen = sessionExerciseStore((state) => state.isOpen);
+  const isTrainingSessionOpen = trainingSessionStore((state) => state.isOpen);
+
+  useEffect(() => {
+    if (clientId) {
+      setClientId(clientId);
+    }
+  }, [clientId, setClientId]);
 
   return (
-    <div className="min-h-screen bg-[var(--color-primary-bg)] p-4 md:p-8">
-      { clientId && <Table clientId={clientId}/>}
-      {isOpen&& <UserFormModal />}
+    <div className="min-h-screen bg-[var(--color-primary-bg)]">
+      {clientId && <Table clientId={clientId} />}
+      {isSessionExerciseOpen && <SessionExerciseModal />}
+      {isTrainingSessionOpen && <TrainingSessionModal />}
     </div>
   );
 };
