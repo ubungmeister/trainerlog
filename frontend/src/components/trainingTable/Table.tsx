@@ -6,13 +6,17 @@ import {
   type Session,
   type SessionExercise,
 } from "types/tableType";
-import { sessionExerciseModalStore } from "app/store/trainingTable/sessionExerciseModalStore";
+import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
+import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
+import { TableHeader } from "components/trainingTable/TableHeader";
+import { TableBody } from "components/trainingTable/TableBody";
+import { TableActions } from "components/trainingTable/TableActions";
 
 type TableProps = {
   clientId: string;
 };
 
-type SessionExerciseHandlerProps = {
+export type SessionExerciseTableType = {
   cell: SessionExercise | undefined;
   session: Session;
   exId: string;
@@ -27,14 +31,16 @@ export const Table = ({ clientId }: TableProps) => {
     sessionExercises,
   } = useTrainingTableData(clientId || "");
 
-  const openModal = sessionExerciseModalStore((state) => state.openModal);
+  // Zustand store for managing session exercises modal state
+  const openSessionExerciseModal = sessionExerciseStore(
+    (state) => state.openModal,
+  );
+  //Zustand store for managing training session modal state
+  const openTrainingSessionModal = trainingSessionStore(
+    (state) => state.openModal,
+  );
 
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  };
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -53,10 +59,12 @@ export const Table = ({ clientId }: TableProps) => {
         );
       })
     : [];
+
   //Retrieve the last 5 sessions and add a "new" date
   const dates = sortedSessions.map((s: Session) => s.date);
 
-  const visibleDates = [...dates.slice(-5), "new"];
+  const visibleDates = [...dates.slice(-5)];
+
   const exerciseIds = clientExercises
     ? clientExercises.map((ce: ClientExercise) => ce.exerciseId)
     : [];
@@ -65,91 +73,50 @@ export const Table = ({ clientId }: TableProps) => {
     return <div className="text-center text-gray-500">Loading...</div>;
   }
 
+  // Function to handle updating a training session, called when a date in the header is clicked
+  const handleUpdateTrainingSession = (date: Date) => {
+    const session = trainingSessions.find((s: Session) => s.date === date);
+    if (session) {
+      openTrainingSessionModal({ session: session });
+    } else {
+      console.error("Session not found for date:", date);
+    }
+  };
+
+  // Updating a session exercise, function is called when a cell in the table is clicked
   const sessionExerciseHandler = ({
     cell,
     session,
     exId,
-  }: SessionExerciseHandlerProps) => {
-    console.log("Session Exercise Clicked", cell, session, exId);
+  }: SessionExerciseTableType) => {
     const exercise = exercises.find((e: Exercise) => e.id === exId);
-    openModal({
+    openSessionExerciseModal({
       sessionExercise: cell,
       session: session,
       exercise: exercise,
     });
   };
+
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="flex flex-col md:items-center items-start justify-center p-4 ">
       <h2 className="text-2xl font-bold text-white mb-6">Training Table</h2>
-      <div className="relative overflow-hidden rounded-lg shadow-lg">
+      <TableActions scrollRef={scrollRef} />
+
+      <div className="w-full max-w-5xl relative overflow-hidden rounded-lg ">
         <div className="overflow-x-auto" ref={scrollRef}>
-          <table className="min-w-max bg-white border-collapse">
-            <thead>
-              <tr className="bg-[var(--color-primary-menu)] text-white">
-                <th className=" left-0 z-20 bg-[var(--color-primary-menu)] px-4 py-3 text-left min-w-[120px]">
-                  Exercise
-                </th>
-                {visibleDates.map((date) => (
-                  <th
-                    key={date}
-                    className="px-4 py-3 text-left whitespace-nowrap min-w-[80px]"
-                  >
-                    {date === "new" ? "+" : formatDate(date)}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {exerciseIds.map((exId: string) => (
-                <tr
-                  key={exId}
-                  className="border-b border-gray-200 hover:bg-gray-50"
-                >
-                  <td className="sticky left-0 bg-white px-4 py-3 font-medium">
-                    {exerciseMap[exId]}
-                  </td>
-                  {visibleDates.map((date) => {
-                    if (date === "new") {
-                      return (
-                        <td
-                          key="new"
-                          className="px-4 py-3 text-center text-gray-400"
-                        >
-                          +
-                        </td>
-                      );
-                    }
-                    const session = trainingSessions.find(
-                      (s: Session) => s.date === date,
-                    );
-                    const cell = sessionExercises
-                      ? sessionExercises.find(
-                          (se: SessionExercise) =>
-                            se.trainingSessionId === session?.id &&
-                            se.exerciseId === exId,
-                        )
-                      : [];
-                    return (
-                      <td
-                        onClick={() =>
-                          sessionExerciseHandler({ cell, session, exId })
-                        }
-                        key={date}
-                        className=" px-4 py-3 min-w-[80px] text-center hover:bg-violet-100  active:bg-violet-100 "
-                      >
-                        {cell ? (
-                          <span className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm text-center">
-                            {cell.weight}×{cell.repetitions}
-                          </span>
-                        ) : (
-                          <span className="text-gray-400">-</span>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
+          <table className="min-w-max bg-white border-collapse mx-auto shadow-lg">
+            <TableHeader
+              visibleDates={visibleDates}
+              onDateClick={handleUpdateTrainingSession}
+            />
+            <TableBody
+              exerciseIds={exerciseIds}
+              exerciseMap={exerciseMap}
+              visibleDates={visibleDates}
+              trainingSessions={sortedSessions}
+              sessionExercises={sessionExercises}
+              onCellClick={sessionExerciseHandler}
+            />
           </table>
         </div>
       </div>

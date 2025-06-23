@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { CloseButton } from "components/ui/button/CloseButton";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { sessionExerciseModalStore } from "app/store/trainingTable/sessionExerciseModalStore";
+import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
 import { useUpdateSessionExercise } from "hooks/trainingTable/sessionExercise/useUpdateSessionExercise";
 import { useCreateSessionExercise } from "hooks/trainingTable/sessionExercise/useCreateSessionExercise";
 import { useDeleteSessionExercise } from "hooks/trainingTable/sessionExercise/useDeleteSessionExercise";
@@ -21,14 +21,14 @@ const schema = z.object({
 
 type FormSchemaType = z.infer<typeof schema>;
 
-export const UserFormModal = () => {
+export const SessionExerciseModal = () => {
   const queryClient = useQueryClient();
-  const closeModal = sessionExerciseModalStore((state) => state.closeModal);
-  const sessionExercise = sessionExerciseModalStore(
+  const closeModal = sessionExerciseStore((state) => state.closeModal);
+  const sessionExercise = sessionExerciseStore(
     (state) => state.sessionExercise,
   );
-  const exercise = sessionExerciseModalStore((state) => state.exercise);
-  const session = sessionExerciseModalStore((state) => state.session);
+  const exercise = sessionExerciseStore((state) => state.exercise);
+  const session = sessionExerciseStore((state) => state.session);
 
   const formHeader = sessionExercise
     ? "Edit Session Exercise"
@@ -114,12 +114,12 @@ export const UserFormModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-start justify-center p-10">
-      <div className="flex flex-col w-full max-w-md bg-white rounded-lg shadow-lg p-4">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">{formHeader}</h2>
-          <CloseButton closeModal={() => closeModal()} />
-        </div>
+    <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className="relative flex flex-col w-full max-w-xs sm:max-w-md bg-white rounded-lg shadow-lg p-4 sm:p-8">
+        <CloseButton closeModal={() => closeModal()} />
+        <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">
+          {formHeader}
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <Label htmlFor="weight">Weight</Label>
@@ -130,7 +130,7 @@ export const UserFormModal = () => {
               error={errors.weight?.message}
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <Label htmlFor="sets">Sets</Label>
             <FormInput
               type="number"
@@ -148,11 +148,11 @@ export const UserFormModal = () => {
               error={errors.repetitions?.message}
             />
           </div>
-          <div className="flex items-center justify-center">
-            <SaveButton />
+          <div className="flex items-center justify-center gap-4 mt-4">
             {sessionExercise?.id && (
               <DeleteButton handleDelete={(e) => handleDelete(e)} />
             )}
+            <SaveButton />
           </div>
         </form>
       </div>
