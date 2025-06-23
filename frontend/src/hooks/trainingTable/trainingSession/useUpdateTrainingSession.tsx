@@ -19,7 +19,7 @@ export function useUpdateTrainingSession() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to update session exercise");
+        throw new Error("Failed to update training session");
       }
       return response.json();
     },
