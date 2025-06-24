@@ -7,7 +7,7 @@ export function useGetAllClientExercises(clientId: string) {
     queryKey: ["clientExercises", clientId],
     queryFn: async () => {
       const response = await fetch(
-        `${API_URL}/api/client_exercises/all?clientId=${clientId}`,
+        `${API_URL}/api/client-exercises/all?clientId=${clientId}`,
         {
           method: "GET",
           headers: {

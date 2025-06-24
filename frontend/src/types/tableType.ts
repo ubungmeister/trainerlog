@@ -4,9 +4,10 @@ export interface Exercise {
 }
 
 export interface ClientExercise {
-  id: string;
+  id?: string;
   clientId: string;
-  exerciseId: string;
+  exerciseId?: string;
+  exerciseName?: string;
   activeClientExercise: boolean;
 }
 
