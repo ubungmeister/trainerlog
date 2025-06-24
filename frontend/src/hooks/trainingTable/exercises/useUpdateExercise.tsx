@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { type Exercise } from "types/tableType";
- 
+
 export function useUpdateExercise() {
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -19,7 +19,7 @@ export function useUpdateExercise() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to update session exercise");
+        throw new Error("Failed to update exercise");
       }
       return response.json();
     },

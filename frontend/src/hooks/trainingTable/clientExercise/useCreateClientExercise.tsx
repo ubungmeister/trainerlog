@@ -16,7 +16,7 @@ export function useCreateClientExercise() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create session exercise");
+        throw new Error("Failed to create client exercise");
       }
       return response.json();
     },

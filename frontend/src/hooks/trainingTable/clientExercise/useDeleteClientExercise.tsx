@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { type ClientExercise} from "types/tableType";
+import { type ClientExercise } from "types/tableType";
 
 export function useDeleteClientExercise() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -18,7 +18,7 @@ export function useDeleteClientExercise() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to delete session exercise");
+        throw new Error("Failed to delete client exercise");
       }
       return { success: true };
     },
