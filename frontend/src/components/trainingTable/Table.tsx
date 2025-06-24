@@ -6,12 +6,9 @@ import {
   type Session,
   type SessionExercise,
 } from "types/tableType";
-import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
-import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
 import { TableHeader } from "components/trainingTable/TableHeader";
 import { TableBody } from "components/trainingTable/TableBody";
 import { TableActions } from "components/trainingTable/TableActions";
-
 type TableProps = {
   clientId: string;
 };
@@ -30,15 +27,6 @@ export const Table = ({ clientId }: TableProps) => {
     exercises,
     sessionExercises,
   } = useTrainingTableData(clientId || "");
-
-  // Zustand store for managing session exercises modal state
-  const openSessionExerciseModal = sessionExerciseStore(
-    (state) => state.openModal,
-  );
-  //Zustand store for managing training session modal state
-  const openTrainingSessionModal = trainingSessionStore(
-    (state) => state.openModal,
-  );
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -65,6 +53,8 @@ export const Table = ({ clientId }: TableProps) => {
 
   const visibleDates = [...dates.slice(-5)];
 
+  // Exercises IDs retlated to the client exercises
+  // This is used to display only the exercises that are related to the client
   const exerciseIds = clientExercises
     ? clientExercises.map((ce: ClientExercise) => ce.exerciseId)
     : [];
@@ -72,32 +62,6 @@ export const Table = ({ clientId }: TableProps) => {
   if (isLoading) {
     return <div className="text-center text-gray-500">Loading...</div>;
   }
-
-  // Function to handle updating a training session, called when a date in the header is clicked
-  const handleUpdateTrainingSession = (date: Date) => {
-    const session = trainingSessions.find(
-      (s: Session) => s.date.getTime() === date.getTime(),
-    );
-    if (session) {
-      openTrainingSessionModal({ session: session });
-    } else {
-      console.error("Session not found for date:", date);
-    }
-  };
-
-  // Updating a session exercise, function is called when a cell in the table is clicked
-  const sessionExerciseHandler = ({
-    cell,
-    session,
-    exId,
-  }: SessionExerciseTableType) => {
-    const exercise = exercises.find((e: Exercise) => e.id === exId);
-    openSessionExerciseModal({
-      sessionExercise: cell,
-      session: session,
-      exercise: exercise,
-    });
-  };
 
   return (
     <div className="flex flex-col md:items-center items-start justify-center p-4 ">
@@ -109,15 +73,16 @@ export const Table = ({ clientId }: TableProps) => {
           <table className="min-w-max bg-white border-collapse mx-auto shadow-lg">
             <TableHeader
               visibleDates={visibleDates}
-              onDateClick={handleUpdateTrainingSession}
+              trainingSessions={trainingSessions}
             />
             <TableBody
               exerciseIds={exerciseIds}
               exerciseMap={exerciseMap}
+              exercises={exercises}
+              clientExercises={clientExercises}
               visibleDates={visibleDates}
               trainingSessions={sortedSessions}
               sessionExercises={sessionExercises}
-              onCellClick={sessionExerciseHandler}
             />
           </table>
         </div>

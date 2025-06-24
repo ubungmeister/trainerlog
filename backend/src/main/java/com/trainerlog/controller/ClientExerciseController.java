@@ -20,7 +20,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 import com.trainerlog.util.SecurityUtil;
 @RestController
-@RequestMapping("/api/client_exercises")
+@RequestMapping("/api/client-exercises")
 @AllArgsConstructor
 
 public class ClientExerciseController {

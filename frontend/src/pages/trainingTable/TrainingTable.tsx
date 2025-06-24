@@ -6,12 +6,16 @@ import { trainingSessionStore } from "app/store/trainingTable/trainingSessionSto
 import { TrainingSessionModal } from "components/modals/TrainingSessionModal";
 import { tableStore } from "app/store/trainingTable/tableStore";
 import { useEffect } from "react";
-
+import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
+import { ClientExerciseModal } from "components/modals/ClientExerciseModal";
 export const TrainingTable = () => {
   const { clientId } = useParams();
   const setClientId = tableStore((state) => state.setClientId);
   const isSessionExerciseOpen = sessionExerciseStore((state) => state.isOpen);
   const isTrainingSessionOpen = trainingSessionStore((state) => state.isOpen);
+  const isClientExerciseOpen = clientExerciseStore((state) => state.isOpen);
+
+  console.log("isClientExerciseOpen", isClientExerciseOpen);
 
   useEffect(() => {
     if (clientId) {
@@ -24,6 +28,7 @@ export const TrainingTable = () => {
       {clientId && <Table clientId={clientId} />}
       {isSessionExerciseOpen && <SessionExerciseModal />}
       {isTrainingSessionOpen && <TrainingSessionModal />}
+      {isClientExerciseOpen && <ClientExerciseModal />}
     </div>
   );
 };

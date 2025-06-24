@@ -1,13 +1,21 @@
-import { type Session, type SessionExercise } from "types/tableType";
+import {
+  type ClientExercise,
+  type Session,
+  type SessionExercise,
+  type Exercise,
+} from "types/tableType";
 import { formatDate } from "utils/formatDate";
 import { type SessionExerciseTableType } from "components/trainingTable/Table";
+import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
+import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 type TableBodyProps = {
   exerciseIds: string[];
   exerciseMap: Record<string, string>;
+  exercises: Exercise[];
   visibleDates: Date[];
   trainingSessions: Session[];
   sessionExercises: SessionExercise[];
-  onCellClick: ({ cell, session, exId }: SessionExerciseTableType) => void;
+  clientExercises: ClientExercise[];
 };
 
 export const TableBody = ({
@@ -16,13 +24,62 @@ export const TableBody = ({
   visibleDates,
   trainingSessions,
   sessionExercises,
-  onCellClick,
+  clientExercises,
+  exercises,
 }: TableBodyProps) => {
+  // Zustand store for managing session exercises modal state
+  const openSessionExerciseModal = sessionExerciseStore(
+    (state) => state.openModal,
+  );
+
+  //Zustand store for managing client exercises modal state
+  const openClientExerciseModal = clientExerciseStore(
+    (state) => state.openModal,
+  );
+
+  // Update Exercise Name and state
+  const handleUpdateSessionExercise = (exerciseId: string) => {
+    console.log("Updating session exercise for exerciseId:", exerciseId);
+    // find client exercise from clientExercises by exercise id
+    const clientExercise = clientExercises.find(
+      (ce) => ce.exerciseId === exerciseId,
+    );
+    if (!clientExercise) {
+      console.error("Client exercise not found for exerciseId:", exerciseId);
+      return;
+    }
+    openClientExerciseModal({
+      clientExercise: clientExercise,
+      exercises: exercises,
+    });
+  };
+
+  // Creating or updating session exercise
+  const sessionExerciseHandler = ({
+    cell,
+    session,
+    exId,
+  }: SessionExerciseTableType) => {
+    const exercise = exercises.find((e: Exercise) => e.id === exId);
+    if (!exercise) {
+      console.error("Exercise not found for exId:", exId);
+      return;
+    }
+    openSessionExerciseModal({
+      sessionExercise: cell,
+      session: session,
+      exercise: exercise,
+    });
+  };
+
   return (
     <tbody>
       {exerciseIds.map((exId: string) => (
         <tr key={exId} className="border-b border-gray-200 hover:bg-gray-50">
-          <td className="sticky left-0 bg-white px-4 py-3 font-medium">
+          <td
+            onClick={() => handleUpdateSessionExercise(exId)}
+            className="sticky left-0 bg-white px-4 py-3 font-medium"
+          >
             {exerciseMap[exId]}
           </td>
           {visibleDates.map((date) => {
@@ -38,7 +95,7 @@ export const TableBody = ({
               : undefined;
             return (
               <td
-                onClick={() => onCellClick({cell, session, exId})}
+                onClick={() => sessionExerciseHandler({ cell, session, exId })}
                 key={formatDate(date)}
                 className=" px-4 py-3 min-w-[80px] text-center hover:bg-violet-100  active:bg-violet-100 "
               >

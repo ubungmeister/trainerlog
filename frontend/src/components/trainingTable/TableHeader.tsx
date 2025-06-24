@@ -1,13 +1,28 @@
-
+import { type Session } from "types/tableType";
 import { formatDate } from "utils/formatDate";
-
+import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
 type TableHeaderProps = {
-    visibleDates: Date[];
-    onDateClick: (date: Date) => void;
-    };
+  visibleDates: Date[];
+  trainingSessions: Session[];
+};
 
-export const TableHeader = ({visibleDates, onDateClick} :TableHeaderProps) => {
-    
+export const TableHeader = ({
+  visibleDates,
+  trainingSessions,
+}: TableHeaderProps) => {
+  //Zustand store for managing training session modal state
+  const openTrainingSessionModal = trainingSessionStore(
+    (state) => state.openModal,
+  );
+  // Function to handle updating a training session, called when a date in the header is clicked
+  const trainingSessionHandler = (date: Date) => {
+    const session = trainingSessions.find((s: Session) => s.date === date);
+    if (session) {
+      openTrainingSessionModal({ session: session });
+    } else {
+      console.error("Session not found for date:", date);
+    }
+  };
 
   return (
     <thead>
@@ -17,7 +32,7 @@ export const TableHeader = ({visibleDates, onDateClick} :TableHeaderProps) => {
         </th>
         {visibleDates.map((date) => (
           <th
-            onClick={() => onDateClick(date)}
+            onClick={() => trainingSessionHandler(date)}
             key={formatDate(date)}
             className="px-4 py-3 text-left whitespace-nowrap min-w-[80px]"
           >
