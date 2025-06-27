@@ -3,36 +3,28 @@ import { SaveButton } from "components/ui/button/SaveButton";
 import { DeleteButton } from "components/ui/button/DeleteButton";
 import { FormInput } from "components/ui/FormInput";
 import { Label } from "components/ui/Label";
-import { useQueryClient } from "@tanstack/react-query";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useUpdateExercise } from "hooks/trainingTable/exercises/useUpdateExercise";
-import type { Exercise } from "types/tableType";
-import { useDeleteClientExercise } from "hooks/trainingTable/clientExercise/useDeleteClientExercise";
-import { tableStore } from "app/store/trainingTable/tableStore";
-import { useCreateClientExercise } from "hooks/trainingTable/clientExercise/useCreateClientExercise";
+
 import { useState } from "react";
+
 const schema = z.object({
   exerciseName: z.string().min(1, "Exercise name is required").trim(),
 });
+import { useClientExerciseForm } from "hooks/trainingTable/clientExercise/useClientExerciseForm";
 
-type FormSchemaType = z.infer<typeof schema>;
+export type FormSchemaType = z.infer<typeof schema>;
 
 export const ClientExerciseModal = () => {
-  const queryClient = useQueryClient();
   const closeModal = clientExerciseStore((state) => state.closeModal);
   const clientExercise = clientExerciseStore((state) => state.clientExercise);
-  const exercises = clientExerciseStore((state) => state.exercises);
-  const clientId = tableStore((state) => state.clientId);
-  const { mutate: updateExerciseName } = useUpdateExercise();
-  const { mutate: deleteClientExercise } = useDeleteClientExercise();
-  const { mutate: createClientExercise } = useCreateClientExercise();
 
   const [isActiveClientExercise, setIsActiveClientExercise] = useState(
     clientExercise?.activeClientExercise || false,
   );
+  console.log(isActiveClientExercise);
 
   const formHeader = clientExercise
     ? "Edit Client Exercise"
@@ -49,78 +41,10 @@ export const ClientExerciseModal = () => {
       : { exerciseName: "" },
   });
 
-  const onSubmit = (data: FormSchemaType) => {
-    // if cleint exercise is not defined, create
-
-    if (!clientExercise) {
-      const isNameExist = exercises?.find(
-        (ex: Exercise) => ex.name === data.exerciseName,
-      );
-      if (isNameExist) return false;
-
-      //create new Client Exercise
-      const newExercise = {
-        clientId: clientId as string,
-        name: data.exerciseName,
-        activeClientExercise: isActiveClientExercise,
-      };
-
-      createClientExercise(newExercise, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["clientExercises", clientId],
-          });
-          queryClient.invalidateQueries({
-            queryKey: ["allExercises"],
-          });
-          closeModal();
-        },
-        onError: (error) => {
-          console.error("Error updating training session:", error);
-        },
-      });
-    }
-
-    //if name chnaged -> update Exercise
-    else if (data.exerciseName !== clientExercise.exerciseName) {
-      //update Exercise name
-      // first check if Trainer doesn't have exercises with the same names
-      const isNameExist = exercises?.find(
-        (ex: Exercise) => ex.name === data.exerciseName,
-      );
-      if (isNameExist) return false;
-      const newExercise = {
-        id: clientExercise.exerciseId as string,
-        name: data.exerciseName,
-      };
-      updateExerciseName(newExercise, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["allExercises"],
-          });
-          closeModal();
-        },
-        onError: (error) => {
-          console.error("Error updating training session:", error);
-        },
-      });
-    }
-  };
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!clientExercise?.id) return;
-    deleteClientExercise(clientExercise, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["clientExercises", clientExercise.clientId],
-        });
-        closeModal();
-      },
-      onError: (error) => {
-        console.error("Error deleting client exercise:", error);
-      },
-    });
-  };
+  const { onSubmit, handleDelete } = useClientExerciseForm({
+    isActiveClientExercise,
+    closeModal,
+  });
 
   return (
     <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
@@ -139,21 +63,23 @@ export const ClientExerciseModal = () => {
               error={errors.exerciseName?.message}
             />
           </div>
-          <div className="mb-4 flex flex-row gap-3">
-            <input
-              onChange={(e) => {
-                setIsActiveClientExercise(e.target.checked);
-              }}
-              checked={isActiveClientExercise}
-              id="activeClientExercise"
-              name="activeClientExercise"
-              type="checkbox"
-              className="toggle-styling"
-            />
-            <Label htmlFor="sets">
-              {isActiveClientExercise ? "Active" : "Non active"}
-            </Label>
-          </div>
+          {clientExercise && (
+            <div className="mb-4 flex flex-row gap-3">
+              <input
+                onChange={(e) => {
+                  setIsActiveClientExercise(e.target.checked);
+                }}
+                checked={isActiveClientExercise}
+                id="activeClientExercise"
+                name="activeClientExercise"
+                type="checkbox"
+                className="toggle-styling"
+              />
+              <Label htmlFor="sets">
+                {isActiveClientExercise ? "Active" : "Non active"}
+              </Label>
+            </div>
+          )}
 
           <div className="flex items-center justify-center gap-4 mt-4">
             {clientExercise?.id && (

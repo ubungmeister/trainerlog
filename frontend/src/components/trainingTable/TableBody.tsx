@@ -1,5 +1,4 @@
 import {
-  type ClientExercise,
   type Session,
   type SessionExercise,
   type Exercise,
@@ -8,23 +7,21 @@ import { formatDate } from "utils/formatDate";
 import { type SessionExerciseTableType } from "components/trainingTable/Table";
 import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
+import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
+import { useMemo } from "react";
 type TableBodyProps = {
-  exerciseIds: string[];
   exerciseMap: Record<string, string>;
   exercises: Exercise[];
   visibleDates: Date[];
   trainingSessions: Session[];
   sessionExercises: SessionExercise[];
-  clientExercises: ClientExercise[];
 };
 
 export const TableBody = ({
-  exerciseIds,
   exerciseMap,
   visibleDates,
   trainingSessions,
   sessionExercises,
-  clientExercises,
   exercises,
 }: TableBodyProps) => {
   // Zustand store for managing session exercises modal state
@@ -36,6 +33,29 @@ export const TableBody = ({
   const openClientExerciseModal = clientExerciseStore(
     (state) => state.openModal,
   );
+  // Zustand store for managing client exercises list
+  // This store contains the client exercises and the filter state
+  const clientExercises = clientExerciseListStore(
+    (state) => state.clientExercises,
+  );
+  const filterState = clientExerciseListStore((state) => state.filterState);
+
+  const filteredClientExercises = useMemo(() => {
+    return clientExercises.filter((ce) => {
+      if (filterState === "all") return true;
+      if (filterState === "active") return ce.activeClientExercise;
+      if (filterState === "inactive") return !ce.activeClientExercise;
+      return true;
+    });
+  }, [clientExercises, filterState]);
+
+  // Exercises IDs retlated to the client exercises
+  // This is used to display only the exercises that are related to the client
+  const exerciseIds = useMemo(() => {
+    return filteredClientExercises
+      .map((ce) => ce.exerciseId)
+      .filter((id): id is string => typeof id === "string");
+  }, [filteredClientExercises]);
 
   // Update Exercise Name and state
   const handleUpdateSessionExercise = (exerciseId: string) => {

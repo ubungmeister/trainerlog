@@ -1,4 +1,4 @@
-import { type Session } from 'types/tableType';
+import { type Session } from "types/tableType";
 import { create } from "zustand";
 interface TrainingSessionStore {
   isOpen: boolean;
