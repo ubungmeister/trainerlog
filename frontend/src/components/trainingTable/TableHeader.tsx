@@ -26,15 +26,15 @@ export const TableHeader = ({
 
   return (
     <thead>
-      <tr className="bg-[var(--color-primary-menu)] text-white">
-        <th className=" left-0 z-20 bg-[var(--color-primary-menu)] px-4 py-3 text-left min-w-[120px]">
+      <tr className="bg-primary-bg text-white  ">
+        <th className=" left-0 z-20 bg-primary-bg  px-4 py-3 text-left min-w-[100px] sticky">
           Exercise
         </th>
         {visibleDates.map((date) => (
           <th
             onClick={() => trainingSessionHandler(date)}
             key={formatDate(date)}
-            className="px-4 py-3 text-left whitespace-nowrap min-w-[80px]"
+            className="px-2 py-3 text-left whitespace-nowrap min-w-[70px]"
           >
             {formatDate(date)}
           </th>

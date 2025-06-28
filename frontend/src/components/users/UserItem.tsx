@@ -15,10 +15,10 @@ const UserItem = ({ user }: { user: UserType }) => {
   const openModal = userModalStore((state) => state.openModal);
 
   return (
-    <div className="flex flex-row items-center gap-2 p-4 border-b border-gray-400">
+    <div className="flex flex-row items-center justify-between gap-2 p-4 border-b-1 border-primary-button last:border-b-0">
       <Link
         to={`/client/${user.id}`}
-        className="flex flex-row items-center gap-2"
+        className="flex flex-row items-center gap-2 w-[200px]"
       >
         <Avatar
           size={40}
@@ -28,10 +28,10 @@ const UserItem = ({ user }: { user: UserType }) => {
         />
         <h3>{user.fullName}</h3>
       </Link>
-      <div className="ml-auto">
+      <div className=" ">
         <button
           onClick={() => openModal(user)}
-          className="bg-primary-bg hover:bg-secondary focus:outline-2 focus:bg-secondary text-white px-4 py-2 rounded"
+          className="bg-primary-bg hover:bg-secondary focus:outline-2 focus:bg-secondary text-white px-4 py-2 rounded-3xl"
         >
           Edit
         </button>

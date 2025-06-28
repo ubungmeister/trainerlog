@@ -14,9 +14,11 @@ export const Home = () => {
     return <div>No clients found</div>;
   }
   return (
-    <div className="app-container justify-center">
-      <UsersList />
-      {isOpen && <UserFormModal />}
+    <div className="bg-primary-bg p-3 ">
+      <div className=" min-h-screen bg-primary-surface rounded-3xl ">
+        <UsersList />
+        {isOpen && <UserFormModal />}
+      </div>
     </div>
   );
 };

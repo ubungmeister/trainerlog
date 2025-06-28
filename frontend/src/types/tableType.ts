@@ -6,8 +6,8 @@ export interface Exercise {
 export interface ClientExercise {
   id?: string;
   clientId: string;
-  exerciseId?: string;
-  exerciseName?: string;
+  exerciseId?: string | null;
+  exerciseName?: string | null;
   activeClientExercise: boolean;
 }
 

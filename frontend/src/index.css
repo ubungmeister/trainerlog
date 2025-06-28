@@ -2,14 +2,19 @@
 @tailwind utilities;
 
 @theme {
-  --color-primary-bg: #2c1b47;
+  /* --color-primary-bg: #2c1b47;
   --color-primary-menu: #00838f;
   --color-secondary-menu: #00695c;
-  --color-secondary: #d5b4e7;
+  --color-secondary: #d5b4e7; */
+  --color-primary-bg: #00612e;
+  --color-primary-surface: #fcfbf9;
+  --color-primaty-text: #212121;
+  --color-primary-label: #7abb21;
+  --color-primary-button: #cae3cf;
 }
 
 .auth-container {
-  @apply min-h-screen flex items-center justify-center bg-[#2C1B47] p-4;
+  @apply min-h-screen flex items-center justify-center bg-primary-bg p-4;
 }
 .auth-form {
   @apply w-full max-w-sm bg-white p-6 rounded-lg shadow-md;
@@ -24,7 +29,7 @@
   @apply w-full p-2 border border-gray-300 rounded-md mb-1 focus:outline-none focus:ring-2 focus:ring-[#0B0205];
 }
 .auth-form button {
-  @apply w-full bg-[#0B0205] text-white py-2 rounded-md hover:bg-[#1A0D0A] transition-colors;
+  @apply w-full bg-primary-button text-primary-bg font-bold py-2 rounded-md hover:bg-[#1A0D0A] transition-colors;
 }
 .auth-form .error {
   @apply text-red-500 text-sm mt-2;
@@ -33,8 +38,11 @@
   @apply text-green-500 text-sm mt-2;
 }
 .app-container {
-  @apply min-h-screen flex bg-[#2C1B47] p-4;
+  @apply min-h-screen flex bg-primary-bg p-4;
 }
 .toggle-styling {
-  @apply mr-2 mt-[0.3rem] h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-300 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-[#00838F] checked:after:bg-[#00838F] checked:after:ml-[1.0625rem] hover:cursor-pointer focus:outline-none;
+  @apply mr-2 mt-[0.3rem] h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-300 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary-bg checked:after:bg-primary-bg checked:after:ml-[1.0625rem] hover:cursor-pointer focus:outline-none;
+}
+.button-filter {
+  @apply text-white px-4 py-2 rounded-md   transition-colors;
 }
