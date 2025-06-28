@@ -61,7 +61,6 @@ export const ClientExerciseModal = () => {
     ? "Edit Exercise name"
     : "Create Exercise name";
 
-  console.log("clientExercise", clientExercise);
   const {
     register,
     handleSubmit,
