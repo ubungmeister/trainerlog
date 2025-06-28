@@ -7,29 +7,61 @@ import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useGetAllExercises } from "hooks/trainingTable/exercises/useGetAllExercises";
+import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
 
 import { useState } from "react";
 
-const schema = z.object({
-  exerciseName: z.string().min(1, "Exercise name is required").trim(),
-});
+const schema = z
+  .object({
+    exerciseName: z.string().trim().optional(),
+    exerciseId: z.string().optional(),
+  })
+  .refine(
+    (data) =>
+      (data.exerciseName && !data.exerciseId) ||
+      (!data.exerciseName && data.exerciseId),
+    {
+      message:
+        "Please fill either a new name or choose from the list, not both",
+      path: ["exerciseName"],
+    },
+  );
 import { useClientExerciseForm } from "hooks/trainingTable/clientExercise/useClientExerciseForm";
+import type { Exercise } from "types/tableType";
 
 export type FormSchemaType = z.infer<typeof schema>;
 
 export const ClientExerciseModal = () => {
   const closeModal = clientExerciseStore((state) => state.closeModal);
   const clientExercise = clientExerciseStore((state) => state.clientExercise);
+  const allTrainerExercises = useGetAllExercises();
+  const allClientExercises = clientExerciseListStore(
+    (state) => state.clientExercises,
+  );
+
+  // Filterout exercises that already exist in the client's list
+  const existinfExercisesIds = allClientExercises.map(
+    (exercise) => exercise.exerciseId,
+  );
+
+  const filteredExercises = allTrainerExercises.data?.filter(
+    (exercise: Exercise) => !existinfExercisesIds.includes(exercise.id),
+  );
 
   const [isActiveClientExercise, setIsActiveClientExercise] = useState(
     clientExercise?.activeClientExercise || false,
   );
-  console.log(isActiveClientExercise);
 
   const formHeader = clientExercise
     ? "Edit Client Exercise"
     : "Add Client Exercise";
 
+  const formLabel = clientExercise
+    ? "Edit Exercise name"
+    : "Create Exercise name";
+
+  console.log("clientExercise", clientExercise);
   const {
     register,
     handleSubmit,
@@ -55,7 +87,7 @@ export const ClientExerciseModal = () => {
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <Label htmlFor="exerciseName">Exercise name</Label>
+            <Label htmlFor="exerciseName">{formLabel}</Label>
             <FormInput
               type="string"
               id="exerciseName"
@@ -63,7 +95,29 @@ export const ClientExerciseModal = () => {
               error={errors.exerciseName?.message}
             />
           </div>
-          {clientExercise && (
+          {!clientExercise && (
+            <div className="mb-4">
+              <Label htmlFor="exerciseId">Chose from exisiting:</Label>
+              <select
+                id="exerciseId"
+                {...register("exerciseId")}
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select an exercise</option>
+                {filteredExercises.map((exercise: Exercise) => (
+                  <option key={exercise.id} value={exercise.id}>
+                    {exercise.name}
+                  </option>
+                ))}
+              </select>
+              {errors.exerciseName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.exerciseName.message}
+                </p>
+              )}
+            </div>
+          )}
+          {!clientExercise && (
             <div className="mb-4 flex flex-row gap-3">
               <input
                 onChange={(e) => {

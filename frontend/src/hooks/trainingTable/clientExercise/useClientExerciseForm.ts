@@ -7,7 +7,6 @@ import { useCreateClientExercise } from "hooks/trainingTable/clientExercise/useC
 import { useUpdateClientExercise } from "hooks/trainingTable/clientExercise/useUpdateClientExercise";
 import type { FormSchemaType } from "components/modals/ClientExerciseModal"; // adjust import path
 
-
 type FormPropsType = {
   isActiveClientExercise: boolean;
   closeModal: () => void;
@@ -15,7 +14,7 @@ type FormPropsType = {
 
 /**
  *  Hook to handle the form logic for creating, updating, and deleting client exercises.
- * 
+ *
  */
 
 export const useClientExerciseForm = ({
@@ -40,7 +39,8 @@ export const useClientExerciseForm = ({
 
       const newExercise = {
         clientId: clientId as string,
-        name: data.exerciseName,
+        name: data.exerciseName ? data.exerciseName : null,
+        exerciseId: data.exerciseId ? data.exerciseId : null,
         activeClientExercise: isActiveClientExercise,
       };
 
@@ -67,7 +67,7 @@ export const useClientExerciseForm = ({
 
       const updatedExercise = {
         id: clientExercise.exerciseId as string,
-        name: data.exerciseName,
+        name: data.exerciseName as string,
       };
 
       const namePromise = new Promise((resolve, reject) => {
