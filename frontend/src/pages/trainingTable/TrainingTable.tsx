@@ -28,12 +28,14 @@ export const TrainingTable = () => {
   }, [clientId, setClientId]);
 
   return (
-    <div className="min-h-screen bg-[var(--color-primary-bg)]">
-      {clientId && <Table clientId={clientId} />}
-      {isSessionExerciseOpen && <SessionExerciseModal />}
-      {isTrainingSessionOpen && <TrainingSessionModal />}
-      {isClientExerciseOpen && <ClientExerciseModal />}
-      {isSettingsOpen && <SettingsModal />}
+    <div className=" bg-primary-bg p-3 ">
+      <div className=" min-h-screen bg-primary-surface rounded-3xl">
+        {clientId && <Table clientId={clientId} />}
+        {isSessionExerciseOpen && <SessionExerciseModal />}
+        {isTrainingSessionOpen && <TrainingSessionModal />}
+        {isClientExerciseOpen && <ClientExerciseModal />}
+        {isSettingsOpen && <SettingsModal />}
+      </div>
     </div>
   );
 };

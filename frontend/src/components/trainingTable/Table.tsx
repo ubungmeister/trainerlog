@@ -68,12 +68,14 @@ export const Table = ({ clientId }: TableProps) => {
 
   return (
     <div className="flex flex-col md:items-center items-start justify-center p-4 ">
-      <h2 className="text-2xl font-bold text-white mb-6">Training Table</h2>
+      <h2 className="text-3xl font-bold text-primaty-text mb-3">
+        Training Table
+      </h2>
       <TableActions scrollRef={scrollRef} />
 
-      <div className="w-full max-w-5xl relative overflow-hidden rounded-lg ">
+      <div className="w-full max-w-5xl relative overflow-hidden rounded-lg border-1 border-primary-button">
         <div className="overflow-x-auto" ref={scrollRef}>
-          <table className="min-w-max bg-white border-collapse mx-auto shadow-lg">
+          <table className="min-w-max bg-white mx-auto shadow-lg  ">
             <TableHeader
               visibleDates={visibleDates}
               trainingSessions={trainingSessions}

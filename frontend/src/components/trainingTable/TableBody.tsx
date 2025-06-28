@@ -95,10 +95,13 @@ export const TableBody = ({
   return (
     <tbody>
       {exerciseIds.map((exId: string) => (
-        <tr key={exId} className="border-b border-gray-200 hover:bg-gray-50">
+        <tr
+          key={exId}
+          className="border-b border-primary-button hover:bg-gray-50"
+        >
           <td
             onClick={() => handleUpdateSessionExercise(exId)}
-            className="sticky left-0 bg-white px-4 py-3 font-medium"
+            className="sticky left-0 bg-white px-4 py-3 font-medium border-primary-button border-r-1"
           >
             {exerciseMap[exId]}
           </td>
@@ -120,11 +123,11 @@ export const TableBody = ({
                 className=" px-4 py-3 min-w-[80px] text-center hover:bg-violet-100  active:bg-violet-100 "
               >
                 {cell ? (
-                  <span className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm text-center">
+                  <span className="inline-block bg-primary-button rounded-full px-3 py-1 text-primary-bg text-sm text-center">
                     {cell.weight}×{cell.repetitions}
                   </span>
                 ) : (
-                  <span className="text-gray-400">-</span>
+                  <span className=" text-primary-label font-bold">+</span>
                 )}
               </td>
             );

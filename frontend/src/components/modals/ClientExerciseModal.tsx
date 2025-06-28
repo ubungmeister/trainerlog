@@ -117,23 +117,21 @@ export const ClientExerciseModal = () => {
               )}
             </div>
           )}
-          {!clientExercise && (
-            <div className="mb-4 flex flex-row gap-3">
-              <input
-                onChange={(e) => {
-                  setIsActiveClientExercise(e.target.checked);
-                }}
-                checked={isActiveClientExercise}
-                id="activeClientExercise"
-                name="activeClientExercise"
-                type="checkbox"
-                className="toggle-styling"
-              />
-              <Label htmlFor="sets">
-                {isActiveClientExercise ? "Active" : "Non active"}
-              </Label>
-            </div>
-          )}
+          <div className="mb-4 flex flex-row gap-3">
+            <input
+              onChange={(e) => {
+                setIsActiveClientExercise(e.target.checked);
+              }}
+              checked={isActiveClientExercise}
+              id="activeClientExercise"
+              name="activeClientExercise"
+              type="checkbox"
+              className="toggle-styling"
+            />
+            <Label htmlFor="sets">
+              {isActiveClientExercise ? "Active" : "Non active"}
+            </Label>
+          </div>
 
           <div className="flex items-center justify-center gap-4 mt-4">
             {clientExercise?.id && (

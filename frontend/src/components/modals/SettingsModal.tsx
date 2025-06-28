@@ -23,19 +23,19 @@ export const SettingsModal = () => {
         <div className="flex items-center justify-start gap-2 mb-6">
           <button
             onClick={() => setFilterState("all")}
-            className={`button-filter ${filterState === "all" ? " bg-primary-menu" : "bg-gray-400"}`}
+            className={`button-filter ${filterState === "all" ? " bg-primary-bg" : "bg-gray-400"}`}
           >
             All
           </button>
           <button
             onClick={() => setFilterState("active")}
-            className={`button-filter ${filterState === "active" ? " bg-primary-menu" : "bg-gray-400"}`}
+            className={`button-filter ${filterState === "active" ? " bg-primary-bg" : "bg-gray-400"}`}
           >
             Active
           </button>
           <button
             onClick={() => setFilterState("inactive")}
-            className={` button-filter ${filterState === "inactive" ? " bg-primary-menu" : "bg-gray-400"}`}
+            className={` button-filter ${filterState === "inactive" ? " bg-primary-bg" : "bg-gray-400"}`}
           >
             Inactive
           </button>
