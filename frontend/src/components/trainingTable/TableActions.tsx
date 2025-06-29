@@ -1,7 +1,6 @@
 import { type Session } from "types/tableType";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateTrainingSession } from "hooks/trainingTable/trainingSession/useCreateTrainingSession";
-import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
 import { tableStore } from "app/store/trainingTable/tableStore";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
@@ -12,7 +11,6 @@ type TableActionsProps = {
 
 export const TableActions = ({ scrollRef }: TableActionsProps) => {
   const queryClient = useQueryClient();
-  const session = trainingSessionStore((state) => state.session);
   const clientId = tableStore((state) => state.clientId);
   const { mutate: createTrainingSession } = useCreateTrainingSession();
   const openModal = clientExerciseStore((state) => state.openModal);
@@ -26,7 +24,7 @@ export const TableActions = ({ scrollRef }: TableActionsProps) => {
     createTrainingSession(newSession, {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["trainingSessions", session?.clientId],
+          queryKey: ["trainingSessions", clientId],
         });
 
         if (scrollRef.current) {

@@ -1,10 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useTrainingTableData } from "hooks/trainingTable/useTrainingTableData";
-import {
-  type Exercise,
-  type Session,
-  type SessionExercise,
-} from "types/tableType";
+import { type Session, type SessionExercise } from "types/tableType";
 import { TableHeader } from "components/trainingTable/TableHeader";
 import { TableBody } from "components/trainingTable/TableBody";
 import { TableActions } from "components/trainingTable/TableActions";
@@ -44,10 +40,6 @@ export const Table = ({ clientId }: TableProps) => {
     }
   }, [trainingSessions]);
 
-  const exerciseMap = exercises
-    ? Object.fromEntries(exercises.map((e: Exercise) => [e.id, e.name]))
-    : {};
-
   // Sort sessions by date
   const sortedSessions = trainingSessions
     ? [...trainingSessions].sort((a, b) => {
@@ -63,7 +55,11 @@ export const Table = ({ clientId }: TableProps) => {
   const visibleDates = [...dates.slice(-5)];
 
   if (isLoading) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen text-center text-gray-500">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -73,15 +69,14 @@ export const Table = ({ clientId }: TableProps) => {
       </h2>
       <TableActions scrollRef={scrollRef} />
 
-      <div className="w-full max-w-5xl relative overflow-hidden rounded-lg border-1 border-primary-button">
+      <div className="w-full relative overflow-hidden rounded-lg border-1 border-primary-button">
         <div className="overflow-x-auto" ref={scrollRef}>
-          <table className="min-w-max bg-white mx-auto shadow-lg  ">
+          <table className="w-full bg-white  shadow-lg">
             <TableHeader
               visibleDates={visibleDates}
               trainingSessions={trainingSessions}
             />
             <TableBody
-              exerciseMap={exerciseMap}
               exercises={exercises}
               visibleDates={visibleDates}
               trainingSessions={sortedSessions}

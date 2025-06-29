@@ -9,7 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useGetAllExercises } from "hooks/trainingTable/exercises/useGetAllExercises";
 import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
-
 import { useState } from "react";
 
 const schema = z
@@ -78,8 +77,8 @@ export const ClientExerciseModal = () => {
   });
 
   return (
-    <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="relative flex flex-col w-full max-w-xs sm:max-w-md bg-white rounded-lg shadow-lg p-4 sm:p-8">
+    <div className="pointer-events-none fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50 ">
+      <div className="pointer-events-auto relative flex flex-col w-full max-w-xs sm:max-w-md bg-white rounded-lg shadow-lg p-4 sm:p-8">
         <CloseButton closeModal={() => closeModal()} />
         <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">
           {formHeader}

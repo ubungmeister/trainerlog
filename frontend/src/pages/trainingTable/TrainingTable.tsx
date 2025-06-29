@@ -19,8 +19,7 @@ export const TrainingTable = () => {
   const isClientExerciseOpen = clientExerciseStore((state) => state.isOpen);
   const isSettingsOpen = settingsTableStore((state) => state.isOpen);
 
-  console.log("isClientExerciseOpen", isClientExerciseOpen);
-
+ 
   useEffect(() => {
     if (clientId) {
       setClientId(clientId);
