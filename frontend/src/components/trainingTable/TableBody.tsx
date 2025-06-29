@@ -2,6 +2,7 @@ import {
   type Session,
   type SessionExercise,
   type Exercise,
+  type ClientExercise,
 } from "types/tableType";
 import { formatDate } from "utils/formatDate";
 import { type SessionExerciseTableType } from "components/trainingTable/Table";
@@ -10,7 +11,6 @@ import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore
 import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
 import { useMemo } from "react";
 type TableBodyProps = {
-  exerciseMap: Record<string, string>;
   exercises: Exercise[];
   visibleDates: Date[];
   trainingSessions: Session[];
@@ -18,7 +18,6 @@ type TableBodyProps = {
 };
 
 export const TableBody = ({
-  exerciseMap,
   visibleDates,
   trainingSessions,
   sessionExercises,
@@ -49,17 +48,8 @@ export const TableBody = ({
     });
   }, [clientExercises, filterState]);
 
-  // Exercises IDs retlated to the client exercises
-  // This is used to display only the exercises that are related to the client
-  const exerciseIds = useMemo(() => {
-    return filteredClientExercises
-      .map((ce) => ce.exerciseId)
-      .filter((id): id is string => typeof id === "string");
-  }, [filteredClientExercises]);
-
   // Update Exercise Name and state
   const handleUpdateSessionExercise = (exerciseId: string) => {
-    console.log("Updating session exercise for exerciseId:", exerciseId);
     // find client exercise from clientExercises by exercise id
     const clientExercise = clientExercises.find(
       (ce) => ce.exerciseId === exerciseId,
@@ -92,19 +82,43 @@ export const TableBody = ({
     });
   };
 
+  if (filteredClientExercises.length === 0) {
+    return (
+      <tbody>
+        <tr className="border-b border-primary-button hover:bg-gray-50">
+          <td
+            onClick={() =>
+              openClientExerciseModal({
+                clientExercise: null,
+                exercises: exercises,
+              })
+            }
+            colSpan={visibleDates.length + 1}
+            className="sticky left-0 bg-white px-4 py-3 font-medium border-primary-button border-r-1"
+          >
+            Add +
+          </td>
+        </tr>
+      </tbody>
+    );
+  }
+
   return (
     <tbody>
-      {exerciseIds.map((exId: string) => (
+      {filteredClientExercises.map((exercise: ClientExercise) => (
         <tr
-          key={exId}
+          key={exercise.id}
           className="border-b border-primary-button hover:bg-gray-50"
         >
           <td
-            onClick={() => handleUpdateSessionExercise(exId)}
+            onClick={() =>
+              handleUpdateSessionExercise(exercise.exerciseId || "")
+            }
             className="sticky left-0 bg-white px-4 py-3 font-medium border-primary-button border-r-1"
           >
-            {exerciseMap[exId]}
+            {exercise.exerciseName}
           </td>
+
           {visibleDates.map((date) => {
             const session = trainingSessions.find(
               (s: Session) => s.date === date,
@@ -113,12 +127,25 @@ export const TableBody = ({
               ? sessionExercises.find(
                   (se: SessionExercise) =>
                     se.trainingSessionId === session?.id &&
-                    se.exerciseId === exId,
+                    se.exerciseId === exercise.exerciseId,
                 )
               : undefined;
+            if (!cell && !session) {
+              return (
+                <td className="px-4 py-3 min-w-[80px] text-center hover:bg-violet-100 active:bg-violet-100">
+                  <span className=""></span>
+                </td>
+              );
+            }
             return (
               <td
-                onClick={() => sessionExerciseHandler({ cell, session, exId })}
+                onClick={() =>
+                  sessionExerciseHandler({
+                    cell,
+                    session,
+                    exId: exercise.exerciseId || "",
+                  })
+                }
                 key={formatDate(date)}
                 className=" px-4 py-3 min-w-[80px] text-center hover:bg-violet-100  active:bg-violet-100 "
               >
