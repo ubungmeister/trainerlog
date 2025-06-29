@@ -34,8 +34,6 @@ export const Table = ({ clientId }: TableProps) => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  console.log("trainingSessions", trainingSessions);
-
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
