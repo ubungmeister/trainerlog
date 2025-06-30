@@ -1,4 +1,5 @@
 ﻿# -trainerlog-
 
  ERD 
-![diagram-export-5-30-2025-4_16_18-PM](https://github.com/user-attachments/assets/dbf2d79b-c0b7-4795-aaba-c71907388a74)
+![image](https://github.com/user-attachments/assets/cb7ef2f4-892b-4e72-9d91-797dd6f4680c)
+
