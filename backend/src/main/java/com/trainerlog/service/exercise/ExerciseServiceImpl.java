@@ -10,12 +10,15 @@ import com.trainerlog.model.Exercise;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.trainerlog.model.Category;
+import com.trainerlog.repository.CategoryRepository;
 @Service
 @AllArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
 
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
+    private final CategoryRepository categoryRepository;
     private static final Logger log = LoggerFactory.getLogger(ExerciseServiceImpl.class);
 
 
@@ -35,9 +38,24 @@ public class ExerciseServiceImpl implements ExerciseService {
             log.error("Exercise with name={} already exists for trainerId={}", dto.getName(), trainerId);
              throw new IllegalArgumentException("Exercise with this name already exists for this trainer");
             }
-        
+    
+        Category category = null;
+
+        if(dto.getCategoryId() != null) {
+            category = categoryRepository.findById(dto.getCategoryId())
+                    .orElseThrow(() -> {
+                        log.error("Category with id={} not found", dto.getCategoryId());
+                        return new RuntimeException("Category not found");
+                    });
+            if(!category.getCreatedByTrainer().getId().equals(trainerId)) {
+                log.error("Unauthorized access to category id={} by trainer id={}", dto.getCategoryId(), trainerId);
+                throw new IllegalArgumentException("You are not authorized to use this category");
+            }
+        } 
+
         Exercise exercise = Exercise.builder()
                 .name(dto.getName())
+                .category(category)
                 .createdByTrainer(userRepository.findById(trainerId)
                         .orElseThrow(() -> {
                             log.error("Trainer with id={} not found", trainerId);
@@ -80,9 +98,26 @@ public class ExerciseServiceImpl implements ExerciseService {
             log.error("Exercise with name={} already exists for trainerId={}", dto.getName(), trainerId);
             throw new IllegalArgumentException("Exercise with this name already exists for this trainer");
         }
-        
+
         exercise.setName(dto.getName());
-        
+
+        if(dto.getCategoryId() != null) {
+            Category category = categoryRepository.findById(dto.getCategoryId())
+                    .orElseThrow(() -> {
+                        log.error("Category with id={} not found", dto.getCategoryId());
+                        return new RuntimeException("Category not found");
+                    });
+            if (!category.getCreatedByTrainer().getId().equals(trainerId)) {
+                log.error("Unauthorized access to category id={} by trainer id={}", dto.getCategoryId(), trainerId);
+                throw new IllegalArgumentException("You are not authorized to use this category");
+            }
+            exercise.setCategory(category);
+        } else {
+            exercise.setCategory(null);
+            log.info("Removed category from exercise id={} (set to null)", exercise.getId());
+
+        }
+
         try {
             Exercise updatedExercise = exerciseRepository.save(exercise);
             log.info("Exercise updated successfully with id={}", updatedExercise.getId());
