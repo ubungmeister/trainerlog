@@ -12,5 +12,6 @@ public class ExerciseRequestDto {
     private boolean activeExercise;
     @NotBlank(message = "Name is required")
     private String name;
+    private UUID categoryId;
 
 }

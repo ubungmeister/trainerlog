@@ -8,31 +8,26 @@ import lombok.Builder;
 import java.util.UUID;
 
 @Entity
-@Table(name = "exercises")
+@Table(name = "categories")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Exercise {
+public class Category {
+    
     @Id
     @GeneratedValue
     private UUID id;
-
-
-    @Builder.Default
-    @Column(nullable = false)
-    private boolean activeExercise = true;
-
-    @Column 
+    
+   @Column(nullable = false)
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "created_by_trainer_id")
     private User createdByTrainer;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = true)
-    private Category category;
+       
 
 }
 
+ 
