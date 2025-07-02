@@ -3,6 +3,7 @@ import {
   type SessionExercise,
   type Exercise,
   type ClientExercise,
+  type Category,
 } from "types/tableType";
 import { formatDate } from "utils/formatDate";
 import { type SessionExerciseTableType } from "components/trainingTable/Table";
@@ -15,6 +16,7 @@ type TableBodyProps = {
   visibleDates: Date[];
   trainingSessions: Session[];
   sessionExercises: SessionExercise[];
+  categories: Category[] | null;
 };
 
 export const TableBody = ({
@@ -22,6 +24,7 @@ export const TableBody = ({
   trainingSessions,
   sessionExercises,
   exercises,
+  categories,
 }: TableBodyProps) => {
   // Zustand store for managing session exercises modal state
   const openSessionExerciseModal = sessionExerciseStore(
@@ -58,9 +61,19 @@ export const TableBody = ({
       console.error("Client exercise not found for exerciseId:", exerciseId);
       return;
     }
+
+    const exercise = exercises.find((e: Exercise) => e.id === exerciseId);
+    console.log("Exercise found:", exercise);
+
+    const category = categories?.find(
+      (c: Category) => c.name === exercise?.category,
+    );
+    
     openClientExerciseModal({
       clientExercise: clientExercise,
       exercises: exercises,
+      categories: categories,
+      category: category || null,
     });
   };
 
@@ -91,6 +104,8 @@ export const TableBody = ({
               openClientExerciseModal({
                 clientExercise: null,
                 exercises: exercises,
+                categories: categories,
+                category: null,
               })
             }
             colSpan={visibleDates.length + 1}

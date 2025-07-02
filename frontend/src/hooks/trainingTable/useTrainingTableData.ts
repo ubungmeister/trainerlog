@@ -2,6 +2,7 @@ import { useGetAllTrainingSessions } from "./trainingSession/useGetAllTrainingSe
 import { useGetAllClientExercises } from "./clientExercise/useGetAllClientExercises";
 import { useGetAllExercises } from "./exercises/useGetAllExercises";
 import { useGetAllSessionExercises } from "./sessionExercise/useGetAllSessionExercises";
+import { useGetAllCategories } from "hooks/trainingTable/category/useGetAllCategories";
 
 /**
  * Hook to fetch all data needed for the training table.
@@ -13,12 +14,14 @@ export const useTrainingTableData = (clientId: string) => {
   const clientExercises = useGetAllClientExercises(clientId);
   const exercises = useGetAllExercises();
   const sessionExercises = useGetAllSessionExercises(clientId);
+  const categories = useGetAllCategories();
 
   const isLoading =
     training.isLoading ||
     clientExercises.isLoading ||
     sessionExercises.isLoading ||
-    exercises.isLoading;
+    exercises.isLoading ||
+    categories.isLoading;
 
   return {
     isLoading,
@@ -26,5 +29,6 @@ export const useTrainingTableData = (clientId: string) => {
     clientExercises: clientExercises.data || [],
     exercises: exercises.data || [],
     sessionExercises: sessionExercises.data || [],
+    categories: categories.data || [],
   };
 };

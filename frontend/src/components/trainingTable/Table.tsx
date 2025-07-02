@@ -26,6 +26,7 @@ export const Table = ({ clientId }: TableProps) => {
     clientExercises,
     exercises,
     sessionExercises,
+    categories,
   } = useTrainingTableData(clientId || "");
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export const Table = ({ clientId }: TableProps) => {
       <h2 className="text-3xl font-bold text-primaty-text mb-3">
         Training Table
       </h2>
-      <TableActions scrollRef={scrollRef} />
+      <TableActions scrollRef={scrollRef} categories={categories}/>
 
       <div className="w-full relative overflow-hidden rounded-lg border-1 border-primary-button">
         <div className="overflow-x-auto" ref={scrollRef}>
@@ -78,6 +79,7 @@ export const Table = ({ clientId }: TableProps) => {
             />
             <TableBody
               exercises={exercises}
+              categories={categories}
               visibleDates={visibleDates}
               trainingSessions={sortedSessions}
               sessionExercises={sessionExercises}

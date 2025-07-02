@@ -5,7 +5,7 @@ import { useUpdateExercise } from "hooks/trainingTable/exercises/useUpdateExerci
 import { useDeleteClientExercise } from "hooks/trainingTable/clientExercise/useDeleteClientExercise";
 import { useCreateClientExercise } from "hooks/trainingTable/clientExercise/useCreateClientExercise";
 import { useUpdateClientExercise } from "hooks/trainingTable/clientExercise/useUpdateClientExercise";
-import type { FormSchemaType } from "components/modals/ClientExerciseModal"; // adjust import path
+import type { FormSchemaType } from "components/trainingTable/modals/ClientExerciseModal"; // adjust import path
 
 type FormPropsType = {
   isActiveClientExercise: boolean;
@@ -31,6 +31,7 @@ export const useClientExerciseForm = ({
   const { mutate: updateClientExercise } = useUpdateClientExercise();
 
   const onSubmit = (data: FormSchemaType) => {
+    console.log("Form data submitted:", data);
     if (!clientExercise) {
       const isNameExist = exercises?.find(
         (ex) => ex.name === data.exerciseName,
@@ -42,7 +43,10 @@ export const useClientExerciseForm = ({
         name: data.exerciseName ? data.exerciseName : null,
         exerciseId: data.exerciseId ? data.exerciseId : null,
         activeClientExercise: isActiveClientExercise,
+        categoryId: data.categoryId ? data.categoryId : null,
       };
+
+      console.log("Creating new client exercise:", newExercise);
 
       createClientExercise(newExercise, {
         onSuccess: () => {
@@ -58,27 +62,29 @@ export const useClientExerciseForm = ({
     }
 
     const updatePromises: Promise<unknown>[] = [];
+    console.log(
+      "data.exerciseName !== clientExercise.exerciseName",
+      data.exerciseName,
+      "data.exerciseName !== clientExercise.exerciseName",
+      data.exerciseName,
+    );
 
-    if (data.exerciseName !== clientExercise.exerciseName) {
-      const isNameExist = exercises?.find(
-        (ex) => ex.name === data.exerciseName,
-      );
-      if (isNameExist) return false;
+    const updatedExercise = {
+      id: clientExercise.exerciseId as string,
+      name: data.exerciseName as string,
+      categoryId: data.categoryId || null,
+    };
 
-      const updatedExercise = {
-        id: clientExercise.exerciseId as string,
-        name: data.exerciseName as string,
-      };
+    console.log("updatedExercise", updatedExercise);
 
-      const namePromise = new Promise((resolve, reject) => {
-        updateExerciseName(updatedExercise, {
-          onSuccess: resolve,
-          onError: reject,
-        });
+    const namePromise = new Promise((resolve, reject) => {
+      updateExerciseName(updatedExercise, {
+        onSuccess: resolve,
+        onError: reject,
       });
+    });
 
-      updatePromises.push(namePromise);
-    }
+    updatePromises.push(namePromise);
 
     if (isActiveClientExercise !== clientExercise.activeClientExercise) {
       const statusPromise = new Promise((resolve, reject) => {

@@ -1,4 +1,4 @@
-import { type Session } from "types/tableType";
+import { type Category, type Session } from "types/tableType";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateTrainingSession } from "hooks/trainingTable/trainingSession/useCreateTrainingSession";
 import { tableStore } from "app/store/trainingTable/tableStore";
@@ -7,9 +7,10 @@ import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
 
 type TableActionsProps = {
   scrollRef: React.RefObject<HTMLDivElement | null>;
+  categories: Category[] | null;
 };
 
-export const TableActions = ({ scrollRef }: TableActionsProps) => {
+export const TableActions = ({ scrollRef, categories }: TableActionsProps) => {
   const queryClient = useQueryClient();
   const clientId = tableStore((state) => state.clientId);
   const { mutate: createTrainingSession } = useCreateTrainingSession();
@@ -38,6 +39,8 @@ export const TableActions = ({ scrollRef }: TableActionsProps) => {
     openModal({
       clientExercise: null,
       exercises: [],
+      categories: categories,
+      category: null,
     });
   };
 

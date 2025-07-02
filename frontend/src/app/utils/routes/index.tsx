@@ -6,6 +6,7 @@ import { Signup } from "../../../pages/auth/SignUp";
 import { Home } from "../../../pages/home";
 import ProtectedLayout from "../../../components/layouts/ProtectedLayout";
 import { TrainingTable } from "../../../pages/trainingTable/TrainingTable";
+import { Category } from "pages/category/Category";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/client/:clientId" element={<TrainingTable />} />
+          <Route path="/categories" element={<Category />} />
         </Route>
       </Route>
 
