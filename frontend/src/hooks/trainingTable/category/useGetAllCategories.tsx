@@ -15,7 +15,7 @@ export function useGetAllCategories() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch exercises");
+        throw new Error("Failed to fetch categories");
       }
 
       return response.json();

@@ -31,7 +31,6 @@ export const useClientExerciseForm = ({
   const { mutate: updateClientExercise } = useUpdateClientExercise();
 
   const onSubmit = (data: FormSchemaType) => {
-    console.log("Form data submitted:", data);
     if (!clientExercise) {
       const isNameExist = exercises?.find(
         (ex) => ex.name === data.exerciseName,
@@ -45,8 +44,6 @@ export const useClientExerciseForm = ({
         activeClientExercise: isActiveClientExercise,
         categoryId: data.categoryId ? data.categoryId : null,
       };
-
-      console.log("Creating new client exercise:", newExercise);
 
       createClientExercise(newExercise, {
         onSuccess: () => {
@@ -62,20 +59,12 @@ export const useClientExerciseForm = ({
     }
 
     const updatePromises: Promise<unknown>[] = [];
-    console.log(
-      "data.exerciseName !== clientExercise.exerciseName",
-      data.exerciseName,
-      "data.exerciseName !== clientExercise.exerciseName",
-      data.exerciseName,
-    );
 
     const updatedExercise = {
       id: clientExercise.exerciseId as string,
       name: data.exerciseName as string,
       categoryId: data.categoryId || null,
     };
-
-    console.log("updatedExercise", updatedExercise);
 
     const namePromise = new Promise((resolve, reject) => {
       updateExerciseName(updatedExercise, {

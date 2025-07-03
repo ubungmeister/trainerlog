@@ -30,7 +30,7 @@ export const CategoryList = () => {
     <div className="bg-white max-h-min min-w-[80%] md:min-w-[400px] p-4 rounded-3xl  ">
       <div className="flex flex-col gap-4">
         <div className="flex flex-row items-center justify-between mt-2 px-2">
-          <h2 className="text-3xl font-bold text-primaty-text mb-3">
+          <h2 className="text-3xl font-bold text-primary-text mb-3">
             Categories
           </h2>
           <button
