@@ -8,8 +8,8 @@ import { Label } from "components/ui/Label";
 import { CloseButton } from "components/ui/button/CloseButton";
 
 const schema = z.object({
-  fullName: z.string().min(2).max(100),
-  email: z.string().email(),
+  fullName: z.string().min(2).max(100).trim(),
+  email: z.string().email().trim(),
 });
 
 type FormSchemaType = z.infer<typeof schema>;
@@ -38,8 +38,8 @@ export const UserFormModal = () => {
   const { mutate: deleteUser } = useDeleteUser();
 
   const onSubmit = (data: FormSchemaType) => {
-    const fullName = data.fullName.trim();
-    const email = data.email.trim();
+    const fullName = data.fullName;
+    const email = data.email;
     const id = user ? user.id : null;
     const method = user ? "PUT" : "POST";
 

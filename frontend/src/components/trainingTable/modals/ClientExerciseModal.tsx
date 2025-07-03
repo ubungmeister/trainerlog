@@ -10,11 +10,12 @@ import { useForm } from "react-hook-form";
 import { useGetAllExercises } from "hooks/trainingTable/exercises/useGetAllExercises";
 import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
 import { useState } from "react";
-
+import { type Category } from "types/tableType";
 const schema = z
   .object({
     exerciseName: z.string().trim().optional(),
     exerciseId: z.string().optional(),
+    categoryId: z.string().optional(),
   })
   .refine(
     (data) =>
@@ -34,10 +35,14 @@ export type FormSchemaType = z.infer<typeof schema>;
 export const ClientExerciseModal = () => {
   const closeModal = clientExerciseStore((state) => state.closeModal);
   const clientExercise = clientExerciseStore((state) => state.clientExercise);
+  const categories = clientExerciseStore((state) => state.categories);
+  const category = clientExerciseStore((state) => state.category);
   const allTrainerExercises = useGetAllExercises();
   const allClientExercises = clientExerciseListStore(
     (state) => state.clientExercises,
   );
+
+  console.log("category", category);
 
   // Filterout exercises that already exist in the client's list
   const existinfExercisesIds = allClientExercises.map(
@@ -66,9 +71,10 @@ export const ClientExerciseModal = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: clientExercise?.exerciseName
-      ? { exerciseName: clientExercise.exerciseName }
-      : { exerciseName: "" },
+    defaultValues: {
+      exerciseName: clientExercise?.exerciseName ?? "",
+      categoryId: category?.id ?? "",
+    },
   });
 
   const { onSubmit, handleDelete } = useClientExerciseForm({
@@ -115,6 +121,26 @@ export const ClientExerciseModal = () => {
               )}
             </div>
           )}
+          <div>
+            <Label htmlFor="categoryId">Chose category</Label>
+            <select
+              id="categoryId"
+              {...register("categoryId")}
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select category </option>
+              {categories?.map((category: Category) => (
+                <option key={category.id} value={category.id || ""}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            {errors.exerciseName && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.exerciseName.message}
+              </p>
+            )}
+          </div>
           <div className="mb-4 flex flex-row gap-3">
             <input
               onChange={(e) => {

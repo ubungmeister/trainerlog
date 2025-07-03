@@ -1,11 +1,11 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import AppRoutes from 'app/utils/routes';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "app/utils/routes";
 
 const App: React.FC = () => {
   return (
     <Router>
-      <AppRoutes/>  
+      <AppRoutes />
     </Router>
   );
 };

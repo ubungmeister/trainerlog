@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
 import { Table } from "components/trainingTable/Table";
 import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
-import { SessionExerciseModal } from "components/modals/SessionExerciseModal";
+import { SessionExerciseModal } from "components/trainingTable/modals/SessionExerciseModal";
 import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
-import { TrainingSessionModal } from "components/modals/TrainingSessionModal";
+import { TrainingSessionModal } from "components/trainingTable/modals/TrainingSessionModal";
 import { tableStore } from "app/store/trainingTable/tableStore";
 import { useEffect } from "react";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
-import { ClientExerciseModal } from "components/modals/ClientExerciseModal";
+import { ClientExerciseModal } from "components/trainingTable/modals/ClientExerciseModal";
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
-import { SettingsModal } from "components/modals/SettingsModal";
+import { SettingsModal } from "components/trainingTable/modals/SettingsModal";
 
 export const TrainingTable = () => {
   const { clientId } = useParams();

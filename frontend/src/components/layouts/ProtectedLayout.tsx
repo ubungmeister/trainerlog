@@ -1,12 +1,17 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "hooks/auth/useAuth";
+import { Menu } from "lucide-react";
+import { useState } from "react";
+import { MobileDrawerMenu } from "./MobileDrawerMenu";
 
 interface ProtectedLayoutProps {
   children?: React.ReactNode;
 }
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
-  const { isAuthenticated, isLoading, userName } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Show loading state while checking authentication
   if (isLoading) {
@@ -18,12 +23,24 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
     return <Navigate to="/login" replace />;
   }
 
+  const onMenuHandler = () => {
+    setIsMenuOpen(true);
+    // Handle menu click, e.g., toggle a sidebar or open a menu
+    console.log("Menu clicked", isMenuOpen);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <header className="bg-primary-bg text-white p-6">
         <nav className="flex justify-between items-center px-3">
           <h1 className="text-xl font-bold">TrainerLog</h1>
-          <h2 className="text-xl font-bold ">{userName}</h2>
+          {isMenuOpen && (
+            <MobileDrawerMenu
+              onMenuToggle={() => setIsMenuOpen(false)}
+              isOpen={isMenuOpen}
+            />
+          )}
+          <Menu onClick={onMenuHandler} className=" text-white" size={30} />
         </nav>
       </header>
       <main className="">{children || <Outlet />}</main>

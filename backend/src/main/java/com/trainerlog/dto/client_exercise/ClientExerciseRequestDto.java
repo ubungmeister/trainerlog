@@ -20,4 +20,6 @@ public class ClientExerciseRequestDto {
     //for cases when Trainer add exercise to client directly 
     private String name; 
 
+    private UUID categoryId;
+
 }

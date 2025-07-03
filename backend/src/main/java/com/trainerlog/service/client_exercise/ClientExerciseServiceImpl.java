@@ -6,6 +6,8 @@ import com.trainerlog.repository.ExerciseRepository;
 import com.trainerlog.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import com.trainerlog.model.Category;
 import com.trainerlog.model.ClientExercise;
 import com.trainerlog.model.User;
 import com.trainerlog.model.Exercise;
@@ -13,7 +15,7 @@ import java.util.UUID;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.trainerlog.repository.CategoryRepository;
 @Service
 @AllArgsConstructor
  public class ClientExerciseServiceImpl implements ClientExerciseService {
@@ -21,6 +23,7 @@ import org.slf4j.LoggerFactory;
     private static final Logger log = LoggerFactory.getLogger(ClientExerciseServiceImpl.class);
 
     private final ClientExerciseRepository clientExerciseRepository;
+    private final CategoryRepository categoryRepository;
     private final ExerciseRepository exerciseRepository;
     private final UserRepository userRepository;
 
@@ -69,6 +72,19 @@ import org.slf4j.LoggerFactory;
             log.error("Cannot specify both exerciseId and name in the request");
             throw new IllegalArgumentException("Cannot specify both exerciseId and name in the request");
         }
+         // Check if the category exists for the trainer
+         Category category = null;
+         log.info("Get Category", (clientExercise.getCategoryId()));
+
+        if (clientExercise.getCategoryId() != null) {
+                category = categoryRepository.findByIdAndCreatedByTrainer_Id(clientExercise.getCategoryId(), trainerId)
+                .orElseThrow(() -> {
+                       log.error("Category with id={} not found for trainerId={}", clientExercise.getCategoryId(), trainerId);
+                       return new RuntimeException("Category not found");
+                });
+        }
+
+
         // Check if the exercise already exists for the trainer
         if (clientExercise.getExerciseId() != null) {
             log.info("Creating client exercise with existing exerciseId={}", clientExercise.getExerciseId());
@@ -76,7 +92,9 @@ import org.slf4j.LoggerFactory;
             Exercise exercise = exerciseRepository.findById(clientExercise.getExerciseId())
             .orElseThrow(() -> new RuntimeException("Exercise not found"));
 
-            // Create the ClientExercise entity
+            exercise.setCategory(category); // Set the category if provided
+
+            // Create the ClientExercise entity 
             ClientExercise newClientExercise = ClientExercise.builder()
             .client(client)
             .exercise(exercise)
@@ -95,10 +113,11 @@ import org.slf4j.LoggerFactory;
                 log.error("Exercise with name={} already exists for trainerId={}", clientExercise.getName(), trainerId);
                 throw new IllegalArgumentException("Exercise with this name already exists for this trainer");
             }
-
+              
             // Create a new Exercise entity
             Exercise newExercise = Exercise.builder()
                 .name(clientExercise.getName())
+                .category(category)
                 .createdByTrainer(userRepository.findById(trainerId)
                     .orElseThrow(() -> {
                         log.error("Trainer with id={} not found", trainerId);

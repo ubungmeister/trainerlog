@@ -5,7 +5,7 @@ import { useUpdateExercise } from "hooks/trainingTable/exercises/useUpdateExerci
 import { useDeleteClientExercise } from "hooks/trainingTable/clientExercise/useDeleteClientExercise";
 import { useCreateClientExercise } from "hooks/trainingTable/clientExercise/useCreateClientExercise";
 import { useUpdateClientExercise } from "hooks/trainingTable/clientExercise/useUpdateClientExercise";
-import type { FormSchemaType } from "components/modals/ClientExerciseModal"; // adjust import path
+import type { FormSchemaType } from "components/trainingTable/modals/ClientExerciseModal"; // adjust import path
 
 type FormPropsType = {
   isActiveClientExercise: boolean;
@@ -42,6 +42,7 @@ export const useClientExerciseForm = ({
         name: data.exerciseName ? data.exerciseName : null,
         exerciseId: data.exerciseId ? data.exerciseId : null,
         activeClientExercise: isActiveClientExercise,
+        categoryId: data.categoryId ? data.categoryId : null,
       };
 
       createClientExercise(newExercise, {
@@ -59,26 +60,20 @@ export const useClientExerciseForm = ({
 
     const updatePromises: Promise<unknown>[] = [];
 
-    if (data.exerciseName !== clientExercise.exerciseName) {
-      const isNameExist = exercises?.find(
-        (ex) => ex.name === data.exerciseName,
-      );
-      if (isNameExist) return false;
+    const updatedExercise = {
+      id: clientExercise.exerciseId as string,
+      name: data.exerciseName as string,
+      categoryId: data.categoryId || null,
+    };
 
-      const updatedExercise = {
-        id: clientExercise.exerciseId as string,
-        name: data.exerciseName as string,
-      };
-
-      const namePromise = new Promise((resolve, reject) => {
-        updateExerciseName(updatedExercise, {
-          onSuccess: resolve,
-          onError: reject,
-        });
+    const namePromise = new Promise((resolve, reject) => {
+      updateExerciseName(updatedExercise, {
+        onSuccess: resolve,
+        onError: reject,
       });
+    });
 
-      updatePromises.push(namePromise);
-    }
+    updatePromises.push(namePromise);
 
     if (isActiveClientExercise !== clientExercise.activeClientExercise) {
       const statusPromise = new Promise((resolve, reject) => {

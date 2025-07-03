@@ -1,0 +1,32 @@
+import { categoryModalStore } from "app/store/category/useCategoryStore";
+import { type Category } from "types/tableType";
+
+type CategoryItemProps = {
+  category: Category;
+};
+
+export const CategoryItem = ({ category }: CategoryItemProps) => {
+  const openModal = categoryModalStore((state) => state.openModal);
+
+  console.log("category", category);
+
+  return (
+    <div className="flex flex-row items-center justify-between gap-2 p-4 border-b-1 border-primary-button last:border-b-0">
+      {/* <Avatar
+        size={40}
+        name={avatarNames[Math.floor(Math.random() * avatarNames.length)]}
+        colors={["#0a0310", "#49007e", "#ff005b", "#ff7d10", "#ffb238"]}
+        variant="beam"
+      /> */}
+      <h3>{category.name}</h3>
+      <div className=" ">
+        <button
+          onClick={() => openModal(category)}
+          className="bg-primary-bg hover:bg-secondary focus:outline-2 focus:bg-secondary text-white px-4 py-2 rounded-3xl"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  );
+};

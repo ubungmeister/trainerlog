@@ -11,7 +11,7 @@ const avatarNames = [
   "Mother Frances",
 ];
 
-const UserItem = ({ user }: { user: UserType }) => {
+export const UserItem = ({ user }: { user: UserType }) => {
   const openModal = userModalStore((state) => state.openModal);
 
   return (
@@ -40,4 +40,4 @@ const UserItem = ({ user }: { user: UserType }) => {
   );
 };
 
-export default UserItem;
+ 
