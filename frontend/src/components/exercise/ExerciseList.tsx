@@ -1,7 +1,7 @@
 import { useGetAllExercises } from "hooks/trainingTable/exercises/useGetAllExercises";
 import { DataLoading } from "components/ui/DataLoading";
 import { exerciseModalStore } from "app/store/exercise/useExerciseStore";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import type { Exercise } from "types/tableType";
 import { ExerciseItem } from "./ExerciseItem";
 import { StateFilter } from "components/ui/StateFilter";
@@ -11,10 +11,18 @@ export const ExerciseList = () => {
   const openModal = exerciseModalStore((state) => state.openModal);
   const filterState = exerciseModalStore((state) => state.filterState);
   const setFilterState = exerciseModalStore((state) => state.setFilterState);
+  const setExercises = exerciseModalStore((state) => state.setExercises);
+
+  useEffect(() => {
+    if (exercises) {
+      setExercises(exercises);
+    }
+  }, [exercises]);
 
   const filteredExercises = useMemo(() => {
     if (!exercises) return [];
     return exercises.filter((exercise: Exercise) => {
+      if (!exercise.sharedExercise) return false; // Exclude private exercises
       if (filterState === "all") return true;
       if (filterState === "active") return exercise.activeExercise;
       if (filterState === "inactive") return !exercise.activeExercise;

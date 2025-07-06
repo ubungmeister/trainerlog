@@ -5,7 +5,7 @@ import { useUpdateExercise } from "hooks/trainingTable/exercises/useUpdateExerci
 import { useDeleteClientExercise } from "hooks/trainingTable/clientExercise/useDeleteClientExercise";
 import { useCreateClientExercise } from "hooks/trainingTable/clientExercise/useCreateClientExercise";
 import { useUpdateClientExercise } from "hooks/trainingTable/clientExercise/useUpdateClientExercise";
-import type { FormSchemaType } from "components/trainingTable/modals/ClientExerciseModal";
+import type { FormSchemaType } from "components/trainingTable/modals/clientExercise/ClientExerciseModal";
 import { createNewExercise } from "./helpers/createNewExercise";
 import { createUpdatedExercise } from "./helpers/createUpdatedExercise";
 type FormPropsType = {

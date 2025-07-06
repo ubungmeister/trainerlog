@@ -101,6 +101,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
 
         exercise.setName(dto.getName());
+        exercise.setActiveExercise(dto.isActiveExercise());
 
         if(dto.getCategoryId() != null) {
             Category category = categoryRepository.findById(dto.getCategoryId())

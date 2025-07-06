@@ -9,7 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useGetAllExercises } from "hooks/trainingTable/exercises/useGetAllExercises";
 import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
-import { type Category } from "types/tableType";
 const schema = z
   .object({
     exerciseName: z.string().trim().optional(),
@@ -29,6 +28,8 @@ const schema = z
   );
 import { useClientExerciseForm } from "hooks/trainingTable/clientExercise/formHandlingHook/useClientExerciseForm";
 import type { Exercise } from "types/tableType";
+import { SelectExercise } from "./helpers/SelectExercise";
+import { SelectCategory } from "./helpers/SelectCategory";
 
 export type FormSchemaType = z.infer<typeof schema>;
 
@@ -37,23 +38,25 @@ export const ClientExerciseModal = () => {
   const clientExercise = clientExerciseStore((state) => state.clientExercise);
   const categories = clientExerciseStore((state) => state.categories);
   const category = clientExerciseStore((state) => state.category);
+  const exercises = clientExerciseStore((state) => state.exercises);
   const allTrainerExercises = useGetAllExercises();
   const allClientExercises = clientExerciseListStore(
     (state) => state.clientExercises,
   );
 
   // Filterout exercises that already exist in the client's list
-  const existinfExercisesIds = allClientExercises.map(
+  const existingExercisesIds = allClientExercises.map(
     (exercise) => exercise.exerciseId,
   );
 
   const filteredExercises = allTrainerExercises.data?.filter(
-    (exercise: Exercise) => !existinfExercisesIds.includes(exercise.id),
+    (exercise: Exercise) => !existingExercisesIds.includes(exercise.id),
   );
 
-  // const [isActiveClientExercise, setIsActiveClientExercise] = useState(
-  //   clientExercise?.activeClientExercise || false,
-  // );
+  const exercise = exercises?.find(
+    (ex: Exercise) => ex.id === clientExercise?.exerciseId,
+  );
+  const isSharedExercise = exercise?.sharedExercise;
 
   const formHeader = clientExercise
     ? "Edit Client Exercise"
@@ -86,66 +89,46 @@ export const ClientExerciseModal = () => {
   return (
     <div className="pointer-events-none fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50 ">
       <div className="pointer-events-auto relative flex flex-col w-full max-w-xs sm:max-w-md bg-white rounded-lg shadow-lg p-4 sm:p-8">
-        <CloseButton closeModal={() => closeModal()} />
+        <CloseButton closeModal={closeModal} />
         <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">
           {formHeader}
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <Label htmlFor="exerciseName">{formLabel}</Label>
-            <FormInput
-              type="string"
-              id="exerciseName"
-              register={register("exerciseName")}
-              error={errors.exerciseName?.message}
-            />
-          </div>
-          {!clientExercise && (
+          {isSharedExercise ? (
+            <p className="text-red-500 text-sm mb-4">
+              This exercise is shared and cannot be modified.
+            </p>
+          ) : (
             <div className="mb-4">
-              <Label htmlFor="exerciseId">Chose from exisiting:</Label>
-              <select
-                id="exerciseId"
-                {...register("exerciseId")}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select an exercise</option>
-                {filteredExercises.map((exercise: Exercise) => (
-                  <option key={exercise.id} value={exercise.id || ""}>
-                    {exercise.name}
-                  </option>
-                ))}
-              </select>
-              {errors.exerciseName && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.exerciseName.message}
-                </p>
-              )}
+              <Label htmlFor="exerciseName">{formLabel}</Label>
+              <FormInput
+                type="string"
+                id="exerciseName"
+                register={register("exerciseName")}
+                error={errors.exerciseName?.message}
+              />
             </div>
           )}
-          <div>
-            <Label htmlFor="categoryId">Chose category</Label>
-            <select
-              id="categoryId"
-              {...register("categoryId")}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select category </option>
-              {categories?.map((category: Category) => (
-                <option key={category.id} value={category.id || ""}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-            {errors.exerciseName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.exerciseName.message}
-              </p>
-            )}
-          </div>
+
+          {!clientExercise && (
+            <SelectExercise
+              register={register}
+              errors={errors}
+              filteredExercises={filteredExercises}
+            />
+          )}
+          {!isSharedExercise && (
+            <SelectCategory
+              register={register}
+              errors={errors}
+              categories={categories}
+            />
+          )}
+
           <div className="mb-4 flex flex-row gap-3">
             <input
               id="activeClientExercise"
-              name="activeClientExercise"
+              {...register("activeClientExercise")}
               type="checkbox"
               className="toggle-styling"
             />

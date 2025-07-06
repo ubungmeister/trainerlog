@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateExercise } from "hooks/trainingTable/exercises/useCreateExercise";
 import { useQueryClient } from "@tanstack/react-query";
 import { Label } from "components/ui/Label";
+import { useUpdateExercise } from "hooks/trainingTable/exercises/useUpdateExercise";
 const schema = z.object({
   name: z.string().min(2).max(100),
   activeExercise: z.boolean(),
@@ -21,7 +22,7 @@ export const ExerciseFormModal = () => {
   const closeModal = exerciseModalStore((state) => state.closeModal);
 
   const { mutate: createExercise } = useCreateExercise();
-  const { mutate: updateExercise } = useCreateExercise();
+  const { mutate: updateExercise } = useUpdateExercise();
 
   const queryClient = useQueryClient();
 
@@ -42,37 +43,46 @@ export const ExerciseFormModal = () => {
 
   const activeExercise = watch("activeExercise");
 
+  const handleCreate = (name: string, id: string | null) => {
+    createExercise(
+      { name, id, sharedExercise: true, activeExercise },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["allExercises"] });
+          closeModal();
+        },
+        onError: (error) => {
+          console.error("Error creating exercise:", error);
+        },
+      },
+    );
+  };
+  const handleUpdate = (name: string, id: string | null) => {
+    updateExercise(
+      { name, id, sharedExercise: true, activeExercise },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["allExercises"] });
+          closeModal();
+        },
+        onError: (error) => {
+          console.error("Error updating exercise:", error);
+        },
+      },
+    );
+  };
+
   const onSubmit = (data: FormSchemaType) => {
     const name = data.name;
     const id = exercise ? exercise.id : null;
 
     const isValidId = exercises.some((ex) => ex.id === id);
-    if (!id) {
-      createExercise(
-        { name, id, sharedExercise: true, activeExercise: true },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["allExercises"] });
-            closeModal();
-          },
-          onError: (error) => {
-            console.error("Error creating exercise:", error);
-          },
-        },
-      );
-    } else if (isValidId) {
-      updateExercise(
-        { name, id, sharedExercise: true, activeExercise: true },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["allExercises"] });
-            closeModal();
-          },
-          onError: (error) => {
-            console.error("Error updating exercise:", error);
-          },
-        },
-      );
+
+    if (!exercise) {
+      handleCreate(name, id);
+    }
+    if (isValidId) {
+      handleUpdate(name, id);
     }
   };
 

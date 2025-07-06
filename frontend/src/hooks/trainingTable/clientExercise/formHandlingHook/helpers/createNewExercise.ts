@@ -1,4 +1,4 @@
-import type { FormSchemaType } from "components/trainingTable/modals/ClientExerciseModal";
+import type { FormSchemaType } from "components/trainingTable/modals/clientExercise/ClientExerciseModal";
 
 export const createNewExercise = (data: FormSchemaType, clientId: string) => ({
   clientId,
