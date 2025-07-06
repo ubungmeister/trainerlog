@@ -7,6 +7,7 @@ import { Home } from "../../../pages/home";
 import ProtectedLayout from "../../../components/layouts/ProtectedLayout";
 import { TrainingTable } from "../../../pages/trainingTable/TrainingTable";
 import { Category } from "pages/category/Category";
+import { Exercise } from "pages/exercise/Exercise";
 
 const AppRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/client/:clientId" element={<TrainingTable />} />
           <Route path="/categories" element={<Category />} />
+          <Route path="/exercises" element={<Exercise />} />
         </Route>
       </Route>
 

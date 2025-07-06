@@ -9,13 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useGetAllExercises } from "hooks/trainingTable/exercises/useGetAllExercises";
 import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
-import { useState } from "react";
 import { type Category } from "types/tableType";
 const schema = z
   .object({
     exerciseName: z.string().trim().optional(),
     exerciseId: z.string().optional(),
     categoryId: z.string().optional(),
+    activeClientExercise: z.boolean(),
   })
   .refine(
     (data) =>
@@ -27,7 +27,7 @@ const schema = z
       path: ["exerciseName"],
     },
   );
-import { useClientExerciseForm } from "hooks/trainingTable/clientExercise/useClientExerciseForm";
+import { useClientExerciseForm } from "hooks/trainingTable/clientExercise/formHandlingHook/useClientExerciseForm";
 import type { Exercise } from "types/tableType";
 
 export type FormSchemaType = z.infer<typeof schema>;
@@ -42,8 +42,6 @@ export const ClientExerciseModal = () => {
     (state) => state.clientExercises,
   );
 
-  console.log("category", category);
-
   // Filterout exercises that already exist in the client's list
   const existinfExercisesIds = allClientExercises.map(
     (exercise) => exercise.exerciseId,
@@ -53,9 +51,9 @@ export const ClientExerciseModal = () => {
     (exercise: Exercise) => !existinfExercisesIds.includes(exercise.id),
   );
 
-  const [isActiveClientExercise, setIsActiveClientExercise] = useState(
-    clientExercise?.activeClientExercise || false,
-  );
+  // const [isActiveClientExercise, setIsActiveClientExercise] = useState(
+  //   clientExercise?.activeClientExercise || false,
+  // );
 
   const formHeader = clientExercise
     ? "Edit Client Exercise"
@@ -69,16 +67,19 @@ export const ClientExerciseModal = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       exerciseName: clientExercise?.exerciseName ?? "",
       categoryId: category?.id ?? "",
+      activeClientExercise: clientExercise?.activeClientExercise ?? true,
     },
   });
 
+  const isActiveClientExercise = watch("activeClientExercise");
+
   const { onSubmit, handleDelete } = useClientExerciseForm({
-    isActiveClientExercise,
     closeModal,
   });
 
@@ -109,7 +110,7 @@ export const ClientExerciseModal = () => {
               >
                 <option value="">Select an exercise</option>
                 {filteredExercises.map((exercise: Exercise) => (
-                  <option key={exercise.id} value={exercise.id}>
+                  <option key={exercise.id} value={exercise.id || ""}>
                     {exercise.name}
                   </option>
                 ))}
@@ -143,10 +144,6 @@ export const ClientExerciseModal = () => {
           </div>
           <div className="mb-4 flex flex-row gap-3">
             <input
-              onChange={(e) => {
-                setIsActiveClientExercise(e.target.checked);
-              }}
-              checked={isActiveClientExercise}
               id="activeClientExercise"
               name="activeClientExercise"
               type="checkbox"

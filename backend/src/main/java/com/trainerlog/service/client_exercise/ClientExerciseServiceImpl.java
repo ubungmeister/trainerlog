@@ -118,6 +118,7 @@ import com.trainerlog.repository.CategoryRepository;
             Exercise newExercise = Exercise.builder()
                 .name(clientExercise.getName())
                 .category(category)
+                .sharedExercise(false) //New exercise that belong to this client only 
                 .createdByTrainer(userRepository.findById(trainerId)
                     .orElseThrow(() -> {
                         log.error("Trainer with id={} not found", trainerId);

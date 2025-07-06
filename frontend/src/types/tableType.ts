@@ -1,6 +1,8 @@
 export interface Exercise {
-  id: string;
-  name: string;
+  id: string| null;
+  name: string | null;
+  sharedExercise: boolean;
+  activeExercise: boolean;
   categoryId?: string | null;
   category?: string | null;
 }
@@ -33,4 +35,10 @@ export interface SessionExercise {
   repetitions: number;
   sets: number;
   weight: number;
+}
+
+export enum StateEnum {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  ALL = "all",
 }

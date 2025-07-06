@@ -2,6 +2,7 @@ import { CloseButton } from "components/ui/button/CloseButton";
 import { Label } from "components/ui/Label";
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
 import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
+import { StateFilter } from "components/ui/StateFilter";
 
 export const SettingsModal = () => {
   const closeModal = settingsTableStore((state) => state.closeModal);
@@ -20,26 +21,7 @@ export const SettingsModal = () => {
         <div className="mb-2">
           <Label htmlFor="exerciseName"> Client Exercises filter:</Label>
         </div>
-        <div className="flex items-center justify-start gap-2 mb-6">
-          <button
-            onClick={() => setFilterState("all")}
-            className={`button-filter ${filterState === "all" ? " bg-primary-bg" : "bg-gray-400"}`}
-          >
-            All
-          </button>
-          <button
-            onClick={() => setFilterState("active")}
-            className={`button-filter ${filterState === "active" ? " bg-primary-bg" : "bg-gray-400"}`}
-          >
-            Active
-          </button>
-          <button
-            onClick={() => setFilterState("inactive")}
-            className={` button-filter ${filterState === "inactive" ? " bg-primary-bg" : "bg-gray-400"}`}
-          >
-            Inactive
-          </button>
-        </div>
+        <StateFilter filterState={filterState} setFilterState={setFilterState}/> 
       </div>
     </div>
   );

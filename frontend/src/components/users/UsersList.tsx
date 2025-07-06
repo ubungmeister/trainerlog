@@ -1,19 +1,17 @@
 import { useGetUsers } from "hooks/users/useGetUsers";
 import { type UserType } from "types/userType";
-import {UserItem} from "./UserItem";
+import { UserItem } from "./UserItem";
 import { userModalStore } from "app/store/user/userModalStore";
+import { DataLoading } from "components/ui/DataLoading";
 export const UsersList = () => {
   const { data: users, isLoading } = useGetUsers();
 
   const openModal = userModalStore((state) => state.openModal);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen text-center text-gray-500">
-        Loading...
-      </div>
-    );
+    return <DataLoading />;
   }
+
   return (
     <div className="bg-white max-h-min min-w-[80%] md:min-w-[400px] p-4 rounded-3xl  ">
       <div className="flex flex-col gap-4">
