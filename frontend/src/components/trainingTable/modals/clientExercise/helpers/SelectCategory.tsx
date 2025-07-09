@@ -16,7 +16,7 @@ export const SelectCategory = ({
 }: SelectCategoryProps) => {
   return (
     <div>
-      <Label htmlFor="categoryId">Chose category</Label>
+      <Label htmlFor="categoryId">Choose category</Label>
       <select
         id="categoryId"
         {...register("categoryId")}
@@ -29,10 +29,8 @@ export const SelectCategory = ({
           </option>
         ))}
       </select>
-      {errors.exerciseName && (
-        <p className="text-red-500 text-sm mt-1">
-          {errors.exerciseName.message}
-        </p>
+      {errors.categoryId && (
+        <p className="text-red-500 text-sm mt-1">{errors.categoryId.message}</p>
       )}
     </div>
   );

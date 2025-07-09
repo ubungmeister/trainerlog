@@ -16,7 +16,7 @@ export function useCreateExercise() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create category");
+        throw new Error("Failed to create exercise");
       }
       return response.json();
     },

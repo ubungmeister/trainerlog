@@ -17,7 +17,7 @@ export const SelectExercise = ({
 }: SelectExerciseProps) => {
   return (
     <div className="mb-4">
-      <Label htmlFor="exerciseId">Chose from exisiting:</Label>
+      <Label htmlFor="exerciseId">Chose from existing:</Label>
       <select
         id="exerciseId"
         {...register("exerciseId")}
