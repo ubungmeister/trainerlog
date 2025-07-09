@@ -68,7 +68,7 @@ export const TableBody = ({
     const category = categories?.find(
       (c: Category) => c.name === exercise?.category,
     );
-    
+
     openClientExerciseModal({
       clientExercise: clientExercise,
       exercises: exercises,

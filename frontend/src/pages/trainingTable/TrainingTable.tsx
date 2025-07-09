@@ -7,7 +7,7 @@ import { TrainingSessionModal } from "components/trainingTable/modals/TrainingSe
 import { tableStore } from "app/store/trainingTable/tableStore";
 import { useEffect } from "react";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
-import { ClientExerciseModal } from "components/trainingTable/modals/ClientExerciseModal";
+import { ClientExerciseModal } from "components/trainingTable/modals/clientExercise/ClientExerciseModal";
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
 import { SettingsModal } from "components/trainingTable/modals/SettingsModal";
 

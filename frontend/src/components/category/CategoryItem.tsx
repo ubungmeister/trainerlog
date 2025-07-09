@@ -12,12 +12,6 @@ export const CategoryItem = ({ category }: CategoryItemProps) => {
 
   return (
     <div className="flex flex-row items-center justify-between gap-2 p-4 border-b-1 border-primary-button last:border-b-0">
-      {/* <Avatar
-        size={40}
-        name={avatarNames[Math.floor(Math.random() * avatarNames.length)]}
-        colors={["#0a0310", "#49007e", "#ff005b", "#ff7d10", "#ffb238"]}
-        variant="beam"
-      /> */}
       <h3>{category.name}</h3>
       <div className=" ">
         <button

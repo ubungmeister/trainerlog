@@ -56,6 +56,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise exercise = Exercise.builder()
                 .name(dto.getName())
                 .category(category)
+                .sharedExercise(true) // exercise is shared by default
                 .createdByTrainer(userRepository.findById(trainerId)
                         .orElseThrow(() -> {
                             log.error("Trainer with id={} not found", trainerId);
@@ -100,6 +101,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
 
         exercise.setName(dto.getName());
+        exercise.setActiveExercise(dto.isActiveExercise());
 
         if(dto.getCategoryId() != null) {
             Category category = categoryRepository.findById(dto.getCategoryId())

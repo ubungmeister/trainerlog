@@ -3,6 +3,7 @@ import type { Category } from "types/tableType";
 import { CategoryItem } from "./CategoryItem";
 import { categoryModalStore } from "app/store/category/useCategoryStore";
 import { useEffect } from "react";
+import { DataLoading } from "components/ui/DataLoading";
 
 export const CategoryList = () => {
   const { data: categories, isLoading } = useGetAllCategories();
@@ -12,18 +13,13 @@ export const CategoryList = () => {
 
   // Set the categories in the store when the component mounts
   useEffect(() => {
-    console.log("categories here", categories);
     if (categories) {
       setCategories(categories);
     }
   }, [categories]);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen text-center text-gray-500">
-        Loading...
-      </div>
-    );
+    return <DataLoading />;
   }
 
   return (

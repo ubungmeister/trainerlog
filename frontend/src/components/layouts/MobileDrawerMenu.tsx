@@ -42,7 +42,7 @@ export const MobileDrawerMenu = ({
           </Link>
           <Link
             onClick={onMenuToggle}
-            to="/"
+            to="/exercises"
             className="text-lg  flex flex-row gap-4"
           >
             <div className="w-12">

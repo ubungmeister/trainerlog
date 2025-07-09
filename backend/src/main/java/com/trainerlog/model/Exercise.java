@@ -18,10 +18,13 @@ public class Exercise {
     @GeneratedValue
     private UUID id;
 
-
     @Builder.Default
     @Column(nullable = false)
     private boolean activeExercise = true;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean sharedExercise = false;
 
     @Column 
     private String name;

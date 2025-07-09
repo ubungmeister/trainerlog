@@ -1,20 +1,20 @@
-import { type ClientExercise } from "types/tableType";
+import { type ClientExercise, StateEnum } from "types/tableType";
 import { create } from "zustand";
 
-type Filter = "all" | "active" | "inactive";
+ 
 
 interface ClientExerciseListState {
   clientExercises: ClientExercise[];
   setClientExercises: (data: ClientExercise[]) => void;
-  filterState: Filter;
-  setFilterState: (filterState: Filter) => void;
+  filterState: StateEnum;
+  setFilterState: (filterState: StateEnum) => void;
 }
 
 export const clientExerciseListStore = create<ClientExerciseListState>(
   (set) => ({
     clientExercises: [],
     setClientExercises: (data) => set({ clientExercises: data }),
-    filterState: "all",
+    filterState: StateEnum.ALL,
     setFilterState: (filterState) => set({ filterState }),
   }),
 );

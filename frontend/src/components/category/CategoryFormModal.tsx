@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { FormInput } from "components/ui/FormInput";
 import { SaveButton } from "components/ui/button/SaveButton";
 import { CloseButton } from "components/ui/button/CloseButton";
-import * as z from "zod";
+import * as z from "zod"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useUpdateCategory } from "hooks/trainingTable/category/useUpdateCategory";
@@ -44,7 +44,6 @@ export const CategoryFormModal = () => {
     const id = category ? category.id : null;
 
     const isValidId = categories.some((cat) => cat.id === id);
-    console.log("category:", category);
     if (!id) {
       createCategory(
         { name, id },
@@ -60,7 +59,6 @@ export const CategoryFormModal = () => {
       );
     }
     if (isValidId) {
-      console.log("Updating existing category with id:", id);
       updateCategory(
         { name, id },
         {

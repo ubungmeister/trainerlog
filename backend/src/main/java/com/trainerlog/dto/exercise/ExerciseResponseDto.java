@@ -9,14 +9,16 @@ import lombok.Data;
 public class ExerciseResponseDto {
     private String id;
     private String name;
+    private boolean sharedExercise;
     private boolean activeExercise;
     private String category;
     private String categoryId;
 
 
-    public ExerciseResponseDto(String id, String name, boolean activeExercise, String category, String categoryId) {
+    public ExerciseResponseDto(String id, String name,  boolean sharedExercise, boolean activeExercise, String category, String categoryId) {
         this.id = id;
         this.name = name;
+        this.sharedExercise = sharedExercise;
         this.activeExercise = activeExercise;
         this.category = category;
         this.categoryId = categoryId;
@@ -28,6 +30,7 @@ public class ExerciseResponseDto {
         return new ExerciseResponseDto(
         exercise.getId().toString(),
         exercise.getName(),
+        exercise.isSharedExercise(),
         exercise.isActiveExercise(),
         category != null ? category.getName() : null,
         category != null ? category.getId().toString() : null); 
