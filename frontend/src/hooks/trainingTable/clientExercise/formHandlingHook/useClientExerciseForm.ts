@@ -99,7 +99,6 @@ export const useClientExerciseForm = ({ closeModal }: FormPropsType) => {
   };
 
   const onSubmit = (data: FormSchemaType) => {
-    console.log("sending data", data);
     if (!clientExercise) return handleCreate(data);
     handleUpdate(data);
 

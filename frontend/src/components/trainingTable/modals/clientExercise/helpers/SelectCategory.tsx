@@ -20,7 +20,6 @@ export const SelectCategory = <T extends FieldValues>({
   categories,
   fieldName,
 }: SelectCategoryProps<T>) => {
-  console.log("fieldName", fieldName)
   return (
     <div>
       <Label htmlFor="categoryId">Choose category</Label>
