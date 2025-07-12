@@ -5,18 +5,21 @@ import { useEffect, useMemo } from "react";
 import type { Exercise } from "types/tableType";
 import { ExerciseItem } from "./ExerciseItem";
 import { StateFilter } from "components/ui/StateFilter";
+import { useGetAllCategories } from "hooks/trainingTable/category/useGetAllCategories";
+
 export const ExerciseList = () => {
   const { data: exercises, isLoading } = useGetAllExercises();
+  const { data: categories } = useGetAllCategories();
 
   const openModal = exerciseModalStore((state) => state.openModal);
   const filterState = exerciseModalStore((state) => state.filterState);
   const setFilterState = exerciseModalStore((state) => state.setFilterState);
   const setExercises = exerciseModalStore((state) => state.setExercises);
+  const setCategories = exerciseModalStore((state) => state.setCategories);
 
   useEffect(() => {
-    if (exercises) {
-      setExercises(exercises);
-    }
+    if (exercises) setExercises(exercises);
+    if (categories) setCategories(categories);
   }, [exercises]);
 
   const filteredExercises = useMemo(() => {
