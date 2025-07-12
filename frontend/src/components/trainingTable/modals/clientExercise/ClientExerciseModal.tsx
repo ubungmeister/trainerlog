@@ -122,6 +122,7 @@ export const ClientExerciseModal = () => {
               register={register}
               errors={errors}
               categories={categories}
+              fieldName="categoryId"
             />
           )}
 

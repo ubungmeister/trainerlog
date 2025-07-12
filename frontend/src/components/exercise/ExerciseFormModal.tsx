@@ -9,9 +9,11 @@ import { useCreateExercise } from "hooks/trainingTable/exercises/useCreateExerci
 import { useQueryClient } from "@tanstack/react-query";
 import { Label } from "components/ui/Label";
 import { useUpdateExercise } from "hooks/trainingTable/exercises/useUpdateExercise";
+import { SelectCategory } from "components/trainingTable/modals/clientExercise/helpers/SelectCategory";
 const schema = z.object({
   name: z.string().min(2).max(100),
   activeExercise: z.boolean(),
+  categoryId: z.string().optional(),
 });
 
 type FormSchemaType = z.infer<typeof schema>;
@@ -20,6 +22,7 @@ export const ExerciseFormModal = () => {
   const exercise = exerciseModalStore((state) => state.exercise);
   const exercises = exerciseModalStore((state) => state.exercises);
   const closeModal = exerciseModalStore((state) => state.closeModal);
+  const categories = exerciseModalStore((state) => state.categories);
 
   const { mutate: createExercise } = useCreateExercise();
   const { mutate: updateExercise } = useUpdateExercise();
@@ -38,14 +41,16 @@ export const ExerciseFormModal = () => {
     defaultValues: {
       name: exercise?.name ?? "",
       activeExercise: exercise?.activeExercise ?? true,
+      categoryId: exercise?.categoryId ?? "",
     },
   });
 
   const activeExercise = watch("activeExercise");
+  const categoryId = watch("categoryId");
 
   const handleCreate = (name: string, id: string | null) => {
     createExercise(
-      { name, id, sharedExercise: true, activeExercise },
+      { name, id, sharedExercise: true, activeExercise, categoryId },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["allExercises"] });
@@ -59,7 +64,7 @@ export const ExerciseFormModal = () => {
   };
   const handleUpdate = (name: string, id: string | null) => {
     updateExercise(
-      { name, id, sharedExercise: true, activeExercise },
+      { name, id, sharedExercise: true, activeExercise, categoryId },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["allExercises"] });
@@ -95,7 +100,7 @@ export const ExerciseFormModal = () => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <Label htmlFor="name">Category Name</Label>
+            <Label htmlFor="name">Exercise Name</Label>
             <FormInput
               type="text"
               id="name"
@@ -103,6 +108,16 @@ export const ExerciseFormModal = () => {
               error={errors.name?.message}
             />
           </div>
+          <div className="mb-4">
+            <Label htmlFor="category">Category {}</Label>
+            <SelectCategory
+              register={register}
+              errors={errors}
+              categories={categories}
+              fieldName="categoryId"
+            />
+          </div>
+
           <div className="mb-4 flex flex-row gap-3">
             <input
               id="activeExercise"
