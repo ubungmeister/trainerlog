@@ -5,7 +5,6 @@ import {
   type ClientExercise,
   type Category,
 } from "types/tableType";
-import { formatDate } from "utils/formatDate";
 import { type SessionExerciseTableType } from "components/trainingTable/Table";
 import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
@@ -63,7 +62,6 @@ export const TableBody = ({
     }
 
     const exercise = exercises.find((e: Exercise) => e.id === exerciseId);
-    console.log("Exercise found:", exercise);
 
     const category = categories?.find(
       (c: Category) => c.name === exercise?.category,
@@ -136,7 +134,10 @@ export const TableBody = ({
 
           {visibleDates.map((date) => {
             const session = trainingSessions.find(
-              (s: Session) => s.date === date,
+              (s: Session) =>
+                date &&
+                s.date &&
+                new Date(s.date).getTime() === new Date(date).getTime(),
             ) as Session;
             const cell = sessionExercises
               ? sessionExercises.find(
@@ -161,7 +162,11 @@ export const TableBody = ({
                     exId: exercise.exerciseId || "",
                   })
                 }
-                key={formatDate(date)}
+                key={
+                  date
+                    ? `cell-${date.getTime()}-${exercise.exerciseId}`
+                    : `empty-cell-${exercise.exerciseId}`
+                }
                 className=" px-4 py-3 min-w-[80px] text-center hover:bg-violet-100  active:bg-violet-100 "
               >
                 {cell ? (
