@@ -1,10 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { useTrainingTableData } from "hooks/trainingTable/useTrainingTableData";
 import { type Session, type SessionExercise } from "types/tableType";
 import { TableHeader } from "components/trainingTable/TableHeader";
 import { TableBody } from "components/trainingTable/TableBody";
 import { TableActions } from "components/trainingTable/TableActions";
 import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
+import { TableControls } from "components/trainingTable/TableControls";
+import { DataLoading } from "components/ui/DataLoading";
+import { useDateWindow } from "hooks/trainingTable/useDateWindow";
+import { sortSessionsByDate, getSessionDates } from "utils/sortedSessions";
 type TableProps = {
   clientId: string;
 };
@@ -19,7 +23,6 @@ export const Table = ({ clientId }: TableProps) => {
   const setClientExercises = clientExerciseListStore(
     (state) => state.setClientExercises,
   );
-
   const {
     isLoading,
     trainingSessions,
@@ -29,11 +32,11 @@ export const Table = ({ clientId }: TableProps) => {
     categories,
   } = useTrainingTableData(clientId || "");
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setClientExercises(clientExercises || []);
   }, [clientExercises]);
-
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -41,26 +44,29 @@ export const Table = ({ clientId }: TableProps) => {
     }
   }, [trainingSessions]);
 
-  // Sort sessions by date
-  const sortedSessions = trainingSessions
-    ? [...trainingSessions].sort((a, b) => {
-        return (
-          new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime()
-        );
-      })
-    : [];
+  //Stable, memoized data transforms
+  const sortedSessions = useMemo(
+    () => sortSessionsByDate(trainingSessions ?? []),
+    [trainingSessions],
+  );
+  const dates = useMemo(
+    () => getSessionDates(sortedSessions),
+    [sortedSessions],
+  );
 
-  //Retrieve the last 5 sessions and add a "new" date
-  const dates = sortedSessions.map((s: Session) => s.date);
-
-  const visibleDates = [...dates.slice(-5)];
+  //Windowing via hook
+  const {
+    visibleDates,
+    canPrev,
+    canNext,
+    showPrev,
+    showNext,
+    endIndex,
+    startIndex,
+  } = useDateWindow(dates, 5, 1);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen text-center text-gray-500">
-        Loading...
-      </div>
-    );
+    return <DataLoading />;
   }
 
   return (
@@ -68,9 +74,18 @@ export const Table = ({ clientId }: TableProps) => {
       <h2 className="text-3xl font-bold text-primaty-text mb-3">
         Training Table
       </h2>
-      <TableActions scrollRef={scrollRef} categories={categories}/>
+      <TableActions scrollRef={scrollRef} categories={categories} />
 
       <div className="w-full relative overflow-hidden rounded-lg border-1 border-primary-button">
+        <TableControls
+          dates={dates}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          showPrev={showPrev}
+          showNext={showNext}
+          canPrev={canPrev}
+          canNext={canNext}
+        />
         <div className="overflow-x-auto" ref={scrollRef}>
           <table className="w-full bg-white  shadow-lg">
             <TableHeader

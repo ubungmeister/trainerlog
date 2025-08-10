@@ -16,6 +16,8 @@ export const useTrainingTableData = (clientId: string) => {
   const sessionExercises = useGetAllSessionExercises(clientId);
   const categories = useGetAllCategories();
 
+  console.log("training", training.data);
+
   const isLoading =
     training.isLoading ||
     clientExercises.isLoading ||

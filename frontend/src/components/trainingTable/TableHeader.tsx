@@ -39,7 +39,23 @@ export const TableHeader = ({
 
   // Function to handle updating a training session, called when a date in the header is clicked
   const trainingSessionHandler = (date: Date | null) => {
-    const session = trainingSessions.find((s: Session) => s.date === date);
+    console.log("TableHeader: clicked date", date);
+
+    // Use getTime() to compare date values, not object references
+    const session = trainingSessions.find((s: Session) => {
+      if (!date || !s.date) return false;
+      const clickedDate = new Date(date).getTime();
+      const sessionDate = new Date(s.date).getTime();
+      console.log("Comparing dates:", {
+        clickedDate,
+        sessionDate,
+        matches: clickedDate === sessionDate,
+      });
+      return clickedDate === sessionDate;
+    });
+
+    console.log("TableHeader: found session", session);
+
     if (session) {
       openTrainingSessionModal({ session: session });
     } else {
@@ -47,13 +63,14 @@ export const TableHeader = ({
     }
   };
 
-  let dateLenght = visibleDates.length;
-  if (dateLenght < 3) {
-    while (dateLenght < 3) {
-      visibleDates.push(null);
-      dateLenght++;
-    }
+  // Limit the number of columns to the last 5 dates, then pad if needed
+  const maxColumns = 5;
+  const slicedDates = visibleDates.slice(-maxColumns);
+  const paddedDates = [...slicedDates];
+  while (paddedDates.length < 3) {
+    paddedDates.push(null);
   }
+
 
   return (
     <thead>
@@ -61,15 +78,19 @@ export const TableHeader = ({
         <th className=" left-0 z-20 bg-primary-bg  px-4 py-3 text-left min-w-[100px] sticky">
           Exercise
         </th>
-        {visibleDates.map((date) => (
-          <th
-            onClick={() => trainingSessionHandler(date)}
-            key={formatDate(date || new Date())}
-            className="px-2 py-3 text-left whitespace-nowrap min-w-[70px]"
-          >
-            {date ? formatDate(date) : "Date +"}
-          </th>
-        ))}
+        {paddedDates.map((date, idx) => {
+          const dateStr = date ? formatDate(date) : "Date +";
+          console.log("Rendering header column", { idx, date, dateStr });
+          return (
+            <th
+              key={date ? `date-${date.getTime()}` : `empty-${idx}`}
+              onClick={() => trainingSessionHandler(date)}
+              className="px-4 py-3 cursor-pointer"
+            >
+              {dateStr}
+            </th>
+          );
+        })}
       </tr>
     </thead>
   );
