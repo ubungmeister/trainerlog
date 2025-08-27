@@ -2,7 +2,9 @@ package com.trainerlog.service.training_session;
 import lombok.AllArgsConstructor;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.trainerlog.dto.training_session.TrainingSessionRequestDto;
 import com.trainerlog.dto.training_session.TrainingSessionResponseDto;
@@ -12,6 +14,8 @@ import com.trainerlog.repository.UserRepository;
 import com.trainerlog.repository.TrainingSessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.LocalDateTime;
 import java.util.List;
 @Service
 @AllArgsConstructor
@@ -164,18 +168,29 @@ public class TrainingSessionServiceImpl implements TrainingSessionService {
      */
 
     @Override
-    public List<TrainingSessionResponseDto> getAllTrainingSessions(UUID clientId, UUID trainerId) {
-        log.info("Attempting to retrieve all training sessions for clientId={} and trainerId={}", clientId, trainerId);
+    public List<TrainingSessionResponseDto> getAllTrainingSessions(UUID clientId, UUID trainerId,LocalDateTime cursorDate) {
 
-        
+         log.info("Attempting to retrieve all training sessions for clientId={} and trainerId={}", clientId, trainerId);
+
         getAuthorizedClient(clientId, trainerId);
 
+        List<TrainingSession> trainingSessions;
 
-        List<TrainingSession> trainingSessions = trainingSessionRepository.findAllByClient_Id(clientId);
-        return trainingSessions.stream()
-                .map(TrainingSessionResponseDto::fromEntity)
-                .toList();
+        if (cursorDate == null) {
+        // Get the most recent sessions
+        trainingSessions = trainingSessionRepository.findTop20ByClientIdOrderByDateDesc(
+            clientId);
+        log.info("trainingSessions: ", trainingSessions);    
+        } else {
+        // Get sessions before the cursor date
+        trainingSessions = trainingSessionRepository.findTop20ByClientIdAndDateLessThanOrderByDateDesc(
+            clientId, cursorDate);
+        }
+    
+         return trainingSessions.stream()
+            .map(TrainingSessionResponseDto::fromEntity)
+            .collect(Collectors.toList());
+
     }
-
        
 }

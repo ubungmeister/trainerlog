@@ -13,17 +13,27 @@ import com.trainerlog.dto.training_session.TrainingSessionRequestDto;
 import com.trainerlog.dto.training_session.TrainingSessionResponseDto;
 import com.trainerlog.util.SecurityUtil;
 import com.trainerlog.service.training_session.TrainingSessionService;
+import com.trainerlog.service.training_session.TrainingSessionServiceImpl;
+
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/training-sessions")
 public class TrainingSessionController {
 
+    private static final Logger log = LoggerFactory.getLogger(TrainingSessionController.class);
     private final TrainingSessionService trainingSessionService;
 
     
@@ -50,9 +60,23 @@ public class TrainingSessionController {
         return trainingSessionService.getTrainingSessionById(sessionId, clientId, trainerId);
     }
     @GetMapping("/all")
-    public List<TrainingSessionResponseDto> getAllTrainingSessions(@RequestParam UUID clientId) {
+    public List<TrainingSessionResponseDto> getAllTrainingSessions(@RequestParam UUID clientId, 
+        @RequestParam(required = false) String beforeDate) {
         UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
-        return trainingSessionService.getAllTrainingSessions(clientId, trainerId);
+
+       LocalDateTime cursorDate = null;
+            if (beforeDate != null && !beforeDate.isEmpty()) {
+                try {
+        cursorDate = LocalDate.parse(beforeDate, DateTimeFormatter.ISO_DATE).atStartOfDay();
+    } catch (DateTimeParseException e) {
+        log.error("Invalid beforeDate format: {}", beforeDate, e);
+    }
+}
+
+        log.info("Fetching all training sessions for clientId={}, trainerId={}, cursorDate={}", 
+            clientId, trainerId, cursorDate);
+
+        return trainingSessionService.getAllTrainingSessions(clientId, trainerId, cursorDate);
     }
 
 }
