@@ -3,14 +3,25 @@ import { type Session } from "types/tableType";
 
 // Type for the raw API response before date conversion
 
-export function useGetAllTrainingSessions(clientId: string) {
+export function useGetAllTrainingSessions(
+  clientId: string,
+  fromDate: Date | null,
+  toDate: Date | null,
+) {
+  console.log("updating data", fromDate, toDate);
   const API_URL = import.meta.env.VITE_API_URL;
 
+  const params = new URLSearchParams({ clientId });
+  if (fromDate) params.set("fromDate", fromDate.toISOString().slice(0, 10));
+  if (toDate) params.set("toDate", toDate.toISOString().slice(0, 10));
+
+  console.log("Fetching with params:", params.toString());
+
   return useQuery<Session[]>({
-    queryKey: ["trainingSessions", clientId],
+    queryKey: ["trainingSessions", clientId, fromDate, toDate],
     queryFn: async () => {
       const response = await fetch(
-        `${API_URL}/api/training-sessions/all?clientId=${clientId}`,
+        `${API_URL}/api/training-sessions/all?${params.toString()}`,
         {
           method: "GET",
           headers: {

@@ -1,6 +1,6 @@
 package com.trainerlog.repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,13 +16,7 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
 
     List<TrainingSession> findAllByClient_Id(UUID clientId);
 
-      // Find sessions before a specific date
-    List<TrainingSession> findTop20ByClientIdAndDateLessThanOrderByDateDesc(
-        UUID clientId, LocalDateTime beforeDate);
-    
-    // Find most recent sessions
-    List<TrainingSession> findTop20ByClientIdOrderByDateDesc(
-        UUID clientId);
-
+    List<TrainingSession> findByClient_IdAndDateGreaterThanEqualAndDateLessThanEqual(
+        UUID clientId, LocalDate start, LocalDate end);
     
 }

@@ -15,6 +15,7 @@ import com.trainerlog.repository.TrainingSessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 @Service
@@ -87,7 +88,7 @@ public class TrainingSessionServiceImpl implements TrainingSessionService {
 
         TrainingSession newTrainingSession = TrainingSession.builder()
                 .client(client)
-                .date(trainingSessionRequestDto.getDate())
+                .date(trainingSessionRequestDto.getDate().toLocalDate())
                 .build();
         log.info("Creating training session for client with id={}", trainingSessionRequestDto.getClientId());
 
@@ -113,7 +114,7 @@ public class TrainingSessionServiceImpl implements TrainingSessionService {
         TrainingSession existingTrainingSession =  getClientTrainingSession(trainingSessionRequestDto.getClientId(), sessionId);
 
         // updating the date of the existing training session
-        existingTrainingSession.setDate(trainingSessionRequestDto.getDate());
+        existingTrainingSession.setDate(trainingSessionRequestDto.getDate().toLocalDate());
 
         return TrainingSessionResponseDto.fromEntity(trainingSessionRepository.save(existingTrainingSession));
     }
@@ -168,24 +169,17 @@ public class TrainingSessionServiceImpl implements TrainingSessionService {
      */
 
     @Override
-    public List<TrainingSessionResponseDto> getAllTrainingSessions(UUID clientId, UUID trainerId,LocalDateTime cursorDate) {
+    public List<TrainingSessionResponseDto> getAllTrainingSessions(UUID clientId, UUID trainerId,LocalDate startDate, LocalDate endDate) {
 
-         log.info("Attempting to retrieve all training sessions for clientId={} and trainerId={}", clientId, trainerId);
+        log.info("Attempting to retrieve all training sessions for clientId={} and trainerId={}", clientId, trainerId);
 
         getAuthorizedClient(clientId, trainerId);
 
         List<TrainingSession> trainingSessions;
 
-        if (cursorDate == null) {
-        // Get the most recent sessions
-        trainingSessions = trainingSessionRepository.findTop20ByClientIdOrderByDateDesc(
-            clientId);
-        log.info("trainingSessions: ", trainingSessions);    
-        } else {
-        // Get sessions before the cursor date
-        trainingSessions = trainingSessionRepository.findTop20ByClientIdAndDateLessThanOrderByDateDesc(
-            clientId, cursorDate);
-        }
+        trainingSessions = trainingSessionRepository.findByClient_IdAndDateGreaterThanEqualAndDateLessThanEqual( clientId, startDate, endDate);
+
+        log.info("Found {} training sessions for clientId={}", trainingSessions.size(), clientId);
     
          return trainingSessions.stream()
             .map(TrainingSessionResponseDto::fromEntity)

@@ -6,11 +6,10 @@ import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
 
 type TableActionsProps = {
-  scrollRef: React.RefObject<HTMLDivElement | null>;
   categories: Category[] | null;
 };
 
-export const TableActions = ({ scrollRef, categories }: TableActionsProps) => {
+export const TableActions = ({ categories }: TableActionsProps) => {
   const queryClient = useQueryClient();
   const clientId = tableStore((state) => state.clientId);
   const { mutate: createTrainingSession } = useCreateTrainingSession();
@@ -27,10 +26,6 @@ export const TableActions = ({ scrollRef, categories }: TableActionsProps) => {
         queryClient.invalidateQueries({
           queryKey: ["trainingSessions", clientId],
         });
-
-        if (scrollRef.current) {
-          scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
-        }
       },
     });
   };
