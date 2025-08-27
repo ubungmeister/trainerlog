@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*; 
 
 
@@ -21,7 +21,7 @@ public class TrainingSession {
     @GeneratedValue
     private UUID id;
 
-    private LocalDateTime date;
+    private LocalDate date;
  
 
     @ManyToOne

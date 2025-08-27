@@ -1,6 +1,6 @@
 package com.trainerlog.dto.training_session;
 import com.trainerlog.model.TrainingSession;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -9,9 +9,9 @@ public class TrainingSessionResponseDto {
 
     private String id;
     private String clientId;
-    private LocalDateTime date;
+    private LocalDate date;
 
-    public TrainingSessionResponseDto(String id, String clientId, LocalDateTime date) {
+    public TrainingSessionResponseDto(String id, String clientId, LocalDate date) {
         this.id = id;
         this.clientId = clientId;
         this.date = date;

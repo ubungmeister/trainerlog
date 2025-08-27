@@ -9,8 +9,12 @@ import { useGetAllCategories } from "hooks/trainingTable/category/useGetAllCateg
  * It retrieves training sessions, client exercises, exercises, and session exercises for a specific client and trainer
  * */
 
-export const useTrainingTableData = (clientId: string) => {
-  const training = useGetAllTrainingSessions(clientId);
+export const useTrainingTableData = (
+  clientId: string,
+  formDate: Date | null,
+  toDate: Date | null,
+) => {
+  const training = useGetAllTrainingSessions(clientId, formDate, toDate);
   const clientExercises = useGetAllClientExercises(clientId);
   const exercises = useGetAllExercises();
   const sessionExercises = useGetAllSessionExercises(clientId);

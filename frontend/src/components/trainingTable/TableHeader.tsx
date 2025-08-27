@@ -39,22 +39,13 @@ export const TableHeader = ({
 
   // Function to handle updating a training session, called when a date in the header is clicked
   const trainingSessionHandler = (date: Date | null) => {
-    console.log("TableHeader: clicked date", date);
-
     // Use getTime() to compare date values, not object references
     const session = trainingSessions.find((s: Session) => {
       if (!date || !s.date) return false;
       const clickedDate = new Date(date).getTime();
       const sessionDate = new Date(s.date).getTime();
-      console.log("Comparing dates:", {
-        clickedDate,
-        sessionDate,
-        matches: clickedDate === sessionDate,
-      });
       return clickedDate === sessionDate;
     });
-
-    console.log("TableHeader: found session", session);
 
     if (session) {
       openTrainingSessionModal({ session: session });
@@ -71,7 +62,6 @@ export const TableHeader = ({
     paddedDates.push(null);
   }
 
-
   return (
     <thead>
       <tr className="bg-primary-bg text-white  ">
@@ -80,7 +70,6 @@ export const TableHeader = ({
         </th>
         {paddedDates.map((date, idx) => {
           const dateStr = date ? formatDate(date) : "Date +";
-          console.log("Rendering header column", { idx, date, dateStr });
           return (
             <th
               key={date ? `date-${date.getTime()}` : `empty-${idx}`}
