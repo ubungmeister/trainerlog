@@ -8,7 +8,6 @@ import {
 import { type SessionExerciseTableType } from "components/trainingTable/Table";
 import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
-import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
 import { useMemo } from "react";
 type TableBodyProps = {
   exercises: Exercise[];
@@ -36,10 +35,10 @@ export const TableBody = ({
   );
   // Zustand store for managing client exercises list
   // This store contains the client exercises and the filter state
-  const clientExercises = clientExerciseListStore(
+  const clientExercises = clientExerciseStore(
     (state) => state.clientExercises,
   );
-  const filterState = clientExerciseListStore((state) => state.filterState);
+  const filterState = clientExerciseStore((state) => state.filterState);
 
   const filteredClientExercises = useMemo(() => {
     return clientExercises.filter((ce) => {

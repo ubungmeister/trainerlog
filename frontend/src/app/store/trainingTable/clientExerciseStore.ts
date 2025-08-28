@@ -2,10 +2,11 @@ import {
   type Category,
   type ClientExercise,
   type Exercise,
+  StateEnum,
 } from "types/tableType";
 import { create } from "zustand";
 
-interface ClientExerciseState {
+type ClientExerciseState = {
   isOpen: boolean;
   clientExercise: ClientExercise | null;
   exercises: Exercise[] | null;
@@ -18,29 +19,45 @@ interface ClientExerciseState {
     category: Category | null;
   }) => void;
   closeModal: () => void;
-}
+};
 
-export const clientExerciseStore = create<ClientExerciseState>((set) => ({
-  isOpen: false,
-  clientExercise: null,
-  exercises: null,
-  categories: null,
-  category: null,
+type ClientExerciseListState = {
+  clientExercises: ClientExercise[];
+  setClientExercises: (data: ClientExercise[]) => void;
+  filterState: StateEnum;
+  setFilterState: (filterState: StateEnum) => void;
+};
 
-  openModal: ({ clientExercise, exercises, categories, category }) =>
-    set(() => ({
-      isOpen: true,
-      clientExercise,
-      exercises,
-      categories,
-      category,
-    })),
-  closeModal: () =>
-    set({
-      isOpen: false,
-      clientExercise: null,
-      exercises: null,
-      categories: null,
-      category: null,
-    }),
-}));
+export type ClientExerciseCombinedState = ClientExerciseState &
+  ClientExerciseListState;
+
+export const clientExerciseStore = create<ClientExerciseCombinedState>(
+  (set) => ({
+    isOpen: false,
+    clientExercise: null,
+    exercises: null,
+    categories: null,
+    category: null,
+    clientExercises: [],
+    setClientExercises: (data) => set({ clientExercises: data }),
+    filterState: StateEnum.ALL,
+    setFilterState: (filterState) => set({ filterState }),
+
+    openModal: ({ clientExercise, exercises, categories, category }) =>
+      set(() => ({
+        isOpen: true,
+        clientExercise,
+        exercises,
+        categories,
+        category,
+      })),
+    closeModal: () =>
+      set({
+        isOpen: false,
+        clientExercise: null,
+        exercises: null,
+        categories: null,
+        category: null,
+      }),
+  }),
+);

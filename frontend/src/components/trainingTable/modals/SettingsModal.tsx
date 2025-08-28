@@ -1,13 +1,13 @@
 import { CloseButton } from "components/ui/button/CloseButton";
 import { Label } from "components/ui/Label";
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
-import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
+import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 import { StateFilter } from "components/ui/StateFilter";
 
 export const SettingsModal = () => {
   const closeModal = settingsTableStore((state) => state.closeModal);
-  const filterState = clientExerciseListStore((state) => state.filterState);
-  const setFilterState = clientExerciseListStore(
+  const filterState = clientExerciseStore((state) => state.filterState);
+  const setFilterState = clientExerciseStore(
     (state) => state.setFilterState,
   );
 
