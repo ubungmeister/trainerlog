@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.trainerlog.dto.training_session.TrainingSessionRequestDto;
 import com.trainerlog.dto.training_session.TrainingSessionResponseDto;
+import com.trainerlog.exception.DuplicateSessionException;
 import com.trainerlog.model.TrainingSession;
 import com.trainerlog.model.User;
 import com.trainerlog.repository.UserRepository;
@@ -16,8 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+ import java.util.List;
 @Service
 @AllArgsConstructor
 public class TrainingSessionServiceImpl implements TrainingSessionService {
@@ -86,9 +85,15 @@ public class TrainingSessionServiceImpl implements TrainingSessionService {
 
         User client = getAuthorizedClient(trainingSessionRequestDto.getClientId(), trainerId);
 
+        //Check if a training session for the same client on the same date already exists
+        if (trainingSessionRepository.existsByClient_IdAndDate(client.getId(), trainingSessionRequestDto.getDate())) {
+            log.error("Training session for clientId={} on date={} already exists", client.getId(), trainingSessionRequestDto.getDate());
+            throw new DuplicateSessionException("Training session already exists for this client and date");
+
+        }
         TrainingSession newTrainingSession = TrainingSession.builder()
                 .client(client)
-                .date(trainingSessionRequestDto.getDate().toLocalDate())
+                .date(trainingSessionRequestDto.getDate())
                 .build();
         log.info("Creating training session for client with id={}", trainingSessionRequestDto.getClientId());
 
@@ -114,7 +119,7 @@ public class TrainingSessionServiceImpl implements TrainingSessionService {
         TrainingSession existingTrainingSession =  getClientTrainingSession(trainingSessionRequestDto.getClientId(), sessionId);
 
         // updating the date of the existing training session
-        existingTrainingSession.setDate(trainingSessionRequestDto.getDate().toLocalDate());
+        existingTrainingSession.setDate(trainingSessionRequestDto.getDate());
 
         return TrainingSessionResponseDto.fromEntity(trainingSessionRepository.save(existingTrainingSession));
     }

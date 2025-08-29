@@ -18,5 +18,7 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
 
     List<TrainingSession> findByClient_IdAndDateGreaterThanEqualAndDateLessThanEqual(
         UUID clientId, LocalDate start, LocalDate end);
+
+    boolean existsByClient_IdAndDate(UUID clientId, LocalDate date);
     
 }

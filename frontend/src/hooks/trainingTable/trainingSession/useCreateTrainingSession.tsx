@@ -14,9 +14,10 @@ export function useCreateTrainingSession() {
         },
         body: JSON.stringify(trainingSession),
       });
-
       if (!response.ok) {
-        throw new Error("Failed to create session exercise");
+        let errorData = await response.json();
+        errorData = { ...errorData, status: response.status };
+        throw errorData;
       }
       return response.json();
     },

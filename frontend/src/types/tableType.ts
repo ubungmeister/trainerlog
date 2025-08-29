@@ -1,5 +1,5 @@
 export interface Exercise {
-  id: string| null;
+  id: string | null;
   name: string | null;
   sharedExercise: boolean;
   activeExercise: boolean;
@@ -24,7 +24,7 @@ export interface ClientExercise {
 
 export interface Session {
   id?: string;
-  date: Date;
+  date: Date | null | string;
   clientId: string;
 }
 

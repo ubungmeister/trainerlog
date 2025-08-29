@@ -1,33 +1,27 @@
 import { type Category, type Session } from "types/tableType";
-import { useQueryClient } from "@tanstack/react-query";
-import { useCreateTrainingSession } from "hooks/trainingTable/trainingSession/useCreateTrainingSession";
 import { tableStore } from "app/store/trainingTable/tableStore";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
+import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
 
 type TableActionsProps = {
   categories: Category[] | null;
 };
 
 export const TableActions = ({ categories }: TableActionsProps) => {
-  const queryClient = useQueryClient();
   const clientId = tableStore((state) => state.clientId);
-  const { mutate: createTrainingSession } = useCreateTrainingSession();
   const openModal = clientExerciseStore((state) => state.openModal);
   const openSettings = settingsTableStore((state) => state.openModal);
+  const openTrainingSessionModal = trainingSessionStore(
+    (state) => state.openModal,
+  );
 
   const handleCreateNewTrainingSession = () => {
     const newSession: Session = {
       date: new Date(),
       clientId: clientId,
     };
-    createTrainingSession(newSession, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["trainingSessions", clientId],
-        });
-      },
-    });
+    openTrainingSessionModal({ session: newSession });
   };
 
   const handleCreateNewExercise = () => {

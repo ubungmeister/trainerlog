@@ -37,7 +37,6 @@ export function DateRange({ value, onChange }: PillsProps) {
   const [open, setOpen] = useState(false);
   const [tmp, setTmp] = useState<[Date | null, Date | null]>(value);
 
-  // синхронизируем, если value меняется снаружи
   useEffect(() => setTmp(value), [value]);
 
   const start = value[0];
