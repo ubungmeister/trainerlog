@@ -4,15 +4,14 @@ import { type Session, type SessionExercise } from "types/tableType";
 import { TableHeader } from "components/trainingTable/TableHeader";
 import { TableBody } from "components/trainingTable/TableBody";
 import { TableActions } from "components/trainingTable/TableActions";
-import { clientExerciseListStore } from "app/store/trainingTable/clientExerciseListStore";
+import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 import { TableControls } from "components/trainingTable/TableControls";
 import { DataLoading } from "components/ui/DataLoading";
 import { useDateWindow } from "hooks/trainingTable/useDateWindow";
 import { sortSessionsByDate, getSessionDates } from "utils/sortedSessions";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { MobileDateRangePicker } from "@mui/x-date-pickers-pro/MobileDateRangePicker";
-
+import { DateRange } from "components/trainingTable/DateRange";
 type TableProps = {
   clientId: string;
 };
@@ -24,7 +23,7 @@ export type SessionExerciseTableType = {
 };
 
 export const Table = ({ clientId }: TableProps) => {
-  const setClientExercises = clientExerciseListStore(
+  const setClientExercises = clientExerciseStore(
     (state) => state.setClientExercises,
   );
 
@@ -49,7 +48,6 @@ export const Table = ({ clientId }: TableProps) => {
     // 1. We haven't set it yet, AND
     // 2. We have training sessions loaded
     if (!initialDateRangeSet.current && trainingSessions.length > 1) {
-
       // Sort sessions and find the date range
       const sorted = sortSessionsByDate(trainingSessions);
       const firstDate = sorted[0].date;
@@ -63,14 +61,6 @@ export const Table = ({ clientId }: TableProps) => {
       }
     }
   }, [trainingSessions]);
-
-  const handleDateRangeChange = (
-    newValue: [Date | null, Date | null] | null,
-  ) => {
-    if (newValue && newValue[0] && newValue[1]) {
-      setDateRange(newValue);
-    }
-  };
 
   useEffect(() => {
     setClientExercises(clientExercises || []);
@@ -111,9 +101,9 @@ export const Table = ({ clientId }: TableProps) => {
       <div className="w-full relative overflow-hidden rounded-lg border-1 border-primary-button">
         <div className="flex justify-center items-center w-full">
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <MobileDateRangePicker
+            <DateRange
               value={dateRange}
-              onChange={handleDateRangeChange}
+              onChange={(next) => setDateRange(next)}
             />
           </LocalizationProvider>
         </div>
