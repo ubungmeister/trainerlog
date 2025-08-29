@@ -41,7 +41,7 @@ export function useGetAllTrainingSessions(
       // Transform the date strings to Date objects
       return data.map((session) => ({
         ...session,
-        date: new Date(session.date),
+        date: new Date(session.date as Date),
       }));
     },
     refetchOnWindowFocus: false,
