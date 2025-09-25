@@ -17,7 +17,6 @@ export const MobileDrawerMenu = ({
   onMenuToggle,
   isOpen,
 }: MobileDrawerMenuProps) => {
-  console.log("MobileDrawerMenu rendered");
 
   return (
     <Sheet open={isOpen} onOpenChange={onMenuToggle}>

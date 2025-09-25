@@ -8,8 +8,6 @@ type CategoryItemProps = {
 export const CategoryItem = ({ category }: CategoryItemProps) => {
   const openModal = categoryModalStore((state) => state.openModal);
 
-  console.log("category", category);
-
   return (
     <div className="flex flex-row items-center justify-between gap-2 p-4 border-b-1 border-primary-button last:border-b-0">
       <h3>{category.name}</h3>
