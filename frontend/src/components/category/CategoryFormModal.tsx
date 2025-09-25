@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { FormInput } from "components/ui/FormInput";
 import { SaveButton } from "components/ui/button/SaveButton";
 import { CloseButton } from "components/ui/button/CloseButton";
-import * as z from "zod"; 
+import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useUpdateCategory } from "hooks/trainingTable/category/useUpdateCategory";
@@ -97,7 +97,7 @@ export const CategoryFormModal = () => {
   const formHeader = category ? "Edit Category" : "Add Category";
 
   return (
-    <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-start justify-center p-10">
+    <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-10">
       <div className="flex flex-col w-full max-w-md bg-white rounded-lg shadow-lg p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">{formHeader}</h2>
