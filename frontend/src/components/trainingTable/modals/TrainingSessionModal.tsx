@@ -11,6 +11,7 @@ import { useUpdateTrainingSession } from "hooks/trainingTable/trainingSession/us
 import { useCreateTrainingSession } from "hooks/trainingTable/trainingSession/useCreateTrainingSession";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { toast } from "react-toastify";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { useDeleteTrainingSession } from "hooks/trainingTable/trainingSession/useDeleteTrainingSession";
@@ -69,9 +70,11 @@ export const TrainingSessionModal = () => {
             queryKey: ["trainingSessions", session.clientId],
           });
           closeModal();
+          toast.success("Session updated");
         },
         onError: (error) => {
           console.error("Error updating training session:", error);
+          toast.error("Failed to update");
         },
       });
     } else {
@@ -81,6 +84,7 @@ export const TrainingSessionModal = () => {
             queryKey: ["trainingSessions", session.clientId],
           });
           closeModal();
+          toast.success("Session created");
         },
         onError: (error: unknown) => {
           const apiError = error as ErrorType;
@@ -90,6 +94,7 @@ export const TrainingSessionModal = () => {
               message: "A session on this date already exists.",
             });
           }
+          toast.error("Failed to create");
         },
       });
     }
@@ -104,9 +109,11 @@ export const TrainingSessionModal = () => {
           queryKey: ["trainingSessions", session.clientId],
         });
         closeModal();
+        toast.success("Session deleted");
       },
       onError: (error) => {
         console.error("Error deleting training session:", error);
+        toast.error("Failed to delete");
       },
     });
   };

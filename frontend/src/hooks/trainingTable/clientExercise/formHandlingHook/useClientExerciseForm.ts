@@ -8,6 +8,8 @@ import { useUpdateClientExercise } from "hooks/trainingTable/clientExercise/useU
 import type { FormSchemaType } from "components/trainingTable/modals/clientExercise/ClientExerciseModal";
 import { createNewExercise } from "./helpers/createNewExercise";
 import { createUpdatedExercise } from "./helpers/createUpdatedExercise";
+import { toast } from "react-toastify";
+
 type FormPropsType = {
   closeModal: () => void;
 };
@@ -40,8 +42,12 @@ export const useClientExerciseForm = ({ closeModal }: FormPropsType) => {
         });
         queryClient.invalidateQueries({ queryKey: ["allExercises"] });
         closeModal();
+        toast.success("Created successfully");
       },
-      onError: (error) => console.error("Create error:", error),
+      onError: (error) => {
+        console.error("Create error:", error);
+        toast.error("Failed to create");
+      },
     });
   };
 
@@ -89,9 +95,11 @@ export const useClientExerciseForm = ({ closeModal }: FormPropsType) => {
           });
           queryClient.invalidateQueries({ queryKey: ["allExercises"] });
           closeModal();
+          toast.success("Exercise updated successfully");
         })
         .catch((error) => {
           console.error("Update error:", error);
+          toast.error("Failed to update");
         });
     } else {
       closeModal();
@@ -101,62 +109,6 @@ export const useClientExerciseForm = ({ closeModal }: FormPropsType) => {
   const onSubmit = (data: FormSchemaType) => {
     if (!clientExercise) return handleCreate(data);
     handleUpdate(data);
-
-    // const updatePromises: Promise<unknown>[] = [];
-
-    // const isExerciseShared = exercises?.find(
-    //   (ex) => ex.id === data.exerciseId,
-    // )?.sharedExercise;
-
-    // if (isExerciseShared) {
-    //   return console.error("Cannot update shared exercise");
-    // }
-
-    // const updatedExercise = {
-    //   id: clientExercise.exerciseId as string,
-    //   name: data.exerciseName as string,
-    //   categoryId: data.categoryId || null,
-    //   activeExercise: data.activeClientExercise,
-    //   sharedExercise: false,
-    // };
-
-    // const namePromise = new Promise((resolve, reject) => {
-    //   updateExerciseName(updatedExercise, {
-    //     onSuccess: resolve,
-    //     onError: reject,
-    //   });
-    // });
-
-    // updatePromises.push(namePromise);
-
-    // if (data.activeClientExercise !== clientExercise.activeClientExercise) {
-    //   const statusPromise = new Promise((resolve, reject) => {
-    //     updateClientExercise(
-    //       {
-    //         ...clientExercise,
-    //         activeClientExercise: data.activeClientExercise,
-    //       },
-    //       { onSuccess: resolve, onError: reject },
-    //     );
-    //   });
-    //   updatePromises.push(statusPromise);
-    // }
-
-    // if (updatePromises.length > 0) {
-    //   Promise.all(updatePromises)
-    //     .then(() => {
-    //       queryClient.invalidateQueries({
-    //         queryKey: ["clientExercises", clientId],
-    //       });
-    //       queryClient.invalidateQueries({ queryKey: ["allExercises"] });
-    //       closeModal();
-    //     })
-    //     .catch((error) => {
-    //       console.error("Update error:", error);
-    //     });
-    // } else {
-    //   closeModal();
-    // }
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -168,8 +120,12 @@ export const useClientExerciseForm = ({ closeModal }: FormPropsType) => {
           queryKey: ["clientExercises", clientExercise.clientId],
         });
         closeModal();
+        toast.success("Deleted successfully");
       },
-      onError: (error) => console.error("Delete error:", error),
+      onError: (error) => {
+        console.error("Delete error:", error);
+        toast.error("Failed to delete");
+      },
     });
   };
 
