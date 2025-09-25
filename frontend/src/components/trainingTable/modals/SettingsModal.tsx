@@ -7,9 +7,7 @@ import { StateFilter } from "components/ui/StateFilter";
 export const SettingsModal = () => {
   const closeModal = settingsTableStore((state) => state.closeModal);
   const filterState = clientExerciseStore((state) => state.filterState);
-  const setFilterState = clientExerciseStore(
-    (state) => state.setFilterState,
-  );
+  const setFilterState = clientExerciseStore((state) => state.setFilterState);
 
   return (
     <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
@@ -18,10 +16,15 @@ export const SettingsModal = () => {
         <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">
           Settings
         </h2>
-        <div className="mb-2">
-          <Label htmlFor="exerciseName"> Client Exercises filter:</Label>
+        <div className="mb-2 flex justify-center items-center">
+          <Label htmlFor="exerciseName "> Show exercises:</Label>
         </div>
-        <StateFilter filterState={filterState} setFilterState={setFilterState}/> 
+        <div className="flex justify-center items-center">
+          <StateFilter
+            filterState={filterState}
+            setFilterState={setFilterState}
+          />
+        </div>
       </div>
     </div>
   );

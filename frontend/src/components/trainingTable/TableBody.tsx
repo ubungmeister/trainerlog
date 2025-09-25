@@ -35,9 +35,7 @@ export const TableBody = ({
   );
   // Zustand store for managing client exercises list
   // This store contains the client exercises and the filter state
-  const clientExercises = clientExerciseStore(
-    (state) => state.clientExercises,
-  );
+  const clientExercises = clientExerciseStore((state) => state.clientExercises);
   const filterState = clientExerciseStore((state) => state.filterState);
 
   const filteredClientExercises = useMemo(() => {
@@ -169,9 +167,27 @@ export const TableBody = ({
                 className=" px-4 py-3 min-w-[80px] text-center hover:bg-violet-100  active:bg-violet-100 "
               >
                 {cell ? (
-                  <span className="inline-block bg-primary-button rounded-full px-3 py-1 text-primary-bg text-sm text-center">
-                    {cell.weight}×{cell.repetitions}
-                  </span>
+                  <div
+                    className="inline-flex flex-col items-center justify-center rounded-md px-2 py-1 text-[11px] bg-green-100 text-green-800 leading-4"
+                    title={`Reps: ${cell?.repetitions ?? "-"}, Sets: ${cell?.sets ?? "-"}, Kg: ${cell?.weight ?? "-"}`}
+                  >
+                    <div>
+                      <span className="font-semibold">
+                        {cell?.repetitions ?? "-"}
+                      </span>{" "}
+                      <span className="opacity-70">rep</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold">{cell?.sets ?? "-"}</span>{" "}
+                      <span className="opacity-70">set</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold">
+                        {cell?.weight ?? "-"}
+                      </span>{" "}
+                      <span className="opacity-70">kg</span>
+                    </div>
+                  </div>
                 ) : (
                   <span className=" text-primary-label font-bold">+</span>
                 )}

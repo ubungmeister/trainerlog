@@ -92,7 +92,7 @@ export const ExerciseFormModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-start justify-center p-10">
+    <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-10">
       <div className="flex flex-col w-full max-w-md bg-white rounded-lg shadow-lg p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">{formHeader}</h2>
