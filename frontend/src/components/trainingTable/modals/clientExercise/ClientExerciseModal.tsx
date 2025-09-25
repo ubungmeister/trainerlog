@@ -94,7 +94,6 @@ export const ClientExerciseModal = () => {
   });
 
   const onBackToExerciseTypeSelect = () => {
-    console.log("Back to exercise type select");
     setNewExerciseType(null);
     reset({
       exerciseName: "",

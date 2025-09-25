@@ -25,8 +25,6 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
 
   const onMenuHandler = () => {
     setIsMenuOpen(true);
-    // Handle menu click, e.g., toggle a sidebar or open a menu
-    console.log("Menu clicked", isMenuOpen);
   };
 
   return (
