@@ -12,6 +12,7 @@ import { Label } from "components/ui/Label";
 import { SaveButton } from "components/ui/button/SaveButton";
 import { DeleteButton } from "components/ui/button/DeleteButton";
 import { FormInput } from "components/ui/FormInput";
+import { toast } from "react-toastify";
 
 const schema = z.object({
   repetitions: z.number().min(1, "Weight must be > 0"),
@@ -67,9 +68,11 @@ export const SessionExerciseModal = () => {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["sessionExercises"] });
             closeModal();
+            toast.success("Session updated");
           },
           onError: (error) => {
             console.error("Error updating session exercise:", error);
+            toast.error("Failed to update Session");
           },
         },
       );
@@ -90,9 +93,11 @@ export const SessionExerciseModal = () => {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["sessionExercises"] });
           closeModal();
+          toast.success("Session created");
         },
         onError: (error) => {
           console.error("Error creating session exercise:", error);
+          toast.error("Failed to create the Session");
         },
       });
     }
@@ -106,9 +111,11 @@ export const SessionExerciseModal = () => {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["sessionExercises"] });
         closeModal();
+        toast.success("Session deleted");
       },
       onError: (error) => {
         console.error("Error deleting session exercise:", error);
+        toast.error("Failed to delete the Session");
       },
     });
   };
