@@ -56,7 +56,8 @@ export const ClientExerciseModal = () => {
   );
 
   const filteredExercises = allTrainerExercises.data?.filter(
-    (exercise: Exercise) => !existingExercisesIds.includes(exercise.id),
+    (exercise: Exercise) =>
+      !existingExercisesIds.includes(exercise.id) && exercise.sharedExercise,
   );
 
   const exercise = exercises?.find(

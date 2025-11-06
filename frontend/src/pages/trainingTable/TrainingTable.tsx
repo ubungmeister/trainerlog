@@ -13,6 +13,7 @@ import { SettingsModal } from "components/trainingTable/modals/SettingsModal";
 import { useTrainingTableData } from "hooks/trainingTable/useTrainingTableData";
 import { DataLoading } from "components/ui/DataLoading";
 import { MainMenuButton } from "components/ui/button/MainMenuButton";
+import { ModalWrapper } from "components/trainingTable/modals/ModalWrapper";
 
 export const TrainingTable = () => {
   const { clientId } = useParams();
@@ -44,13 +45,25 @@ export const TrainingTable = () => {
   }
 
   return (
-    <div className=" bg-primary-bg p-3 ">
-      <div className=" min-h-screen bg-primary-surface rounded-3xl">
+    <div className="bg-primary-bg p-3">
+      <div className="min-h-screen bg-primary-surface rounded-3xl">
         {clientId && <Table clientId={clientId} />}
-        {isSessionExerciseOpen && <SessionExerciseModal />}
-        {isTrainingSessionOpen && <TrainingSessionModal />}
-        {isClientExerciseOpen && <ClientExerciseModal />}
-        {isSettingsOpen && <SettingsModal />}
+
+        <ModalWrapper isOpen={isSessionExerciseOpen}>
+          <SessionExerciseModal />
+        </ModalWrapper>
+
+        <ModalWrapper isOpen={isTrainingSessionOpen}>
+          <TrainingSessionModal />
+        </ModalWrapper>
+
+        <ModalWrapper isOpen={isClientExerciseOpen}>
+          <ClientExerciseModal />
+        </ModalWrapper>
+
+        <ModalWrapper isOpen={isSettingsOpen}>
+          <SettingsModal />
+        </ModalWrapper>
       </div>
     </div>
   );
