@@ -39,5 +39,3 @@ export const UserItem = ({ user }: { user: UserType }) => {
     </div>
   );
 };
-
- 
