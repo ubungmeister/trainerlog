@@ -16,6 +16,7 @@ export function useGetAllTrainingSessions(
 
   return useQuery<Session[]>({
     queryKey: ["trainingSessions", clientId, fromDate, toDate],
+    enabled: !!clientId,
     queryFn: async () => {
       const response = await fetch(
         `${API_URL}/api/training-sessions/all?${params.toString()}`,
@@ -27,14 +28,24 @@ export function useGetAllTrainingSessions(
           },
         },
       );
-
       if (!response.ok) {
-        throw new Error("Failed to fetch training sessions");
+        let message = `Failed to fetch training sessions (${response.status})`;
+        try {
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const body = await response.json();
+            message = body?.message || body?.error || body?.detail || message;
+          } else {
+            const text = await response.text();
+            if (text) message = text;
+          }
+        } catch {
+          // ignore
+        }
+        throw new Error(message);
       }
-
       // Get the raw response data
       const data: Session[] = await response.json();
-
       // Transform the date strings to Date objects
       return data.map((session) => ({
         ...session,

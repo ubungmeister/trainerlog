@@ -12,6 +12,7 @@ import { sortSessionsByDate, getSessionDates } from "utils/sortedSessions";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateRange } from "components/trainingTable/DateRange";
+
 type TableProps = {
   clientId: string;
 };
@@ -34,6 +35,7 @@ export const Table = ({ clientId }: TableProps) => {
 
   const {
     isLoading,
+    client,
     trainingSessions,
     clientExercises,
     exercises,
@@ -93,9 +95,14 @@ export const Table = ({ clientId }: TableProps) => {
 
   return (
     <div className="flex flex-col md:items-center items-start justify-center p-4 ">
-      <h2 className="text-3xl font-bold text-primaty-text mb-3">
-        Training Table
-      </h2>
+      <div className="flex flex-row items-center justify-between w-full">
+        <h2 className="text-3xl font-bold text-primaty-text mb-3">
+          Training Table
+        </h2>
+        <div className="inline-flex items-center justify-center px-2 py-1 bg-orange-500 text-white rounded-full border shadow-sm min-w-[100px]">
+          <span className="text-sm font-medium">{client.fullName}</span>
+        </div>
+      </div>
       <TableActions categories={categories} />
 
       <div className="w-full relative overflow-hidden rounded-lg border-1 border-primary-button">
