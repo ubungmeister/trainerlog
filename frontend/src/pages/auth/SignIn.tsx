@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "hooks/auth/useLogin";
 import { useAuth } from "contexts/AuthContext";
 import { ROUTES } from "app/utils/routes/routes.constants";
 import * as z from "zod";
@@ -16,7 +15,7 @@ type FormSchemaType = z.infer<typeof FormSchema>;
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { loginMutation } = useAuth();
   const {
     register,
     handleSubmit,
@@ -24,14 +23,11 @@ export default function SignIn() {
   } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
   });
-  const { mutate: loginMutation, isPending } = useLogin();
 
   const onSubmit = (data: FormSchemaType) => {
-    loginMutation(data, {
-      onSuccess: (response) => {
+    loginMutation.mutate(data, {
+      onSuccess: () => {
         toast.success("Welcome back!");
-
-        login(response.token, response.fullName);
         navigate(ROUTES.HOME, { replace: true });
       },
       onError: (error) => {
@@ -64,9 +60,9 @@ export default function SignIn() {
           <button
             type="submit"
             className="auth-form button"
-            disabled={isPending}
+            disabled={loginMutation.isPending}
           >
-            {isPending ? "Signing in..." : "Sign In"}
+            {loginMutation.isPending ? "Signing in..." : "Sign In"}
           </button>
         </form>
       </div>
