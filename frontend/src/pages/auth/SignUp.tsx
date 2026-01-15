@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import { useRegister } from "hooks/auth/useRegister";
+import { useAuth } from "contexts/AuthContext";
 import { ROUTES } from "app/utils/routes/routes.constants";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +24,7 @@ type FormSchemaType = z.infer<typeof FormSchema>;
 
 export default function Signup() {
   const navigate = useNavigate();
-  const { mutate: createUser, isPending } = useRegister();
+  const { registerMutation } = useAuth();
 
   const {
     register,
@@ -36,7 +36,7 @@ export default function Signup() {
 
   const onSubmit: SubmitHandler<FormSchemaType> = (data) => {
     const payload = { ...data, role: "TRAINER" };
-    createUser(payload, {
+    registerMutation.mutate(payload, {
       onSuccess: () => {
         toast.success("Account created successfully! Please sign in.");
         navigate(ROUTES.AUTH.SIGN_IN, { replace: true });
@@ -83,9 +83,9 @@ export default function Signup() {
           <button
             type="submit"
             className="auth-form button"
-            disabled={isPending}
+            disabled={registerMutation.isPending}
           >
-            {isPending ? "Creating account..." : "Sign Up"}
+            {registerMutation.isPending ? "Creating account..." : "Sign Up"}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
