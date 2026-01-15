@@ -2,7 +2,7 @@ import { ExerciseList } from "components/exercise/ExerciseList";
 import { exerciseModalStore } from "app/store/exercise/useExerciseStore";
 import { ExerciseFormModal } from "components/exercise/ExerciseFormModal";
 
-export const Exercise = () => {
+export default function Exercise() {
   const isModalOpen = exerciseModalStore((state) => state.isOpen);
 
   return (
@@ -13,4 +13,4 @@ export const Exercise = () => {
       </div>
     </div>
   );
-};
+}
