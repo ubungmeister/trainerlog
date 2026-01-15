@@ -8,7 +8,7 @@ import { Label } from "components/ui/Label";
 import { CloseButton } from "components/ui/button/CloseButton";
 
 const schema = z.object({
-  fullName: z.string().min(2).max(100).trim(),
+  fullName: z.string().trim().min(2).max(100),
   email: z.string().email().trim(),
 });
 
@@ -75,9 +75,9 @@ export const UserFormModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-start justify-center p-10">
-      <div className="flex flex-col w-full max-w-md bg-white rounded-lg shadow-lg p-4">
-        <div className="flex justify-between items-center mb-4">
+    <div className="modal-form">
+      <div className="modal-container">
+        <div className="modal-box">
           <h2 className="text-xl font-semibold">{formHeader}</h2>
           <CloseButton closeModal={() => closeModal()} />
         </div>

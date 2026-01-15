@@ -45,8 +45,8 @@ export default function TrainingTable() {
   }
 
   return (
-    <div className="bg-primary-bg p-3">
-      <div className="min-h-screen bg-primary-surface rounded-3xl">
+    <div className="page-container ">
+      <div className="page-content-box">
         {clientId && <Table clientId={clientId} />}
 
         <ModalWrapper isOpen={isSessionExerciseOpen}>

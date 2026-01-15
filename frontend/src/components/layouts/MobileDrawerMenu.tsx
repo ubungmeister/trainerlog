@@ -7,7 +7,8 @@ import {
 import plan from "assets/plan.png";
 import categories from "assets/categories.png";
 import exercises from "assets/exercises.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "contexts/AuthContext";
 type MobileDrawerMenuProps = {
   onMenuToggle?: () => void;
   isOpen: boolean;
@@ -16,13 +17,13 @@ export const MobileDrawerMenu = ({
   onMenuToggle,
   isOpen,
 }: MobileDrawerMenuProps) => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("fullName");
-    localStorage.removeItem("email");
-    localStorage.removeItem("id");
+    logout();
     onMenuToggle?.();
-    window.location.href = "/signin";
+    navigate("/signin");
   };
 
   return (
