@@ -1,5 +1,8 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useLogin } from "hooks/auth/useLogin";
+import { useAuth } from "contexts/AuthContext";
+import { ROUTES } from "app/utils/routes/routes.constants";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
@@ -11,7 +14,9 @@ const FormSchema = z.object({
 
 type FormSchemaType = z.infer<typeof FormSchema>;
 
-export const SignIn = () => {
+export default function SignIn() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
@@ -19,24 +24,23 @@ export const SignIn = () => {
   } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
   });
-  const { mutate: login } = useLogin();
+  const { mutate: loginMutation, isPending } = useLogin();
 
   const onSubmit = (data: FormSchemaType) => {
-    login(data, {
+    loginMutation(data, {
       onSuccess: (response) => {
-        toast.success("Success");
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("fullName", response.fullName);
-        localStorage.setItem("email", response.email);
-        localStorage.setItem("id", response.id);
-        window.location.href = "/";
+        toast.success("Welcome back!");
+
+        login(response.token, response.fullName);
+        navigate(ROUTES.HOME, { replace: true });
       },
       onError: (error) => {
         console.error("Login failed:", error);
-        toast.error("Login failed");
+        toast.error("Login failed. Please check your credentials.");
       },
     });
   };
+
   return (
     <div className="auth-container">
       <div className="auth-form">
@@ -57,11 +61,15 @@ export const SignIn = () => {
               <span className="">{errors.password.message}</span>
             )}
           </div>
-          <button type="submit" className="auth-form button">
-            Sign In
+          <button
+            type="submit"
+            className="auth-form button"
+            disabled={isPending}
+          >
+            {isPending ? "Signing in..." : "Sign In"}
           </button>
         </form>
       </div>
     </div>
   );
-};
+}

@@ -1,7 +1,7 @@
 import { UsersList } from "components/users/UsersList";
 import { UserFormModal } from "components/users/UserFormModal";
 import { userModalStore } from "app/store/user/userModalStore";
-export const Home = () => {
+export default function Home() {
   //fetch all clients for the trainer
   const isOpen = userModalStore((state) => state.isOpen);
 
@@ -13,4 +13,4 @@ export const Home = () => {
       </div>
     </div>
   );
-};
+}

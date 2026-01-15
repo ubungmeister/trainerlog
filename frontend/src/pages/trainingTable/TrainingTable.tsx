@@ -15,7 +15,7 @@ import { DataLoading } from "components/ui/DataLoading";
 import { MainMenuButton } from "components/ui/button/MainMenuButton";
 import { ModalWrapper } from "components/trainingTable/modals/ModalWrapper";
 
-export const TrainingTable = () => {
+export default function TrainingTable() {
   const { clientId } = useParams();
   const setClientId = tableStore((state) => state.setClientId);
   const isSessionExerciseOpen = sessionExerciseStore((state) => state.isOpen);
@@ -67,4 +67,4 @@ export const TrainingTable = () => {
       </div>
     </div>
   );
-};
+}

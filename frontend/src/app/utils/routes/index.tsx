@@ -1,34 +1,45 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { ROUTES } from "./routes.constants";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PublicOnlyRoute from "./PublicOnlyRoutes";
-import { SignIn } from "../../../pages/auth/SignIn";
-import { Signup } from "../../../pages/auth/SignUp";
-import { Home } from "../../../pages/home";
-import ProtectedLayout from "../../../components/layouts/ProtectedLayout";
-import { TrainingTable } from "../../../pages/trainingTable/TrainingTable";
-import { Category } from "pages/category/Category";
-import { Exercise } from "pages/exercise/Exercise";
+import { PageLoader } from "components/common/PageLoader";
 
-const AppRoutes = () => {
+// Lazy load pages for code-splitting
+const SignIn = lazy(() => import("pages/auth/SignIn"));
+const Signup = lazy(() => import("pages/auth/SignUp"));
+const Home = lazy(() => import("pages/home"));
+const TrainingTable = lazy(() => import("pages/trainingTable/TrainingTable"));
+const Category = lazy(() => import("pages/category/Category"));
+const Exercise = lazy(() => import("pages/exercise/Exercise"));
+
+const ProtectedLayout = lazy(
+  () => import("components/layouts/ProtectedLayout"),
+);
+
+export default function AppRoutes() {
   return (
-    <Routes>
-      <Route element={<PublicOnlyRoute />}>
-        <Route path="/auth/signup" element={<Signup />} />
-        <Route path="/auth/signin" element={<SignIn />} />
-      </Route>
-
-      <Route element={<ProtectedRoutes />}>
-        <Route element={<ProtectedLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/client/:clientId" element={<TrainingTable />} />
-          <Route path="/categories" element={<Category />} />
-          <Route path="/exercises" element={<Exercise />} />
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        {/* Public routes - only accessible when NOT authenticated */}
+        <Route element={<PublicOnlyRoute />}>
+          <Route path={ROUTES.AUTH.SIGN_UP} element={<Signup />} />
+          <Route path={ROUTES.AUTH.SIGN_IN} element={<SignIn />} />
         </Route>
-      </Route>
 
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+        {/* Protected routes - only accessible when authenticated */}
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<ProtectedLayout />}>
+            <Route path={ROUTES.HOME} element={<Home />} />
+            <Route path={ROUTES.CLIENT} element={<TrainingTable />} />
+            <Route path={ROUTES.CATEGORIES} element={<Category />} />
+            <Route path={ROUTES.EXERCISES} element={<Exercise />} />
+          </Route>
+        </Route>
+
+        {/* Catch-all redirect */}
+        <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
+      </Routes>
+    </Suspense>
   );
-};
-
-export default AppRoutes;
+}

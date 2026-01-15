@@ -1,9 +1,14 @@
 import { Outlet, Navigate } from "react-router-dom";
+import { useAuth } from "contexts/AuthContext";
+import { PageLoader } from "components/common/PageLoader";
+import { ROUTES } from "./routes.constants";
 
-const PublicOnlyRoute = () => {
-  const isAuthenticated = localStorage.getItem("token") !== null;
+export default function PublicOnlyRoute() {
+  const { isAuthenticated, isLoading } = useAuth();
 
-  return !isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
-};
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
-export default PublicOnlyRoute;
+  return !isAuthenticated ? <Outlet /> : <Navigate to={ROUTES.HOME} replace />;
+}
