@@ -52,6 +52,21 @@
 .button-exercise {
   @apply bg-primary-bg text-white px-4 py-3 rounded-md mr-2;
 }
+.modal-form {
+  @apply fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center p-10;
+}
+.modal-container {
+  @apply flex flex-col w-full max-w-md bg-white rounded-lg shadow-lg p-4;
+}
+.modal-box {
+  @apply flex justify-between items-center mb-4;
+}
+.page-content-container {
+  @apply bg-primary-bg p-3;
+}
+.page-content-box{
+  @apply min-h-screen bg-primary-surface rounded-3xl 
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

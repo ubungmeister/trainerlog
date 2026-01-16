@@ -1,16 +1,19 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
-interface UpdateUserType {
-  id?: string | null; // Optional for POST requests
+interface SaveUserType {
+  id?: string | null;
   fullName: string;
   email: string;
   method: "PUT" | "POST";
 }
 
-export function useUpdateUser() {
+export function useSaveUser() {
   const API_URL = import.meta.env.VITE_API_URL;
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: async ({ fullName, email, method, id }: UpdateUserType) => {
+    mutationFn: async ({ fullName, email, method, id }: SaveUserType) => {
       const path =
         method === "POST" ? "/api/users/create" : `/api/users/update/${id}`;
       const response = await fetch(`${API_URL}${path}`, {
@@ -23,9 +26,20 @@ export function useUpdateUser() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch users");
+        throw new Error(
+          method === "POST" ? "Failed to create user" : "Failed to update user",
+        );
       }
       return response.json();
+    },
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success(
+        variables.method === "POST" ? "Client created!" : "Client updated!",
+      );
+    },
+    onError: (error) => {
+      toast.error(error.message || "Something went wrong");
     },
   });
 }

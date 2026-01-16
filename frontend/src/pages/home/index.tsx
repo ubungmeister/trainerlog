@@ -6,8 +6,8 @@ export default function Home() {
   const isOpen = userModalStore((state) => state.isOpen);
 
   return (
-    <div className="bg-primary-bg p-3 ">
-      <div className=" min-h-screen bg-primary-surface rounded-3xl ">
+    <div className="page-container">
+      <div className="page-content-box">
         <UsersList />
         {isOpen && <UserFormModal />}
       </div>
