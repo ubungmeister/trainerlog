@@ -85,10 +85,14 @@ public class CategoryServiceImpl implements CategoryService {
         throw new IllegalArgumentException("You do not have permission to update this category");
     }
 
-    if(!category.getName().equals(dto.getName()) && categoryRepository.existsByNameAndCreatedByTrainer_Id(dto.getName(), trainerId)) {
+    if(category.getName().equals(dto.getName())) {
+        log.info("No changes detected for category with id={}", id);
+        return CategoryResponseDto.fromEntity(category);
+    }
+
+    if(categoryRepository.existsByNameAndCreatedByTrainer_Id(dto.getName(), trainerId)) {
         log.error("Category with name={} already exists for trainerId={}", dto.getName(), trainerId);
         throw new IllegalArgumentException("Category with this name already exists for this trainer");
-    
     }
 
     category.setName(dto.getName());

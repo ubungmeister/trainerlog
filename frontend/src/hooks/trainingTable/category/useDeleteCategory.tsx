@@ -1,8 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { type Category } from "types/tableType";
 
 export function useDeleteCategory() {
   const API_URL = import.meta.env.VITE_API_URL;
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (category: Category) => {
@@ -21,6 +23,13 @@ export function useDeleteCategory() {
         throw new Error("Failed to delete category");
       }
       return { success: true };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allCategories"] });
+      toast.success("Category deleted!");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to delete category");
     },
   });
 }

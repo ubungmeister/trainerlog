@@ -8,8 +8,8 @@ export interface Exercise {
 }
 
 export interface Category {
-  id: string | null;
-  name: string | null;
+  id: string;
+  name: string;
 }
 
 export interface ClientExercise {
