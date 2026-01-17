@@ -1,4 +1,5 @@
 import { categoryModalStore } from "app/store/category/useCategoryStore";
+import { useState } from "react";
 import { Label } from "components/ui/Label";
 import { FormInput } from "components/ui/FormInput";
 import { SaveButton } from "components/ui/button/SaveButton";
@@ -6,10 +7,8 @@ import { CloseButton } from "components/ui/button/CloseButton";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useUpdateCategory } from "hooks/trainingTable/category/useUpdateCategory";
 import { useDeleteCategory } from "hooks/trainingTable/category/useDeleteCategory";
-import { useCreateCategory } from "hooks/trainingTable/category/useCreateCategory";
-import { useQueryClient } from "@tanstack/react-query";
+import { useSaveCategory } from "hooks/trainingTable/category/useSaveCategory";
 
 const schema = z.object({
   name: z.string().min(2).max(100),
@@ -21,16 +20,15 @@ export const CategoryFormModal = () => {
   const category = categoryModalStore((state) => state.category);
   const categories = categoryModalStore((state) => state.categories);
   const closeModal = categoryModalStore((state) => state.closeModal);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  const { mutate: createCategory } = useCreateCategory();
-  const { mutate: updateCategory } = useUpdateCategory();
-  const { mutate: deleteCategory } = useDeleteCategory();
-
-  const queryClient = useQueryClient();
+  const { mutate: saveCategory, isPending: isSaving } = useSaveCategory();
+  const { mutate: deleteCategory, isPending: isDeleting } = useDeleteCategory();
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
@@ -39,58 +37,31 @@ export const CategoryFormModal = () => {
     },
   });
 
-  const onSubmit = (data: FormSchemaType) => {
-    const name = data.name;
-    const id = category ? category.id : null;
+  const name = watch("name");
 
+  const hasChanges = category ? name.trim() !== category.name.trim() : true;
+
+  const canSave = hasChanges && !isSaving && !isDeleting;
+
+  const onSubmit = (data: FormSchemaType) => {
+    const id = category ? category.id : null;
     const isValidId = categories.some((cat) => cat.id === id);
-    if (!id) {
-      createCategory(
-        { name, id },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["allCategories"] });
-            closeModal();
-          },
-          onError: (error) => {
-            console.error("Error creating category:", error);
-          },
-        },
-      );
-    }
-    if (isValidId) {
-      updateCategory(
-        { name, id },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["allCategories"] });
-            closeModal();
-          },
-          onError: (error) => {
-            console.error("Error updating category:", error);
-          },
-        },
-      );
-    }
+
+    saveCategory(
+      {
+        id: id,
+        name: data.name,
+        method: isValidId ? "PUT" : "POST",
+      },
+      { onSuccess: closeModal },
+    );
   };
 
   const onDelete = () => {
     if (!category) return;
-
-    const id = category ? category.id : null;
-    const name = category ? category.name : "";
-
     deleteCategory(
-      { id, name },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["allCategories"] });
-          closeModal();
-        },
-        onError: (error) => {
-          console.error("Error deleting category:", error);
-        },
-      },
+      { id: category.id, name: category.name },
+      { onSuccess: closeModal },
     );
   };
 
@@ -113,16 +84,41 @@ export const CategoryFormModal = () => {
               error={errors.name?.message}
             />
           </div>
-          <div className="flex items-center justify-center">
-            <SaveButton />
-            {category && (
+          <div className="flex items-center justify-center gap-2">
+            {!showDeleteConfirm && (
+              <SaveButton disabled={isSaving || isDeleting || !canSave}>
+                {isSaving ? "Saving..." : "Save"}
+              </SaveButton>
+            )}
+            {category && !showDeleteConfirm && (
               <button
                 type="button"
-                onClick={onDelete}
-                className="bg-red-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-red-600 ml-2"
+                onClick={() => setShowDeleteConfirm(true)}
+                disabled={isSaving || isDeleting}
+                className="bg-red-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-red-600 disabled:opacity-50"
               >
                 Delete
               </button>
+            )}
+            {showDeleteConfirm && (
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={onDelete}
+                  disabled={isDeleting}
+                  className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 disabled:opacity-50"
+                >
+                  {isDeleting ? "Deleting..." : "Confirm"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  disabled={isDeleting}
+                  className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+              </div>
             )}
           </div>
         </form>

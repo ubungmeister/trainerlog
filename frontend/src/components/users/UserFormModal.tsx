@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userModalStore } from "app/store/user/userModalStore";
-import { useSaveUser } from "hooks/users/useUpdateUser";
+import { useSaveUser } from "hooks/users/useSaveUser";
 import { useDeleteUser } from "hooks/users/useDeleteUser";
 import { Label } from "components/ui/Label";
 import { FormInput } from "components/ui/FormInput";

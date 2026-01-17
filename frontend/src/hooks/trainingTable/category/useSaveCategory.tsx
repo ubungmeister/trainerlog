@@ -1,41 +1,45 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-interface SaveUserType {
+interface SaveCategoryType {
   id?: string | null;
-  fullName: string;
-  email: string;
+  name: string;
   method: "PUT" | "POST";
 }
-
-export function useSaveUser() {
+export function useSaveCategory() {
   const API_URL = import.meta.env.VITE_API_URL;
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ fullName, email, method, id }: SaveUserType) => {
+    mutationFn: async ({ id, name, method }: SaveCategoryType) => {
       const path =
-        method === "POST" ? "/api/users/create" : `/api/users/update/${id}`;
+        method === "POST"
+          ? "/api/categories/create"
+          : `/api/categories/update/${id}`;
       const response = await fetch(`${API_URL}${path}`, {
         method: method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({ fullName, email }),
+        body: JSON.stringify({ id, name }),
       });
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
         throw new Error(
-          method === "POST" ? "Failed to create user" : "Failed to update user",
+          errorData.message ||
+            (method === "POST"
+              ? "Failed to create category"
+              : "Failed to update category"),
         );
       }
       return response.json();
     },
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["allCategories"] });
       toast.success(
-        variables.method === "POST" ? "Client created!" : "Client updated!",
+        variables.method === "POST" ? "Category created!" : "Category updated!",
       );
     },
     onError: (error) => {
