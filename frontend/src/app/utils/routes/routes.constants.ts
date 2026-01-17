@@ -14,6 +14,5 @@ export const ROUTES = {
   // Main app routes
   HOME: "/",
   CLIENT: "/client/:clientId",
-  CATEGORIES: "/categories",
-  EXERCISES: "/exercises",
+  EXERCISE_LIBRARY: "/exercise-library",
 } as const;
