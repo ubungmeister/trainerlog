@@ -5,7 +5,6 @@ import {
   SheetTitle,
 } from "components/ui/sheet";
 import plan from "assets/plan.png";
-import categories from "assets/categories.png";
 import exercises from "assets/exercises.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
@@ -49,31 +48,17 @@ export const MobileDrawerMenu = ({
           </Link>
           <Link
             onClick={onMenuToggle}
-            to="/exercises"
+            to="/exercise-library"
             className="text-lg  flex flex-row gap-4"
           >
             <div className="w-12">
               <img
                 src={exercises}
-                alt="Exercises"
+                alt="Exercise Library"
                 className="w-10 h-10 inline-block mr-2"
               />
             </div>
-            Exercises
-          </Link>
-          <Link
-            onClick={onMenuToggle}
-            to="/categories"
-            className="text-lg  flex flex-row gap-4"
-          >
-            <div className="w-12">
-              <img
-                src={categories}
-                alt="Categories"
-                className="w-10 h-10 inline-block mr-2"
-              />
-            </div>
-            Categories
+            Exercise Library
           </Link>
           <div className="justify-center items-center flex mt-5">
             <button

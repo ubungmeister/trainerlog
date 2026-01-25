@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 import { tableStore } from "app/store/trainingTable/tableStore";
-import { useUpdateExercise } from "hooks/trainingTable/exercises/useUpdateExercise";
+import { useSaveExercise } from "hooks/trainingTable/exercises/useSaveExercise";
 import { useDeleteClientExercise } from "hooks/trainingTable/clientExercise/useDeleteClientExercise";
 import { useCreateClientExercise } from "hooks/trainingTable/clientExercise/useCreateClientExercise";
 import { useUpdateClientExercise } from "hooks/trainingTable/clientExercise/useUpdateClientExercise";
@@ -24,7 +24,7 @@ export const useClientExerciseForm = ({ closeModal }: FormPropsType) => {
   const clientExercise = clientExerciseStore((state) => state.clientExercise);
   const exercises = clientExerciseStore((state) => state.exercises);
   const clientId = tableStore((state) => state.clientId);
-  const { mutate: updateExerciseName } = useUpdateExercise();
+  const { mutate: updateExerciseName } = useSaveExercise();
   const { mutate: deleteClientExercise } = useDeleteClientExercise();
   const { mutate: createClientExercise } = useCreateClientExercise();
   const { mutate: updateClientExercise } = useUpdateClientExercise();
