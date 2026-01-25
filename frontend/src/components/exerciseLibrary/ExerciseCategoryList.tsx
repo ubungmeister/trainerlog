@@ -69,48 +69,47 @@ export const ExerciseCategoryList = () => {
   }
 
   return (
-    <div className="bg-white max-h-min min-w-[80%] md:min-w-[400px] p-4 rounded-3xl">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-row items-center justify-between mt-2 px-2">
-          <h2 className="text-3xl font-bold text-primary-text mb-3">
-            Exercises Library
-          </h2>
-          <button
-            onClick={() => openExerciseModal()}
-            className="bg-primary-bg hover:bg-secondary focus:outline-2 focus:bg-secondary text-white px-4 py-2 rounded-3xl"
-          >
-            Add Exercise
-          </button>
-        </div>
-        <div className="px-2 flex flex-row justify-start mb-2">
-          <StateFilter
-            filterState={filterState}
-            setFilterState={setFilterState}
-          />
-        </div>
-        <div className="border-2 border-primary-button rounded-3xl overflow-hidden">
-          {groupedExercises.length > 0 ? (
-            groupedExercises.map((group) => (
-              <CategorySection
-                key={group.categoryId ?? "uncategorized"}
-                group={group}
-                onEditCategory={handleEditCategory}
-              />
-            ))
-          ) : (
-            <div className="p-4 text-center text-gray-500">
-              No exercises found
-            </div>
-          )}
-        </div>
-        <div className="px-2">
-          <button
-            onClick={() => openCategoryModal()}
-            className="text-primary-bg hover:text-secondary font-medium"
-          >
-            + Add Category
-          </button>
-        </div>
+    <div className="p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-bold text-gray-900">Exercises Library</h1>
+        <button
+          onClick={() => openExerciseModal()}
+          className="flex items-center gap-2 bg-primary-bg hover:bg-primary-bg/90 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors"
+        >
+          Add Exercise
+        </button>
+      </div>
+
+      <div className="mb-4">
+        <StateFilter
+          filterState={filterState}
+          setFilterState={setFilterState}
+        />
+      </div>
+
+      <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+        {groupedExercises.length > 0 ? (
+          groupedExercises.map((group) => (
+            <CategorySection
+              key={group.categoryId ?? "uncategorized"}
+              group={group}
+              onEditCategory={handleEditCategory}
+            />
+          ))
+        ) : (
+          <div className="p-6 text-center text-gray-500">
+            No exercises found
+          </div>
+        )}
+      </div>
+
+      <div className="mt-4">
+        <button
+          onClick={() => openCategoryModal()}
+          className="text-primary-bg hover:text-primary-bg/80 font-medium transition-colors"
+        >
+          + Add Category
+        </button>
       </div>
     </div>
   );

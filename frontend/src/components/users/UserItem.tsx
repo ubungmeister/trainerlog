@@ -1,7 +1,8 @@
 import type { UserType } from "types/userType";
 import Avatar from "boring-avatars";
 import { userModalStore } from "app/store/user/userModalStore";
-import { Link } from "react-router-dom";
+import { Pencil } from "lucide-react";
+
 const avatarNames = [
   "Sally Ride",
   "Henrietta Swan",
@@ -15,27 +16,26 @@ export const UserItem = ({ user }: { user: UserType }) => {
   const openModal = userModalStore((state) => state.openModal);
 
   return (
-    <div className="flex flex-row items-center justify-between gap-2 p-4 border-b-1 border-primary-button last:border-b-0">
-      <Link
-        to={`/client/${user.id}`}
-        className="flex flex-row items-center gap-2 w-[200px]"
-      >
+    <div className="flex items-center justify-between p-4 border-b border-gray-100 last:border-b-0">
+      <div className="flex items-center gap-3">
         <Avatar
-          size={40}
+          size={44}
           name={avatarNames[Math.floor(Math.random() * avatarNames.length)]}
           colors={["#0a0310", "#49007e", "#ff005b", "#ff7d10", "#ffb238"]}
           variant="beam"
         />
-        <h3>{user.fullName}</h3>
-      </Link>
-      <div className=" ">
-        <button
-          onClick={() => openModal(user)}
-          className="bg-primary-bg hover:bg-secondary focus:outline-2 focus:bg-secondary text-white px-4 py-2 rounded-3xl"
-        >
-          Edit
-        </button>
+        <div>
+          <h3 className="font-medium text-gray-900">{user.fullName}</h3>
+          <p className="text-sm text-gray-500">Client</p>
+        </div>
       </div>
+      <button
+        onClick={() => openModal(user)}
+        className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors"
+        aria-label="Edit client"
+      >
+        <Pencil size={18} className="text-gray-500" />
+      </button>
     </div>
   );
 };

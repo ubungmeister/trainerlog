@@ -45,26 +45,24 @@ export default function TrainingTable() {
   }
 
   return (
-    <div className="page-container ">
-      <div className="page-content-box">
-        {clientId && <Table clientId={clientId} />}
+    <div className="page-content-box">
+      {clientId && <Table clientId={clientId} />}
 
-        <ModalWrapper isOpen={isSessionExerciseOpen}>
-          <SessionExerciseModal />
-        </ModalWrapper>
+      <ModalWrapper isOpen={isSessionExerciseOpen}>
+        <SessionExerciseModal />
+      </ModalWrapper>
 
-        <ModalWrapper isOpen={isTrainingSessionOpen}>
-          <TrainingSessionModal />
-        </ModalWrapper>
+      <ModalWrapper isOpen={isTrainingSessionOpen}>
+        <TrainingSessionModal />
+      </ModalWrapper>
 
-        <ModalWrapper isOpen={isClientExerciseOpen}>
-          <ClientExerciseModal />
-        </ModalWrapper>
+      <ModalWrapper isOpen={isClientExerciseOpen}>
+        <ClientExerciseModal />
+      </ModalWrapper>
 
-        <ModalWrapper isOpen={isSettingsOpen}>
-          <SettingsModal />
-        </ModalWrapper>
-      </div>
+      <ModalWrapper isOpen={isSettingsOpen}>
+        <SettingsModal />
+      </ModalWrapper>
     </div>
   );
 }
