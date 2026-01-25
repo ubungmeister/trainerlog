@@ -1,4 +1,5 @@
 import { categoryModalStore } from "app/store/category/useCategoryStore";
+import { exerciseModalStore } from "app/store/exercise/useExerciseStore";
 import { useState } from "react";
 import { Label } from "components/ui/Label";
 import { FormInput } from "components/ui/FormInput";
@@ -9,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useDeleteCategory } from "hooks/trainingTable/category/useDeleteCategory";
 import { useSaveCategory } from "hooks/trainingTable/category/useSaveCategory";
+import { toast } from "react-toastify";
 
 const schema = z.object({
   name: z.string().min(2).max(100),
@@ -19,7 +21,9 @@ type FormSchemaType = z.infer<typeof schema>;
 export const CategoryFormModal = () => {
   const category = categoryModalStore((state) => state.category);
   const categories = categoryModalStore((state) => state.categories);
+  const exercises = exerciseModalStore((state) => state.exercises);
   const closeModal = categoryModalStore((state) => state.closeModal);
+
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const { mutate: saveCategory, isPending: isSaving } = useSaveCategory();
@@ -59,6 +63,16 @@ export const CategoryFormModal = () => {
 
   const onDelete = () => {
     if (!category) return;
+    // Check if any exercises are using this category
+    const isCategoryInUse = exercises.some(
+      (exercise) => exercise.categoryId === category.id,
+    );
+    if (isCategoryInUse) {
+      toast.error(
+        "Cannot delete category. It is assigned to one or more exercises.",
+      );
+      return;
+    }
     deleteCategory(
       { id: category.id, name: category.name },
       { onSuccess: closeModal },
