@@ -1,4 +1,5 @@
 package com.trainerlog.service.session_exercise;
+import com.trainerlog.dto.session_exercise.AddExerciseEntryRequestDto;
 import com.trainerlog.dto.session_exercise.SessionExerciseRequestDto;
 import com.trainerlog.dto.session_exercise.SessionExerciseResponseDto;
 import java.util.UUID;
@@ -11,8 +12,6 @@ public interface SessionExerciseService {
     public void deleteSessionExercise(UUID id, UUID trainerId);
     public SessionExerciseResponseDto getSessionExerciseById(UUID id, UUID trainerId);
     public List<SessionExerciseResponseDto> getAllSessionExercises(UUID clientId, UUID trainerId);
-   
-  
+    public SessionExerciseResponseDto addExerciseEntry(AddExerciseEntryRequestDto addExerciseEntryRequestDto, UUID trainerId);
 
-    
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import com.trainerlog.dto.session_exercise.SessionExerciseResponseDto;
+import com.trainerlog.dto.session_exercise.AddExerciseEntryRequestDto;
 import com.trainerlog.service.session_exercise.SessionExerciseService;
 import com.trainerlog.dto.session_exercise.SessionExerciseRequestDto;
 import com.trainerlog.util.SecurityUtil;
@@ -52,6 +53,12 @@ public class SessionExerciseController {
     public List<SessionExerciseResponseDto> getAllSessionExercises(@RequestParam UUID clientId) {
         UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
         return sessionExerciseService.getAllSessionExercises(clientId, trainerId);
+    }
+
+    @PostMapping("/add-entry")
+    public SessionExerciseResponseDto addExerciseEntry(@RequestBody AddExerciseEntryRequestDto addExerciseEntryRequestDto) {
+        UUID trainerId = SecurityUtil.getAuthorizedTrainerId();
+        return sessionExerciseService.addExerciseEntry(addExerciseEntryRequestDto, trainerId);
     }
     
 }
