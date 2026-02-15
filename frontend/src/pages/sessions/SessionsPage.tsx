@@ -38,7 +38,7 @@ export default function Sessions() {
             users.map((user: UserType) => (
               <Link
                 key={user.id}
-                to={`/client/${user.id}`}
+                to={`/sessions/${user.id}`}
                 className="flex items-center justify-between p-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 active:bg-gray-100 transition-colors"
               >
                 <div className="flex items-center gap-3">

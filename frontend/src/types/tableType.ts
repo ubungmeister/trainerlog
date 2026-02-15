@@ -32,6 +32,7 @@ export interface SessionExercise {
   id?: string;
   trainingSessionId: string;
   exerciseId: string;
+  exerciseName?: string;
   repetitions: number;
   sets: number;
   weight: number;

@@ -238,10 +238,19 @@ public class SessionExerciseServiceImpl implements SessionExerciseService {
 
         Exercise exercise = getExerciseById(dto.getExerciseId());
 
-        // Check if exercise is in the client's exercise list
+        // If exercise is not yet in the client's list, auto-link shared exercises
         if (!clientExerciseRepository.existsByClient_IdAndExercise_Id(client.getId(), exercise.getId())) {
-            log.error("Exercise with id={} is not in the client's exercise list", exercise.getId());
-            throw new RuntimeException("Exercise not found in client's exercise list");
+            if (exercise.isSharedExercise()) {
+                log.info("Auto-linking shared exercise id={} to client id={}", exercise.getId(), client.getId());
+                com.trainerlog.model.ClientExercise link = com.trainerlog.model.ClientExercise.builder()
+                        .client(client)
+                        .exercise(exercise)
+                        .build();
+                clientExerciseRepository.save(link);
+            } else {
+                log.error("Exercise with id={} is not in the client's exercise list", exercise.getId());
+                throw new RuntimeException("Exercise not found in client's exercise list");
+            }
         }
 
         // Check for duplicate session exercise

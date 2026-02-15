@@ -14,6 +14,7 @@ const ExerciseLibrary = lazy(
   () => import("pages/exerciseLibrary/ExerciseLibrary"),
 );
 const Sessions = lazy(() => import("pages/sessions/SessionsPage"));
+const ClientSessions = lazy(() => import("pages/sessions/ClientSessionsPage"));
 
 const ProtectedLayout = lazy(
   () => import("components/layouts/ProtectedLayout"),
@@ -34,6 +35,7 @@ export default function AppRoutes() {
           <Route element={<ProtectedLayout />}>
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.SESSIONS} element={<Sessions />} />
+            <Route path={ROUTES.CLIENT_SESSIONS} element={<ClientSessions />} />
             <Route path={ROUTES.CLIENT} element={<TrainingTable />} />
             <Route
               path={ROUTES.EXERCISE_LIBRARY}
