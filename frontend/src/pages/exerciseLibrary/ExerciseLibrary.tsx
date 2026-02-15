@@ -9,12 +9,10 @@ export default function Exercise() {
   const isCategoryModalOpen = categoryModalStore((state) => state.isOpen);
 
   return (
-    <div className="page-container">
-      <div className="page-content-box">
-        <ExerciseCategoryList />
-        {isExerciseModalOpen && <ExerciseFormModal />}
-        {isCategoryModalOpen && <CategoryFormModal />}
-      </div>
+    <div className="page-content-box">
+      <ExerciseCategoryList />
+      {isExerciseModalOpen && <ExerciseFormModal />}
+      {isCategoryModalOpen && <CategoryFormModal />}
     </div>
   );
 }

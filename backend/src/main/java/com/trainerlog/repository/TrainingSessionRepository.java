@@ -10,6 +10,7 @@ import com.trainerlog.model.TrainingSession;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
 @Repository
 public interface TrainingSessionRepository extends JpaRepository<TrainingSession, UUID>{
@@ -20,5 +21,7 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
         UUID clientId, LocalDate start, LocalDate end);
 
     boolean existsByClient_IdAndDate(UUID clientId, LocalDate date);
+
+    Optional<TrainingSession> findByClient_IdAndDate(UUID clientId, LocalDate date);
     
 }

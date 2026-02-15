@@ -64,8 +64,8 @@
 .page-content-container {
   @apply bg-primary-bg p-3;
 }
-.page-content-box{
-  @apply min-h-screen bg-primary-surface rounded-3xl 
+.page-content-box {
+  @apply min-h-screen bg-gray-100;
 }
 
 @theme inline {
@@ -182,4 +182,30 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Safe area support for mobile devices with notches */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
 }

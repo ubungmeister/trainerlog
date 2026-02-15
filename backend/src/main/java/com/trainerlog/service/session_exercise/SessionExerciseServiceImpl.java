@@ -1,4 +1,5 @@
 package com.trainerlog.service.session_exercise;
+import com.trainerlog.dto.session_exercise.AddExerciseEntryRequestDto;
 import com.trainerlog.dto.session_exercise.SessionExerciseRequestDto;
 import com.trainerlog.dto.session_exercise.SessionExerciseResponseDto;
 import com.trainerlog.model.Exercise;
@@ -17,6 +18,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -200,6 +202,75 @@ public class SessionExerciseServiceImpl implements SessionExerciseService {
         return  sessionExercises.stream()
                 .map(SessionExerciseResponseDto::fromEntity)
                 .toList();
+    }
+
+    /**
+     * Adds an exercise entry for a client on a specific date.
+     * If a training session for that date does not exist, it creates one first.
+     * Then adds the session exercise to that session.
+     *
+     * @param dto the request DTO containing client, date, exercise, and performance details
+     * @param trainerId the ID of the trainer performing the action
+     * @return SessionExerciseResponseDto containing the created session exercise
+     */
+    @Override
+    @Transactional
+    public SessionExerciseResponseDto addExerciseEntry(AddExerciseEntryRequestDto dto, UUID trainerId) {
+
+        User client = userRepository.findById(dto.getClientId())
+                .orElseThrow(() -> {
+                    log.error("Client with id={} not found", dto.getClientId());
+                    return new RuntimeException("Client not found");
+                });
+
+        checkTrainerAuthorization(trainerId, client);
+
+        TrainingSession session = trainingSessionRepository
+                .findByClient_IdAndDate(dto.getClientId(), dto.getDate())
+                .orElseGet(() -> {
+                    log.info("No session found for client={} on date={}, creating new one", dto.getClientId(), dto.getDate());
+                    TrainingSession newSession = TrainingSession.builder()
+                            .date(dto.getDate())
+                            .client(client)
+                            .build();
+                    return trainingSessionRepository.save(newSession);
+                });
+
+        Exercise exercise = getExerciseById(dto.getExerciseId());
+
+        // If exercise is not yet in the client's list, auto-link shared exercises
+        if (!clientExerciseRepository.existsByClient_IdAndExercise_Id(client.getId(), exercise.getId())) {
+            if (exercise.isSharedExercise()) {
+                log.info("Auto-linking shared exercise id={} to client id={}", exercise.getId(), client.getId());
+                com.trainerlog.model.ClientExercise link = com.trainerlog.model.ClientExercise.builder()
+                        .client(client)
+                        .exercise(exercise)
+                        .build();
+                clientExerciseRepository.save(link);
+            } else {
+                log.error("Exercise with id={} is not in the client's exercise list", exercise.getId());
+                throw new RuntimeException("Exercise not found in client's exercise list");
+            }
+        }
+
+        // Check for duplicate session exercise
+        if (sessionExerciseRepository.existsByTrainingSession_IdAndExercise_Id(session.getId(), exercise.getId())) {
+            log.error("Session exercise already exists for session={} and exercise={}", session.getId(), exercise.getId());
+            throw new RuntimeException("Session exercise already exists for this training session and exercise");
+        }
+
+        SessionExercise sessionExercise = SessionExercise.builder()
+                .trainingSession(session)
+                .exercise(exercise)
+                .sets(dto.getSets())
+                .repetitions(dto.getRepetitions())
+                .weight(dto.getWeight())
+                .build();
+
+        SessionExercise saved = sessionExerciseRepository.save(sessionExercise);
+        log.info("Exercise entry added: sessionExercise={} for session={} on date={}", saved.getId(), session.getId(), dto.getDate());
+
+        return SessionExerciseResponseDto.fromEntity(saved);
     }
     
 }

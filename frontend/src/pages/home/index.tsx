@@ -6,11 +6,9 @@ export default function Home() {
   const isOpen = userModalStore((state) => state.isOpen);
 
   return (
-    <div className="page-container">
-      <div className="page-content-box">
-        <UsersList />
-        {isOpen && <UserFormModal />}
-      </div>
+    <div className="page-content-box">
+      <UsersList />
+      {isOpen && <UserFormModal />}
     </div>
   );
 }

@@ -13,6 +13,8 @@ export const ROUTES = {
 
   // Main app routes
   HOME: "/",
+  SESSIONS: "/sessions",
+  CLIENT_SESSIONS: "/sessions/:clientId",
   CLIENT: "/client/:clientId",
   EXERCISE_LIBRARY: "/exercise-library",
 } as const;
