@@ -1,4 +1,4 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "components/ui";
 import plan from "assets/plan.png";
 import exercises from "assets/exercises.png";
 import { Link, useNavigate } from "react-router-dom";

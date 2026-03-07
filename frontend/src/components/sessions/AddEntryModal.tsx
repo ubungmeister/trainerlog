@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { X, Check, ChevronDown } from "lucide-react";
 import type { ClientExercise, Exercise } from "types/tableType";
-import { useAddExerciseEntry } from "hooks/trainingTable/sessionExercise/useAddExerciseEntry";
+import { useAddExerciseEntry } from "hooks/trainingTable";
 
 const addEntrySchema = z.object({
   date: z.string().min(1, "Date is required"),

@@ -1,20 +1,19 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
 import { Controller, useForm } from "react-hook-form";
-import { Label } from "components/ui/Label";
-import { SaveButton } from "components/ui/button/SaveButton";
-import { DeleteButton } from "components/ui/button/DeleteButton";
-import { CloseButton } from "components/ui/button/CloseButton";
+import { Label, SaveButton, DeleteButton, CloseButton } from "components/ui";
 import React from "react";
 import DatePicker from "react-datepicker";
-import { useUpdateTrainingSession } from "hooks/trainingTable/trainingSession/useUpdateTrainingSession";
-import { useCreateTrainingSession } from "hooks/trainingTable/trainingSession/useCreateTrainingSession";
+import {
+  useUpdateTrainingSession,
+  useCreateTrainingSession,
+  useDeleteTrainingSession,
+} from "hooks/trainingTable";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "react-toastify";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { useDeleteTrainingSession } from "hooks/trainingTable/trainingSession/useDeleteTrainingSession";
 
 type ErrorType = {
   message: string;

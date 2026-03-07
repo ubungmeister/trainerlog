@@ -5,7 +5,7 @@ import {
   type ClientExercise,
   type Category,
 } from "types/tableType";
-import { type SessionExerciseTableType } from "components/trainingTable/Table";
+import { type SessionExerciseTableType } from "components/trainingTable";
 import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 import { useMemo } from "react";

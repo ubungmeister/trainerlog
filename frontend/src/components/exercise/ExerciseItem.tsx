@@ -1,5 +1,5 @@
 import type { Exercise } from "types/tableType";
-import { exerciseModalStore } from "app/store/exercise/useExerciseStore";
+import { exerciseModalStore } from "app/store/exercise";
 type ExerciseItemProps = {
   exercise: Exercise;
 };

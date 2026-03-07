@@ -1,15 +1,11 @@
-import { categoryModalStore } from "app/store/category/useCategoryStore";
-import { exerciseModalStore } from "app/store/exercise/useExerciseStore";
+import { categoryModalStore } from "app/store/category";
+import { exerciseModalStore } from "app/store/exercise";
 import { useState } from "react";
-import { Label } from "components/ui/Label";
-import { FormInput } from "components/ui/FormInput";
-import { SaveButton } from "components/ui/button/SaveButton";
-import { CloseButton } from "components/ui/button/CloseButton";
+import { Label, FormInput, SaveButton, CloseButton } from "components/ui";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useDeleteCategory } from "hooks/trainingTable/category/useDeleteCategory";
-import { useSaveCategory } from "hooks/trainingTable/category/useSaveCategory";
+import { useDeleteCategory, useSaveCategory } from "hooks/trainingTable";
 import { toast } from "react-toastify";
 
 const schema = z.object({

@@ -6,13 +6,15 @@ import PublicOnlyRoute from "./PublicOnlyRoutes";
 import { PageLoader } from "components/common/PageLoader";
 
 // Lazy load pages for code-splitting
-const SignIn = lazy(() => import("pages/auth/SignIn"));
-const Signup = lazy(() => import("pages/auth/SignUp"));
-const Home = lazy(() => import("pages/home"));
-const TrainingTable = lazy(() => import("pages/trainingTable/TrainingTable"));
-const ExerciseLibrary = lazy(() => import("pages/exerciseLibrary/ExerciseLibrary"));
-const Sessions = lazy(() => import("pages/sessions/SessionsPage"));
-const ClientSessions = lazy(() => import("pages/sessions/ClientSessionsPage"));
+const SignIn = lazy(() => import("pages/auth").then((m) => ({ default: m.SignIn })));
+const Signup = lazy(() => import("pages/auth").then((m) => ({ default: m.SignUp })));
+const Home = lazy(() => import("pages/users"));
+const TrainingTable = lazy(() => import("pages/trainingTable"));
+const ExerciseLibrary = lazy(() => import("pages/exerciseLibrary"));
+const Sessions = lazy(() => import("pages/sessions").then((m) => ({ default: m.SessionsPage })));
+const ClientSessions = lazy(() =>
+  import("pages/sessions").then((m) => ({ default: m.ClientSessionsPage })),
+);
 
 const ProtectedLayout = lazy(() => import("components/layouts/ProtectedLayout"));
 

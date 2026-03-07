@@ -1,17 +1,15 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { CloseButton } from "components/ui/button/CloseButton";
+import { CloseButton, Label, SaveButton, DeleteButton, FormInput } from "components/ui";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
-import { useUpdateSessionExercise } from "hooks/trainingTable/sessionExercise/useUpdateSessionExercise";
-import { useCreateSessionExercise } from "hooks/trainingTable/sessionExercise/useCreateSessionExercise";
-import { useDeleteSessionExercise } from "hooks/trainingTable/sessionExercise/useDeleteSessionExercise";
-import { Label } from "components/ui/Label";
-import { SaveButton } from "components/ui/button/SaveButton";
-import { DeleteButton } from "components/ui/button/DeleteButton";
-import { FormInput } from "components/ui/FormInput";
+import {
+  useUpdateSessionExercise,
+  useCreateSessionExercise,
+  useDeleteSessionExercise,
+} from "hooks/trainingTable";
 import { toast } from "react-toastify";
 
 const schema = z.object({

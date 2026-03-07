@@ -1,4 +1,4 @@
-import { Label } from "components/ui/Label";
+import { Label } from "components/ui";
 import type { Category } from "types/tableType";
 import type { FieldErrors, UseFormRegister, FieldValues, Path } from "react-hook-form";
 

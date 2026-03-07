@@ -1,14 +1,10 @@
-import { CloseButton } from "components/ui/button/CloseButton";
-import { SaveButton } from "components/ui/button/SaveButton";
-import { DeleteButton } from "components/ui/button/DeleteButton";
-import { FormInput } from "components/ui/FormInput";
-import { Label } from "components/ui/Label";
+import { CloseButton, SaveButton, DeleteButton, FormInput, Label } from "components/ui";
 import { useState } from "react";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useGetAllExercises } from "hooks/trainingTable/exercises/useGetAllExercises";
+import { useGetAllExercises } from "hooks/trainingTable";
 const schema = z
   .object({
     exerciseName: z.string().trim().optional(),

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Plus } from "lucide-react";
-import { formatDate } from "utils/formatDate";
+import { formatDate } from "utils";
 import type { Session, SessionExercise } from "types/tableType";
 import { SessionCard } from "./SessionCard";
 

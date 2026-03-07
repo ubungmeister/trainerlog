@@ -1,19 +1,20 @@
 import { useParams } from "react-router-dom";
-import { Table } from "components/trainingTable/Table";
+import {
+  Table,
+  SessionExerciseModal,
+  TrainingSessionModal,
+  ClientExerciseModal,
+  SettingsModal,
+  ModalWrapper,
+} from "components/trainingTable";
 import { sessionExerciseStore } from "app/store/trainingTable/sessionExerciseStore";
-import { SessionExerciseModal } from "components/trainingTable/modals/SessionExerciseModal";
 import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
-import { TrainingSessionModal } from "components/trainingTable/modals/TrainingSessionModal";
 import { tableStore } from "app/store/trainingTable/tableStore";
 import { useEffect } from "react";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
-import { ClientExerciseModal } from "components/trainingTable/modals/clientExercise/ClientExerciseModal";
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
-import { SettingsModal } from "components/trainingTable/modals/SettingsModal";
-import { useTrainingTableData } from "hooks/trainingTable/useTrainingTableData";
-import { DataLoading } from "components/ui/DataLoading";
-import { MainMenuButton } from "components/ui/button/MainMenuButton";
-import { ModalWrapper } from "components/trainingTable/modals/ModalWrapper";
+import { useTrainingTableData } from "hooks/trainingTable";
+import { DataLoading, MainMenuButton } from "components/ui";
 
 export default function TrainingTable() {
   const { clientId } = useParams();

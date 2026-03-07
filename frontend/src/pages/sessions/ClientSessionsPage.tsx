@@ -1,13 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { useTrainingTableData } from "hooks/trainingTable/useTrainingTableData";
-import { useGetSingleUser } from "hooks/users/useGetSingleUser";
-import { DataLoading } from "components/ui/DataLoading";
-import { ExerciseHistoryList } from "components/sessions/exerciseHistory/ExerciseHistoryList";
-import { SessionList } from "components/sessions/sessionList/SessionList";
-import { AddEntryModal } from "components/sessions/AddEntryModal";
-import { TabToggle } from "components/ui/TabToggle";
+import { useTrainingTableData } from "hooks/trainingTable";
+import { useGetSingleUser } from "hooks/users";
+import { DataLoading } from "components/ui";
+import { ExerciseHistoryList, SessionList, AddEntryModal } from "components/sessions";
+import { TabToggle } from "components/ui";
 
 type TabType = "exercises" | "sessions";
 

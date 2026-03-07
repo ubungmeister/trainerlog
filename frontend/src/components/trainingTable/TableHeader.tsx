@@ -1,5 +1,5 @@
 import { type Session } from "types/tableType";
-import { formatDate } from "utils/formatDate";
+import { formatDate } from "utils";
 import { trainingSessionStore } from "app/store/trainingTable/trainingSessionStore";
 import { tableStore } from "app/store/trainingTable/tableStore";
 type TableHeaderProps = {

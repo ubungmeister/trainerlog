@@ -1,13 +1,11 @@
-import { useGetAllExercises } from "hooks/trainingTable/exercises/useGetAllExercises";
-import { DataLoading } from "components/ui/DataLoading";
-import { exerciseModalStore } from "app/store/exercise/useExerciseStore";
+import { useGetAllExercises, useGetAllCategories } from "hooks/trainingTable";
+import { DataLoading, StateFilter } from "components/ui";
+import { exerciseModalStore } from "app/store/exercise";
 import { useEffect, useMemo } from "react";
 import type { Category, Exercise } from "types/tableType";
-import { StateFilter } from "components/ui/StateFilter";
-import { useGetAllCategories } from "hooks/trainingTable/category/useGetAllCategories";
-import { categoryModalStore } from "app/store/category/useCategoryStore";
-import { groupExercisesByCategory } from "utils/groupExercisesByCategory";
-import { CategorySection } from "../category/CategorySection";
+import { categoryModalStore } from "app/store/category";
+import { groupExercisesByCategory } from "utils";
+import { CategorySection } from "components/category";
 
 export const ExerciseCategoryList = () => {
   const { data: categories, isLoading: isCategoryLoading } = useGetAllCategories();

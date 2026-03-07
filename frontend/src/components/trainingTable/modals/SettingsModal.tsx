@@ -1,8 +1,6 @@
-import { CloseButton } from "components/ui/button/CloseButton";
-import { Label } from "components/ui/Label";
+import { CloseButton, Label, StateFilter } from "components/ui";
 import { settingsTableStore } from "app/store/trainingTable/settingsTableStore";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
-import { StateFilter } from "components/ui/StateFilter";
 
 export const SettingsModal = () => {
   const closeModal = settingsTableStore((state) => state.closeModal);

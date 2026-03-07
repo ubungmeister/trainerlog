@@ -1,13 +1,10 @@
-import { CloseButton } from "components/ui/button/CloseButton";
-import { SaveButton } from "components/ui/button/SaveButton";
-import { FormInput } from "components/ui/FormInput";
-import { exerciseModalStore } from "app/store/exercise/useExerciseStore";
+import { CloseButton, SaveButton, FormInput, Label } from "components/ui";
+import { exerciseModalStore } from "app/store/exercise";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "components/ui/Label";
-import { useSaveExercise } from "hooks/trainingTable/exercises/useSaveExercise";
-import { SelectCategory } from "components/trainingTable/modals/clientExercise/helpers/SelectCategory";
+import { useSaveExercise } from "hooks/trainingTable";
+import { SelectCategory } from "components/trainingTable/modals/clientExercise/helpers";
 
 const schema = z.object({
   name: z.string().min(2).max(100),
