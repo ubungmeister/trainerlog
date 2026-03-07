@@ -1,10 +1,10 @@
-import { ExerciseCategoryList } from "components/exerciseLibrary/ExerciseCategoryList";
-import { exerciseModalStore } from "app/store/exercise/useExerciseStore";
-import { ExerciseFormModal } from "components/exercise/ExerciseFormModal";
-import { categoryModalStore } from "app/store/category/useCategoryStore";
-import { CategoryFormModal } from "components/category/CategoryFormModal";
+import { ExerciseCategoryList } from "components/exerciseLibrary";
+import { exerciseModalStore } from "app/store/exercise";
+import { ExerciseFormModal } from "components/exercise";
+import { categoryModalStore } from "app/store/category";
+import { CategoryFormModal } from "components/category";
 
-export default function Exercise() {
+export default function ExerciseLibrary() {
   const isExerciseModalOpen = exerciseModalStore((state) => state.isOpen);
   const isCategoryModalOpen = categoryModalStore((state) => state.isOpen);
 

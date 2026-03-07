@@ -1,6 +1,6 @@
-import { useGetUsers } from "hooks/users/useGetUsers";
+import { useGetUsers } from "hooks/users";
 import { type UserType } from "types/userType";
-import { DataLoading } from "components/ui/DataLoading";
+import { DataLoading } from "components/ui";
 import { Link } from "react-router-dom";
 import Avatar from "boring-avatars";
 import { ChevronRight } from "lucide-react";

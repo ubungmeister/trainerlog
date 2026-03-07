@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { clamp } from "utils/number";
+import { clamp } from "utils";
 
 export function useDateWindow(dates: Date[], size = 5, step = 1) {
   const len = dates.length;

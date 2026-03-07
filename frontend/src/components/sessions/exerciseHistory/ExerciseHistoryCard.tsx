@@ -1,5 +1,5 @@
 import { ChevronRight } from "lucide-react";
-import { formatDate } from "utils/formatDate";
+import { formatDate } from "utils";
 import type { SessionExercise } from "types/tableType";
 
 export interface ExerciseGroup {

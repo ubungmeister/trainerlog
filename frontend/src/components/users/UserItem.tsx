@@ -1,6 +1,6 @@
 import type { UserType } from "types/userType";
 import Avatar from "boring-avatars";
-import { userModalStore } from "app/store/user/userModalStore";
+import { userModalStore } from "app/store/user";
 import { Pencil } from "lucide-react";
 
 const avatarNames = [

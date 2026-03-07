@@ -1,17 +1,19 @@
 import { useEffect, useRef, useMemo, useState } from "react";
-import { useTrainingTableData } from "hooks/trainingTable/useTrainingTableData";
+import { useTrainingTableData } from "hooks/trainingTable";
 import { type Session, type SessionExercise } from "types/tableType";
-import { TableHeader } from "components/trainingTable/TableHeader";
-import { TableBody } from "components/trainingTable/TableBody";
-import { TableActions } from "components/trainingTable/TableActions";
+import {
+  TableHeader,
+  TableBody,
+  TableActions,
+  TableControls,
+  DateRange,
+} from "components/trainingTable";
 import { clientExerciseStore } from "app/store/trainingTable/clientExerciseStore";
-import { TableControls } from "components/trainingTable/TableControls";
-import { DataLoading } from "components/ui/DataLoading";
+import { DataLoading } from "components/ui";
 import { useDateWindow } from "hooks/trainingTable/useDateWindow";
-import { sortSessionsByDate, getSessionDates } from "utils/sortedSessions";
+import { sortSessionsByDate, getSessionDates } from "utils";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateRange } from "components/trainingTable/DateRange";
 
 type TableProps = {
   clientId: string;

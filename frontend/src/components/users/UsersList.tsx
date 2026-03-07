@@ -1,8 +1,8 @@
-import { useGetUsers } from "hooks/users/useGetUsers";
+import { useGetUsers } from "hooks/users";
 import { type UserType } from "types/userType";
 import { UserItem } from "./UserItem";
-import { userModalStore } from "app/store/user/userModalStore";
-import { DataLoading } from "components/ui/DataLoading";
+import { userModalStore } from "app/store/user";
+import { DataLoading } from "components/ui";
 import { Plus } from "lucide-react";
 
 export const UsersList = () => {

@@ -2,13 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userModalStore } from "app/store/user/userModalStore";
-import { useSaveUser } from "hooks/users/useSaveUser";
-import { useDeleteUser } from "hooks/users/useDeleteUser";
-import { Label } from "components/ui/Label";
-import { FormInput } from "components/ui/FormInput";
-import { CloseButton } from "components/ui/button/CloseButton";
-import { SaveButton } from "components/ui/button/SaveButton";
+import { userModalStore } from "app/store/user";
+import { useSaveUser, useDeleteUser } from "hooks/users";
+import { Label, FormInput, CloseButton, SaveButton } from "components/ui";
 
 const schema = z.object({
   fullName: z.string().trim().min(2).max(100),

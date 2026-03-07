@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight, MoreVertical } from "lucide-react";
 import { ExerciseItem } from "components/exercise/ExerciseItem";
-import type { CategoryGroup } from "utils/groupExercisesByCategory";
+import type { CategoryGroup } from "utils";
 
 interface CategorySectionProps {
   group: CategoryGroup;
