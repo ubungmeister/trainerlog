@@ -11,8 +11,7 @@ export function useSaveUser() {
   const API_URL = import.meta.env.VITE_API_URL;
   return useMutation({
     mutationFn: async ({ fullName, email, method, id }: UpdateUserType) => {
-      const path =
-        method === "POST" ? "/api/users/create" : `/api/users/update/${id}`;
+      const path = method === "POST" ? "/api/users/create" : `/api/users/update/${id}`;
       const response = await fetch(`${API_URL}${path}`, {
         method: method,
         headers: {

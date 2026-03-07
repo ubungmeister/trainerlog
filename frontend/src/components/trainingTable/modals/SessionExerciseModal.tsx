@@ -25,15 +25,11 @@ type FormSchemaType = z.infer<typeof schema>;
 export const SessionExerciseModal = () => {
   const queryClient = useQueryClient();
   const closeModal = sessionExerciseStore((state) => state.closeModal);
-  const sessionExercise = sessionExerciseStore(
-    (state) => state.sessionExercise,
-  );
+  const sessionExercise = sessionExerciseStore((state) => state.sessionExercise);
   const exercise = sessionExerciseStore((state) => state.exercise);
   const session = sessionExerciseStore((state) => state.session);
 
-  const formHeader = sessionExercise
-    ? "Edit Session Exercise"
-    : "Add Session Exercise";
+  const formHeader = sessionExercise ? "Edit Session Exercise" : "Add Session Exercise";
 
   const defaultValues = sessionExercise ?? {
     repetitions: 0,
@@ -57,8 +53,7 @@ export const SessionExerciseModal = () => {
   const { mutate: deleteSessionExercise } = useDeleteSessionExercise();
 
   const onSubmit = (data: FormSchemaType) => {
-    const isSessionExerciseExist =
-      sessionExercise?.id && session?.id && exercise?.id;
+    const isSessionExerciseExist = sessionExercise?.id && session?.id && exercise?.id;
 
     if (isSessionExerciseExist) {
       //Update existing session exercise
@@ -124,9 +119,7 @@ export const SessionExerciseModal = () => {
     <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
       <div className="relative flex flex-col w-full max-w-xs sm:max-w-md bg-white rounded-lg shadow-lg p-4 sm:p-8">
         <CloseButton closeModal={() => closeModal()} />
-        <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">
-          {formHeader}
-        </h2>
+        <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">{formHeader}</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <Label htmlFor="weight">Weight</Label>
@@ -156,9 +149,7 @@ export const SessionExerciseModal = () => {
             />
           </div>
           <div className="flex items-center justify-center gap-4 mt-4">
-            {sessionExercise?.id && (
-              <DeleteButton handleDelete={(e) => handleDelete(e)} />
-            )}
+            {sessionExercise?.id && <DeleteButton handleDelete={(e) => handleDelete(e)} />}
             <SaveButton />
           </div>
         </form>

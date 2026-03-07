@@ -65,9 +65,7 @@ export default function Signup() {
               {...register("fullName", { required: true })}
               className="auth-form input"
             />
-            {errors.fullName && (
-              <span className="">{errors.fullName.message}</span>
-            )}
+            {errors.fullName && <span className="">{errors.fullName.message}</span>}
           </div>
           <div>
             <label>Password:</label>
@@ -76,24 +74,15 @@ export default function Signup() {
               {...register("password", { required: true })}
               className="auth-form input"
             />
-            {errors.password && (
-              <span className="">{errors.password.message}</span>
-            )}
+            {errors.password && <span className="">{errors.password.message}</span>}
           </div>
-          <button
-            type="submit"
-            className="auth-form button"
-            disabled={registerMutation.isPending}
-          >
+          <button type="submit" className="auth-form button" disabled={registerMutation.isPending}>
             {registerMutation.isPending ? "Creating account..." : "Sign Up"}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <Link
-            to={ROUTES.AUTH.SIGN_IN}
-            className="text-blue-600 hover:underline"
-          >
+          <Link to={ROUTES.AUTH.SIGN_IN} className="text-blue-600 hover:underline">
             Sign in
           </Link>
         </p>

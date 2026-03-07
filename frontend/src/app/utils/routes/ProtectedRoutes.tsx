@@ -10,9 +10,5 @@ export default function ProtectedRoutes() {
     return <PageLoader message="Checking authentication..." />;
   }
 
-  return isAuthenticated ? (
-    <Outlet />
-  ) : (
-    <Navigate to={ROUTES.AUTH.SIGN_IN} replace />
-  );
+  return isAuthenticated ? <Outlet /> : <Navigate to={ROUTES.AUTH.SIGN_IN} replace />;
 }

@@ -25,14 +25,10 @@ export const TableBody = ({
   categories,
 }: TableBodyProps) => {
   // Zustand store for managing session exercises modal state
-  const openSessionExerciseModal = sessionExerciseStore(
-    (state) => state.openModal,
-  );
+  const openSessionExerciseModal = sessionExerciseStore((state) => state.openModal);
 
   //Zustand store for managing client exercises modal state
-  const openClientExerciseModal = clientExerciseStore(
-    (state) => state.openModal,
-  );
+  const openClientExerciseModal = clientExerciseStore((state) => state.openModal);
   // Zustand store for managing client exercises list
   // This store contains the client exercises and the filter state
   const clientExercises = clientExerciseStore((state) => state.clientExercises);
@@ -50,9 +46,7 @@ export const TableBody = ({
   // Update Exercise Name and state
   const handleUpdateSessionExercise = (exerciseId: string) => {
     // find client exercise from clientExercises by exercise id
-    const clientExercise = clientExercises.find(
-      (ce) => ce.exerciseId === exerciseId,
-    );
+    const clientExercise = clientExercises.find((ce) => ce.exerciseId === exerciseId);
     if (!clientExercise) {
       console.error("Client exercise not found for exerciseId:", exerciseId);
       return;
@@ -60,9 +54,7 @@ export const TableBody = ({
 
     const exercise = exercises.find((e: Exercise) => e.id === exerciseId);
 
-    const category = categories?.find(
-      (c: Category) => c.name === exercise?.category,
-    );
+    const category = categories?.find((c: Category) => c.name === exercise?.category);
 
     openClientExerciseModal({
       clientExercise: clientExercise,
@@ -73,11 +65,7 @@ export const TableBody = ({
   };
 
   // Creating or updating session exercise
-  const sessionExerciseHandler = ({
-    cell,
-    session,
-    exId,
-  }: SessionExerciseTableType) => {
+  const sessionExerciseHandler = ({ cell, session, exId }: SessionExerciseTableType) => {
     const exercise = exercises.find((e: Exercise) => e.id === exId);
     if (!exercise) {
       console.error("Exercise not found for exId:", exId);
@@ -116,14 +104,9 @@ export const TableBody = ({
   return (
     <tbody>
       {filteredClientExercises.map((exercise: ClientExercise) => (
-        <tr
-          key={exercise.id}
-          className="border-b border-primary-button hover:bg-gray-50"
-        >
+        <tr key={exercise.id} className="border-b border-primary-button hover:bg-gray-50">
           <td
-            onClick={() =>
-              handleUpdateSessionExercise(exercise.exerciseId || "")
-            }
+            onClick={() => handleUpdateSessionExercise(exercise.exerciseId || "")}
             className="sticky left-0 bg-white px-4 py-3 font-medium border-primary-button border-r-1"
           >
             {exercise.exerciseName}
@@ -132,15 +115,12 @@ export const TableBody = ({
           {visibleDates.map((date) => {
             const session = trainingSessions.find(
               (s: Session) =>
-                date &&
-                s.date &&
-                new Date(s.date).getTime() === new Date(date).getTime(),
+                date && s.date && new Date(s.date).getTime() === new Date(date).getTime(),
             ) as Session;
             const cell = sessionExercises
               ? sessionExercises.find(
                   (se: SessionExercise) =>
-                    se.trainingSessionId === session?.id &&
-                    se.exerciseId === exercise.exerciseId,
+                    se.trainingSessionId === session?.id && se.exerciseId === exercise.exerciseId,
                 )
               : undefined;
             if (!cell && !session) {
@@ -172,9 +152,7 @@ export const TableBody = ({
                     title={`Reps: ${cell?.repetitions ?? "-"}, Sets: ${cell?.sets ?? "-"}, Kg: ${cell?.weight ?? "-"}`}
                   >
                     <div>
-                      <span className="font-semibold">
-                        {cell?.repetitions ?? "-"}
-                      </span>{" "}
+                      <span className="font-semibold">{cell?.repetitions ?? "-"}</span>{" "}
                       <span className="opacity-70">rep</span>
                     </div>
                     <div>
@@ -182,9 +160,7 @@ export const TableBody = ({
                       <span className="opacity-70">set</span>
                     </div>
                     <div>
-                      <span className="font-semibold">
-                        {cell?.weight ?? "-"}
-                      </span>{" "}
+                      <span className="font-semibold">{cell?.weight ?? "-"}</span>{" "}
                       <span className="opacity-70">kg</span>
                     </div>
                   </div>

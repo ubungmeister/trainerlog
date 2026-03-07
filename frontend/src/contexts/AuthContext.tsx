@@ -32,15 +32,9 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   loginMutation: ReturnType<
-    typeof useMutation<
-      { token: string; fullName: string },
-      Error,
-      LoginCredentials
-    >
+    typeof useMutation<{ token: string; fullName: string }, Error, LoginCredentials>
   >;
-  registerMutation: ReturnType<
-    typeof useMutation<unknown, Error, RegisterData>
-  >;
+  registerMutation: ReturnType<typeof useMutation<unknown, Error, RegisterData>>;
   logout: () => void;
 }
 

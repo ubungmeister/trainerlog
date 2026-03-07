@@ -12,7 +12,7 @@ export function useGetUsers() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      
+
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }

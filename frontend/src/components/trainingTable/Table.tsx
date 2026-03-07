@@ -24,14 +24,9 @@ export type SessionExerciseTableType = {
 };
 
 export const Table = ({ clientId }: TableProps) => {
-  const setClientExercises = clientExerciseStore(
-    (state) => state.setClientExercises,
-  );
+  const setClientExercises = clientExerciseStore((state) => state.setClientExercises);
 
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
-    null,
-    null,
-  ]);
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
 
   const {
     isLoading,
@@ -73,21 +68,11 @@ export const Table = ({ clientId }: TableProps) => {
     () => sortSessionsByDate(trainingSessions ?? []),
     [trainingSessions],
   );
-  const dates = useMemo(
-    () => getSessionDates(sortedSessions),
-    [sortedSessions],
-  );
+  const dates = useMemo(() => getSessionDates(sortedSessions), [sortedSessions]);
 
   //Windowing via hook
-  const {
-    visibleDates,
-    canPrev,
-    canNext,
-    showPrev,
-    showNext,
-    endIndex,
-    startIndex,
-  } = useDateWindow(dates, 3, 1);
+  const { visibleDates, canPrev, canNext, showPrev, showNext, endIndex, startIndex } =
+    useDateWindow(dates, 3, 1);
 
   if (isLoading) {
     return <DataLoading />;
@@ -96,9 +81,7 @@ export const Table = ({ clientId }: TableProps) => {
   return (
     <div className="flex flex-col md:items-center items-start justify-center p-4 ">
       <div className="flex flex-row items-center justify-between w-full">
-        <h2 className="text-3xl font-bold text-primaty-text mb-3">
-          Training Table
-        </h2>
+        <h2 className="text-3xl font-bold text-primaty-text mb-3">Training Table</h2>
         <div className="inline-flex items-center justify-center px-2 py-1 bg-orange-500 text-white rounded-full border shadow-sm min-w-[100px]">
           <span className="text-sm font-medium">{client.fullName}</span>
         </div>
@@ -108,18 +91,12 @@ export const Table = ({ clientId }: TableProps) => {
       <div className="w-full relative overflow-hidden rounded-lg border-1 border-primary-button">
         <div className="flex justify-center items-center w-full">
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DateRange
-              value={dateRange}
-              onChange={(next) => setDateRange(next)}
-            />
+            <DateRange value={dateRange} onChange={(next) => setDateRange(next)} />
           </LocalizationProvider>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full bg-white  shadow-lg">
-            <TableHeader
-              visibleDates={visibleDates}
-              trainingSessions={trainingSessions}
-            />
+            <TableHeader visibleDates={visibleDates} trainingSessions={trainingSessions} />
             <TableBody
               exercises={exercises}
               categories={categories}

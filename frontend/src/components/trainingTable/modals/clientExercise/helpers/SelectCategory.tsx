@@ -1,11 +1,6 @@
 import { Label } from "components/ui/Label";
 import type { Category } from "types/tableType";
-import type {
-  FieldErrors,
-  UseFormRegister,
-  FieldValues,
-  Path,
-} from "react-hook-form";
+import type { FieldErrors, UseFormRegister, FieldValues, Path } from "react-hook-form";
 
 type SelectCategoryProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
@@ -36,9 +31,7 @@ export const SelectCategory = <T extends FieldValues>({
         ))}
       </select>
       {errors[fieldName] && (
-        <p className="text-red-500 text-sm mt-1">
-          {String(errors[fieldName]?.message)}
-        </p>
+        <p className="text-red-500 text-sm mt-1">{String(errors[fieldName]?.message)}</p>
       )}
     </div>
   );

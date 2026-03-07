@@ -10,15 +10,11 @@ const SignIn = lazy(() => import("pages/auth/SignIn"));
 const Signup = lazy(() => import("pages/auth/SignUp"));
 const Home = lazy(() => import("pages/home"));
 const TrainingTable = lazy(() => import("pages/trainingTable/TrainingTable"));
-const ExerciseLibrary = lazy(
-  () => import("pages/exerciseLibrary/ExerciseLibrary"),
-);
+const ExerciseLibrary = lazy(() => import("pages/exerciseLibrary/ExerciseLibrary"));
 const Sessions = lazy(() => import("pages/sessions/SessionsPage"));
 const ClientSessions = lazy(() => import("pages/sessions/ClientSessionsPage"));
 
-const ProtectedLayout = lazy(
-  () => import("components/layouts/ProtectedLayout"),
-);
+const ProtectedLayout = lazy(() => import("components/layouts/ProtectedLayout"));
 
 export default function AppRoutes() {
   return (
@@ -37,10 +33,7 @@ export default function AppRoutes() {
             <Route path={ROUTES.SESSIONS} element={<Sessions />} />
             <Route path={ROUTES.CLIENT_SESSIONS} element={<ClientSessions />} />
             <Route path={ROUTES.CLIENT} element={<TrainingTable />} />
-            <Route
-              path={ROUTES.EXERCISE_LIBRARY}
-              element={<ExerciseLibrary />}
-            />
+            <Route path={ROUTES.EXERCISE_LIBRARY} element={<ExerciseLibrary />} />
           </Route>
         </Route>
 

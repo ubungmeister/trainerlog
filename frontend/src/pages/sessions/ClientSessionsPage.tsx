@@ -23,14 +23,8 @@ export default function ClientSessionsPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const { data: client } = useGetSingleUser(clientId ?? "");
-  const {
-    isLoading,
-    error,
-    trainingSessions,
-    sessionExercises,
-    clientExercises,
-    exercises,
-  } = useTrainingTableData(clientId ?? "", null, null);
+  const { isLoading, error, trainingSessions, sessionExercises, clientExercises, exercises } =
+    useTrainingTableData(clientId ?? "", null, null);
 
   if (isLoading) {
     return <DataLoading />;
@@ -40,10 +34,7 @@ export default function ClientSessionsPage() {
     return (
       <div className="p-4 text-center text-red-600">
         <p>{error.message}</p>
-        <button
-          onClick={() => navigate("/sessions")}
-          className="mt-4 text-primary-bg underline"
-        >
+        <button onClick={() => navigate("/sessions")} className="mt-4 text-primary-bg underline">
           Back to clients
         </button>
       </div>
@@ -60,9 +51,7 @@ export default function ClientSessionsPage() {
           >
             <ArrowLeft size={22} className="text-gray-700" />
           </button>
-          <h1 className="text-xl font-bold text-gray-900">
-            {client?.fullName ?? "Client"}
-          </h1>
+          <h1 className="text-xl font-bold text-gray-900">{client?.fullName ?? "Client"}</h1>
         </div>
 
         <TabToggle

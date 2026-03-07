@@ -10,11 +10,7 @@ type SelectExerciseProps = {
   filteredExercises: Exercise[] | null;
 };
 
-export const SelectExercise = ({
-  register,
-  errors,
-  filteredExercises,
-}: SelectExerciseProps) => {
+export const SelectExercise = ({ register, errors, filteredExercises }: SelectExerciseProps) => {
   return (
     <div className="mb-4">
       <Label htmlFor="exerciseId">Chose from existing:</Label>
@@ -31,9 +27,7 @@ export const SelectExercise = ({
         ))}
       </select>
       {errors.exerciseName && (
-        <p className="text-red-500 text-sm mt-1">
-          {errors.exerciseName.message}
-        </p>
+        <p className="text-red-500 text-sm mt-1">{errors.exerciseName.message}</p>
       )}
     </div>
   );

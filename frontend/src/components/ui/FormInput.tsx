@@ -5,11 +5,7 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   register: UseFormRegisterReturn; // Accepts the result of register("field", options)
 }
 
-export const FormInput: React.FC<FormInputProps> = ({
-  error,
-  register,
-  ...inputProps
-}) => (
+export const FormInput: React.FC<FormInputProps> = ({ error, register, ...inputProps }) => (
   <div className="mb-4">
     <input
       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

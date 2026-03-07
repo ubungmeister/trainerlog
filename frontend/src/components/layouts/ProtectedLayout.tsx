@@ -32,10 +32,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
         <nav className="flex justify-between items-center">
           <h1 className="text-xl font-bold text-gray-900">TrainerLog</h1>
           {isMenuOpen && (
-            <MobileDrawerMenu
-              onMenuToggle={() => setIsMenuOpen(false)}
-              isOpen={isMenuOpen}
-            />
+            <MobileDrawerMenu onMenuToggle={() => setIsMenuOpen(false)} isOpen={isMenuOpen} />
           )}
           <button
             onClick={onMenuHandler}
@@ -46,9 +43,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
           </button>
         </nav>
       </header>
-      <main className="flex-1 pb-20 overflow-auto">
-        {children || <Outlet />}
-      </main>
+      <main className="flex-1 pb-20 overflow-auto">{children || <Outlet />}</main>
       <BottomNavigation />
     </div>
   );

@@ -8,10 +8,7 @@ interface CategorySectionProps {
   onEditCategory: (categoryId: string) => void;
 }
 
-export const CategorySection = ({
-  group,
-  onEditCategory,
-}: CategorySectionProps) => {
+export const CategorySection = ({ group, onEditCategory }: CategorySectionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -45,10 +42,7 @@ export const CategorySection = ({
             </button>
             {showMenu && (
               <>
-                <div
-                  className="fixed inset-0 z-10"
-                  onClick={() => setShowMenu(false)}
-                />
+                <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
                 <div className="absolute right-0 top-8 bg-white border rounded-lg shadow-lg z-20 py-1 min-w-[120px]">
                   <button
                     onClick={(e) => {
@@ -75,9 +69,7 @@ export const CategorySection = ({
               <ExerciseItem key={exercise.id} exercise={exercise} />
             ))
           ) : (
-            <div className="p-3 text-sm text-gray-400 italic">
-              No exercises in this category
-            </div>
+            <div className="p-3 text-sm text-gray-400 italic">No exercises in this category</div>
           )}
         </div>
       )}

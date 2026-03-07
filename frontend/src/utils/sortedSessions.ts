@@ -3,9 +3,7 @@ import { type Session } from "types/tableType";
 export const sortSessionsByDate = (trainingSessions: Session[]) =>
   trainingSessions
     ? [...trainingSessions].sort((a, b) => {
-        return (
-          new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime()
-        );
+        return new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime();
       })
     : [];
 

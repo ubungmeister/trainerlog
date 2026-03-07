@@ -71,19 +71,14 @@ export function ExerciseHistoryList({
   const filteredGroups = useMemo(() => {
     if (!searchQuery.trim()) return exerciseGroups;
     const q = searchQuery.toLowerCase();
-    return exerciseGroups.filter((g) =>
-      g.exerciseName.toLowerCase().includes(q),
-    );
+    return exerciseGroups.filter((g) => g.exerciseName.toLowerCase().includes(q));
   }, [exerciseGroups, searchQuery]);
 
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
         <div className="relative flex-1">
-          <Search
-            size={18}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-          />
+          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             placeholder="Find exercise..."
@@ -101,15 +96,11 @@ export function ExerciseHistoryList({
         </button>
       </div>
 
-      <h2 className="text-lg font-bold text-primary-bg mb-3">
-        Exercises History
-      </h2>
+      <h2 className="text-lg font-bold text-primary-bg mb-3">Exercises History</h2>
 
       {filteredGroups.length === 0 ? (
         <div className="bg-white rounded-2xl p-6 text-center text-gray-500 shadow-sm">
-          {searchQuery
-            ? "No exercises match your search"
-            : "No exercise entries yet"}
+          {searchQuery ? "No exercises match your search" : "No exercise entries yet"}
         </div>
       ) : (
         <div className="flex flex-col gap-3">

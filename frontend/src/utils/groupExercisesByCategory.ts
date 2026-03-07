@@ -24,9 +24,7 @@ export function groupExercisesByCategory(
   // 2. Build result sections for categories (sorted by name)
   const result: CategoryGroup[] = [];
 
-  const sortedCategories = [...categories].sort((a, b) =>
-    a.name.localeCompare(b.name),
-  );
+  const sortedCategories = [...categories].sort((a, b) => a.name.localeCompare(b.name));
 
   for (const cat of sortedCategories) {
     const list = groups.get(cat.id) ?? []; // Include empty categories
