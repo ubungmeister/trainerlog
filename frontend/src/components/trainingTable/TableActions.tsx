@@ -12,9 +12,7 @@ export const TableActions = ({ categories }: TableActionsProps) => {
   const clientId = tableStore((state) => state.clientId);
   const openModal = clientExerciseStore((state) => state.openModal);
   const openSettings = settingsTableStore((state) => state.openModal);
-  const openTrainingSessionModal = trainingSessionStore(
-    (state) => state.openModal,
-  );
+  const openTrainingSessionModal = trainingSessionStore((state) => state.openModal);
 
   const handleCreateNewTrainingSession = () => {
     const newSession: Session = {

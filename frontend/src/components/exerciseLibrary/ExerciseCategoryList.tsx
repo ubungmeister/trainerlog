@@ -10,33 +10,24 @@ import { groupExercisesByCategory } from "utils/groupExercisesByCategory";
 import { CategorySection } from "../category/CategorySection";
 
 export const ExerciseCategoryList = () => {
-  const { data: categories, isLoading: isCategoryLoading } =
-    useGetAllCategories();
-  const { data: exercises, isLoading: isExerciseLoading } =
-    useGetAllExercises();
+  const { data: categories, isLoading: isCategoryLoading } = useGetAllCategories();
+  const { data: exercises, isLoading: isExerciseLoading } = useGetAllExercises();
 
   const openCategoryModal = categoryModalStore((state) => state.openModal);
-  const setCategoriesForCategoryModal = categoryModalStore(
-    (state) => state.setCategories,
-  );
+
+  const setCategoriesForCategoryModal = categoryModalStore((state) => state.setCategories);
   const openExerciseModal = exerciseModalStore((state) => state.openModal);
   const filterState = exerciseModalStore((state) => state.filterState);
   const setFilterState = exerciseModalStore((state) => state.setFilterState);
   const setExercises = exerciseModalStore((state) => state.setExercises);
-  const setCategoriesForExerciseModal = exerciseModalStore(
-    (state) => state.setCategories,
-  );
+  const setCategoriesForExerciseModal = exerciseModalStore((state) => state.setCategories);
 
   useEffect(() => {
     if (categories) {
       setCategoriesForCategoryModal(categories);
       setCategoriesForExerciseModal(categories);
     }
-  }, [
-    categories,
-    setCategoriesForCategoryModal,
-    setCategoriesForExerciseModal,
-  ]);
+  }, [categories, setCategoriesForCategoryModal, setCategoriesForExerciseModal]);
 
   useEffect(() => {
     if (exercises) setExercises(exercises);
@@ -81,10 +72,7 @@ export const ExerciseCategoryList = () => {
       </div>
 
       <div className="mb-4">
-        <StateFilter
-          filterState={filterState}
-          setFilterState={setFilterState}
-        />
+        <StateFilter filterState={filterState} setFilterState={setFilterState} />
       </div>
 
       <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
@@ -97,9 +85,7 @@ export const ExerciseCategoryList = () => {
             />
           ))
         ) : (
-          <div className="p-6 text-center text-gray-500">
-            No exercises found
-          </div>
+          <div className="p-6 text-center text-gray-500">No exercises found</div>
         )}
       </div>
 

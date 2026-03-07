@@ -1,8 +1,4 @@
-import {
-  type Exercise,
-  type Session,
-  type SessionExercise,
-} from "types/tableType";
+import { type Exercise, type Session, type SessionExercise } from "types/tableType";
 import { create } from "zustand";
 
 interface SessionExerciseState {

@@ -30,9 +30,7 @@ export const TableControls = ({
         <SquareArrowLeft style={{ color: "green" }} />
       </button>
       <span className="text-sm text-gray-600">
-        {dates.length === 0
-          ? "No sessions"
-          : `${startIndex + 1}–${endIndex} of ${dates.length}`}
+        {dates.length === 0 ? "No sessions" : `${startIndex + 1}–${endIndex} of ${dates.length}`}
       </span>
       <button
         onClick={showNext}

@@ -17,9 +17,7 @@ export function TabToggle({ tabs, activeTab, onChange }: TabToggleProps) {
           key={tab.value}
           onClick={() => onChange(tab.value)}
           className={`flex-1 py-2 text-sm font-medium rounded-full text-center transition-colors ${
-            activeTab === tab.value
-              ? "bg-primary-bg text-white shadow-sm"
-              : "text-gray-600"
+            activeTab === tab.value ? "bg-primary-bg text-white shadow-sm" : "text-gray-600"
           }`}
         >
           {tab.label}

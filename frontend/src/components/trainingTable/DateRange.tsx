@@ -1,13 +1,5 @@
 import { format } from "date-fns";
-import {
-  Chip,
-  IconButton,
-  SwipeableDrawer,
-  Stack,
-  Button,
-  Divider,
-  Box,
-} from "@mui/material";
+import { Chip, IconButton, SwipeableDrawer, Stack, Button, Divider, Box } from "@mui/material";
 import { CalendarCog } from "lucide-react";
 import { DateRangeCalendar } from "@mui/x-date-pickers-pro";
 import { startOfMonth, endOfMonth, subDays } from "date-fns";
@@ -64,20 +56,10 @@ export function DateRange({ value, onChange }: PillsProps) {
         alignItems="center"
         className="w-full px-2 py-2 justify-center items-center"
       >
-        <RangePill
-          label={start ? format(start, "MMM d") : "Start"}
-          onClick={() => setOpen(true)}
-        />
+        <RangePill label={start ? format(start, "MMM d") : "Start"} onClick={() => setOpen(true)} />
         <span>–</span>
-        <RangePill
-          label={end ? format(end, "MMM d") : "End"}
-          onClick={() => setOpen(true)}
-        />
-        <IconButton
-          onClick={() => setOpen(true)}
-          aria-label="calendar"
-          size="small"
-        >
+        <RangePill label={end ? format(end, "MMM d") : "End"} onClick={() => setOpen(true)} />
+        <IconButton onClick={() => setOpen(true)} aria-label="calendar" size="small">
           <CalendarCog />
         </IconButton>
       </Stack>
@@ -115,11 +97,7 @@ export function DateRange({ value, onChange }: PillsProps) {
 
           <Divider sx={{ my: 1 }} />
 
-          <DateRangeCalendar
-            value={tmp}
-            onChange={(r) => setTmp(r)}
-            reduceAnimations
-          />
+          <DateRangeCalendar value={tmp} onChange={(r) => setTmp(r)} reduceAnimations />
 
           <Stack direction="row" spacing={1} mt={1} justifyContent="flex-end">
             <Button onClick={() => setOpen(false)}>Cancel</Button>

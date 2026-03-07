@@ -15,17 +15,14 @@ export function useAddExerciseEntry() {
 
   return useMutation({
     mutationFn: async (data: AddExerciseEntryRequest) => {
-      const response = await fetch(
-        `${API_URL}/api/session-exercises/add-entry`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(data),
+      const response = await fetch(`${API_URL}/api/session-exercises/add-entry`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+        body: JSON.stringify(data),
+      });
 
       if (!response.ok) {
         const text = await response.text();

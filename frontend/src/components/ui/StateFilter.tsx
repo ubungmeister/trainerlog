@@ -5,10 +5,7 @@ type StateFilterProps = {
   setFilterState: (state: StateEnum) => void;
 };
 
-export const StateFilter = ({
-  filterState,
-  setFilterState,
-}: StateFilterProps) => {
+export const StateFilter = ({ filterState, setFilterState }: StateFilterProps) => {
   return (
     <div className="flex items-center justify-start gap-1">
       <button

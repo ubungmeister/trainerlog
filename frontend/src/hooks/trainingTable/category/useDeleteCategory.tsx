@@ -8,16 +8,13 @@ export function useDeleteCategory() {
 
   return useMutation({
     mutationFn: async (category: Category) => {
-      const response = await fetch(
-        `${API_URL}/api/categories/delete/${category.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      const response = await fetch(`${API_URL}/api/categories/delete/${category.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+      });
 
       if (!response.ok) {
         throw new Error("Failed to delete category");

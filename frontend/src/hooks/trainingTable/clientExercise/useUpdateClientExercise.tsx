@@ -6,17 +6,14 @@ export function useUpdateClientExercise() {
 
   return useMutation({
     mutationFn: async (clientExercise: ClientExercise) => {
-      const response = await fetch(
-        `${API_URL}/api/client-exercises/update/${clientExercise.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(clientExercise),
+      const response = await fetch(`${API_URL}/api/client-exercises/update/${clientExercise.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+        body: JSON.stringify(clientExercise),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to update exercise");

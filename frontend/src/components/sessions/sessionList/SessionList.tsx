@@ -10,11 +10,7 @@ interface SessionListProps {
   onAddEntry: () => void;
 }
 
-export function SessionList({
-  trainingSessions,
-  sessionExercises,
-  onAddEntry,
-}: SessionListProps) {
+export function SessionList({ trainingSessions, sessionExercises, onAddEntry }: SessionListProps) {
   const sessionExerciseMap = useMemo(() => {
     const map = new Map<string, SessionExercise[]>();
     sessionExercises.forEach((se) => {
@@ -59,10 +55,8 @@ export function SessionList({
         <div className="bg-white rounded-2xl p-4 shadow-sm mb-3 flex items-center justify-between">
           <div className="text-sm text-gray-700">
             <span className="font-semibold">Last session:</span>{" "}
-            {lastSession.session.date
-              ? formatDate(lastSession.session.date)
-              : "N/A"}{" "}
-            — {lastSession.exercises.length} exercises
+            {lastSession.session.date ? formatDate(lastSession.session.date) : "N/A"} —{" "}
+            {lastSession.exercises.length} exercises
           </div>
           <button
             onClick={onAddEntry}

@@ -126,9 +126,7 @@ export const TrainingSessionModal = () => {
         <div className="relative flex flex-col w-full max-w-xs sm:max-w-md bg-white rounded-lg shadow-lg p-4 sm:p-8">
           <CloseButton closeModal={() => closeModal()} />
 
-          <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">
-            {formHeader}
-          </h2>
+          <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">{formHeader}</h2>
           <div className="flex flex-col items-center mb-6 sm:mb-8 w-full">
             <Label htmlFor="date">Date</Label>
             <Controller
@@ -143,9 +141,7 @@ export const TrainingSessionModal = () => {
                 />
               )}
             />
-            {errors.date && (
-              <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>
-            )}
+            {errors.date && <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>}
           </div>
           <div className="flex items-center justify-center gap-4 mt-4">
             <DeleteButton handleDelete={(e) => handleDelete(e)} />

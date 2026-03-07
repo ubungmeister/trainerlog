@@ -49,19 +49,10 @@ export default function SignIn() {
           </div>
           <div>
             <label>Password:</label>
-            <input
-              type="password"
-              {...register("password", { required: true })}
-            />
-            {errors.password && (
-              <span className="">{errors.password.message}</span>
-            )}
+            <input type="password" {...register("password", { required: true })} />
+            {errors.password && <span className="">{errors.password.message}</span>}
           </div>
-          <button
-            type="submit"
-            className="auth-form button"
-            disabled={loginMutation.isPending}
-          >
+          <button type="submit" className="auth-form button" disabled={loginMutation.isPending}>
             {loginMutation.isPending ? "Signing in..." : "Sign In"}
           </button>
         </form>

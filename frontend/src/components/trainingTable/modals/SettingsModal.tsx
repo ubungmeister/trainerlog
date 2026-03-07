@@ -13,17 +13,12 @@ export const SettingsModal = () => {
     <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
       <div className="relative flex flex-col w-full max-w-xs sm:max-w-md bg-white rounded-lg shadow-lg p-4 sm:p-8">
         <CloseButton closeModal={() => closeModal()} />
-        <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">
-          Settings
-        </h2>
+        <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">Settings</h2>
         <div className="mb-2 flex justify-center items-center">
           <Label htmlFor="exerciseName "> Show exercises:</Label>
         </div>
         <div className="flex justify-center items-center">
-          <StateFilter
-            filterState={filterState}
-            setFilterState={setFilterState}
-          />
+          <StateFilter filterState={filterState} setFilterState={setFilterState} />
         </div>
       </div>
     </div>

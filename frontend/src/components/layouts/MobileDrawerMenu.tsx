@@ -1,9 +1,4 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "components/ui/sheet";
 import plan from "assets/plan.png";
 import exercises from "assets/exercises.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,10 +7,7 @@ type MobileDrawerMenuProps = {
   onMenuToggle?: () => void;
   isOpen: boolean;
 };
-export const MobileDrawerMenu = ({
-  onMenuToggle,
-  isOpen,
-}: MobileDrawerMenuProps) => {
+export const MobileDrawerMenu = ({ onMenuToggle, isOpen }: MobileDrawerMenuProps) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -32,17 +24,9 @@ export const MobileDrawerMenu = ({
           <SheetTitle className="mt-10 mx-1 text-2xl">Menu</SheetTitle>
         </SheetHeader>
         <nav className=" mx-6 flex flex-col gap-4">
-          <Link
-            onClick={onMenuToggle}
-            to="/"
-            className="text-lg  flex flex-row gap-4"
-          >
+          <Link onClick={onMenuToggle} to="/" className="text-lg  flex flex-row gap-4">
             <div className="w-12">
-              <img
-                src={plan}
-                alt="Plan"
-                className="w-8 h-8 inline-block mr-2"
-              />
+              <img src={plan} alt="Plan" className="w-8 h-8 inline-block mr-2" />
             </div>
             <span>Clients</span>
           </Link>
@@ -52,11 +36,7 @@ export const MobileDrawerMenu = ({
             className="text-lg  flex flex-row gap-4"
           >
             <div className="w-12">
-              <img
-                src={exercises}
-                alt="Exercise Library"
-                className="w-10 h-10 inline-block mr-2"
-              />
+              <img src={exercises} alt="Exercise Library" className="w-10 h-10 inline-block mr-2" />
             </div>
             Exercise Library
           </Link>

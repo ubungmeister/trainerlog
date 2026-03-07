@@ -105,14 +105,10 @@ export const ExerciseFormModal = () => {
               className="toggle-styling"
               {...register("activeExercise")}
             />
-            <Label htmlFor="activeExercise">
-              {activeExercise ? "Active" : "Inactive"}
-            </Label>
+            <Label htmlFor="activeExercise">{activeExercise ? "Active" : "Inactive"}</Label>
           </div>
           <div className="flex items-center justify-center">
-            <SaveButton disabled={!canSave}>
-              {isSaving ? "Saving..." : "Save"}
-            </SaveButton>
+            <SaveButton disabled={!canSave}>{isSaving ? "Saving..." : "Save"}</SaveButton>
           </div>
         </form>
       </div>

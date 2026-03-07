@@ -17,12 +17,9 @@ const schema = z
     activeClientExercise: z.boolean(),
   })
   .refine(
-    (data) =>
-      (data.exerciseName && !data.exerciseId) ||
-      (!data.exerciseName && data.exerciseId),
+    (data) => (data.exerciseName && !data.exerciseId) || (!data.exerciseName && data.exerciseId),
     {
-      message:
-        "Please fill either a new name or choose from the list, not both",
+      message: "Please fill either a new name or choose from the list, not both",
       path: ["exerciseName"],
     },
   );
@@ -41,37 +38,24 @@ export const ClientExerciseModal = () => {
   const category = clientExerciseStore((state) => state.category);
   const exercises = clientExerciseStore((state) => state.exercises);
 
-  const [newExerciseType, setNewExerciseType] = useState<
-    "new" | "shared" | null
-  >(null);
+  const [newExerciseType, setNewExerciseType] = useState<"new" | "shared" | null>(null);
 
   const allTrainerExercises = useGetAllExercises();
-  const allClientExercises = clientExerciseStore(
-    (state) => state.clientExercises,
-  );
+  const allClientExercises = clientExerciseStore((state) => state.clientExercises);
 
   // Filterout exercises that already exist in the client's list
-  const existingExercisesIds = allClientExercises.map(
-    (exercise) => exercise.exerciseId,
-  );
+  const existingExercisesIds = allClientExercises.map((exercise) => exercise.exerciseId);
 
   const filteredExercises = allTrainerExercises.data?.filter(
-    (exercise: Exercise) =>
-      !existingExercisesIds.includes(exercise.id) && exercise.sharedExercise,
+    (exercise: Exercise) => !existingExercisesIds.includes(exercise.id) && exercise.sharedExercise,
   );
 
-  const exercise = exercises?.find(
-    (ex: Exercise) => ex.id === clientExercise?.exerciseId,
-  );
+  const exercise = exercises?.find((ex: Exercise) => ex.id === clientExercise?.exerciseId);
   const isSharedExercise = exercise?.sharedExercise;
 
-  const formHeader = clientExercise
-    ? "Edit Client Exercise"
-    : "Add Client Exercise";
+  const formHeader = clientExercise ? "Edit Client Exercise" : "Add Client Exercise";
 
-  const formLabel = clientExercise
-    ? "Edit Exercise name"
-    : "Create Exercise name";
+  const formLabel = clientExercise ? "Edit Exercise name" : "Create Exercise name";
 
   const {
     register,
@@ -107,24 +91,16 @@ export const ClientExerciseModal = () => {
     <div className="pointer-events-none fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50 ">
       <div className="pointer-events-auto relative flex flex-col w-full max-w-xs sm:max-w-md bg-white rounded-lg shadow-lg p-4 sm:p-8 ">
         <CloseButton closeModal={closeModal} />
-        <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">
-          {formHeader}
-        </h2>
+        <h2 className="text-2xl font-bold text-center mb-4 sm:mb-6">{formHeader}</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <>
             {/* New exercise, choose the type */}
             {!clientExercise && newExerciseType === null && (
               <div className="mb-4 flex flex-col gap-4 px-10">
-                <button
-                  className="button-exercise"
-                  onClick={() => setNewExerciseType("new")}
-                >
+                <button className="button-exercise" onClick={() => setNewExerciseType("new")}>
                   Create new
                 </button>
-                <button
-                  className="button-exercise"
-                  onClick={() => setNewExerciseType("shared")}
-                >
+                <button className="button-exercise" onClick={() => setNewExerciseType("shared")}>
                   Choose from shared
                 </button>
               </div>
@@ -191,9 +167,7 @@ export const ClientExerciseModal = () => {
                   type="checkbox"
                   className="toggle-styling"
                 />
-                <Label htmlFor="sets">
-                  {isActiveClientExercise ? "Active" : "Non active"}
-                </Label>
+                <Label htmlFor="sets">{isActiveClientExercise ? "Active" : "Non active"}</Label>
               </div>
             )}
             <div className="flex items-center justify-center gap-4 mt-4">

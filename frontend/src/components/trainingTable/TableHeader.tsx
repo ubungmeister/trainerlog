@@ -7,14 +7,9 @@ type TableHeaderProps = {
   trainingSessions: Session[];
 };
 
-export const TableHeader = ({
-  visibleDates,
-  trainingSessions,
-}: TableHeaderProps) => {
+export const TableHeader = ({ visibleDates, trainingSessions }: TableHeaderProps) => {
   //Zustand store for managing training session modal state
-  const openTrainingSessionModal = trainingSessionStore(
-    (state) => state.openModal,
-  );
+  const openTrainingSessionModal = trainingSessionStore((state) => state.openModal);
 
   const clientId = tableStore((state) => state.clientId);
 

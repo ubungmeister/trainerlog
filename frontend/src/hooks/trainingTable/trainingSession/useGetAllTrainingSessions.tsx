@@ -18,16 +18,13 @@ export function useGetAllTrainingSessions(
     queryKey: ["trainingSessions", clientId, fromDate, toDate],
     enabled: !!clientId,
     queryFn: async () => {
-      const response = await fetch(
-        `${API_URL}/api/training-sessions/all?${params.toString()}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      const response = await fetch(`${API_URL}/api/training-sessions/all?${params.toString()}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+      });
       if (!response.ok) {
         let message = `Failed to fetch training sessions (${response.status})`;
         try {

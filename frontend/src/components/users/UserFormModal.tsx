@@ -42,8 +42,7 @@ export const UserFormModal = () => {
 
   // Determine if there are changes to enable the Save button
   const hasChanges = user
-    ? fullName.trim() !== user.fullName.trim() ||
-      email.trim() !== user.email.trim()
+    ? fullName.trim() !== user.fullName.trim() || email.trim() !== user.email.trim()
     : true;
 
   const canSave = hasChanges && !isSaving && !isDeleting;

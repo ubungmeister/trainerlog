@@ -64,19 +64,12 @@ export const CategoryFormModal = () => {
   const onDelete = () => {
     if (!category) return;
     // Check if any exercises are using this category
-    const isCategoryInUse = exercises.some(
-      (exercise) => exercise.categoryId === category.id,
-    );
+    const isCategoryInUse = exercises.some((exercise) => exercise.categoryId === category.id);
     if (isCategoryInUse) {
-      toast.error(
-        "Cannot delete category. It is assigned to one or more exercises.",
-      );
+      toast.error("Cannot delete category. It is assigned to one or more exercises.");
       return;
     }
-    deleteCategory(
-      { id: category.id, name: category.name },
-      { onSuccess: closeModal },
-    );
+    deleteCategory({ id: category.id, name: category.name }, { onSuccess: closeModal });
   };
 
   const formHeader = category ? "Edit Category" : "Add Category";

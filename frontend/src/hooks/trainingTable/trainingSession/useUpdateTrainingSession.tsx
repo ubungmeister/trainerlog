@@ -6,17 +6,14 @@ export function useUpdateTrainingSession() {
 
   return useMutation({
     mutationFn: async (session: Session) => {
-      const response = await fetch(
-        `${API_URL}/api/training-sessions/update/${session.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(session),
+      const response = await fetch(`${API_URL}/api/training-sessions/update/${session.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+        body: JSON.stringify(session),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to update training session");

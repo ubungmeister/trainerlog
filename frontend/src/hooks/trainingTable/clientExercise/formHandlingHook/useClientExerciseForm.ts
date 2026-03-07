@@ -52,9 +52,7 @@ export const useClientExerciseForm = ({ closeModal }: FormPropsType) => {
   };
 
   const handleUpdate = (data: FormSchemaType) => {
-    const isExerciseShared = exercises?.find(
-      (ex) => ex.id === data.exerciseId,
-    )?.sharedExercise;
+    const isExerciseShared = exercises?.find((ex) => ex.id === data.exerciseId)?.sharedExercise;
     if (isExerciseShared) return console.error("Cannot update shared exercise");
 
     const updatePromises: Promise<unknown>[] = [];
