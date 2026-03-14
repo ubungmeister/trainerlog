@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "contexts/AuthContext";
+import { useAuth } from "hooks/useAuth";
 import { ROUTES } from "app/utils/routes/routes.constants";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

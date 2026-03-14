@@ -63,7 +63,7 @@ export const Table = ({ clientId }: TableProps) => {
 
   useEffect(() => {
     setClientExercises(clientExercises || []);
-  }, [clientExercises]);
+  }, [clientExercises, setClientExercises]);
 
   //Stable, memoized data transforms
   const sortedSessions = useMemo(

@@ -5,6 +5,7 @@ export interface Exercise {
   activeExercise: boolean;
   categoryId?: string | null;
   category?: string | null;
+  imageUrl?: string | null;
 }
 
 export interface Category {
@@ -20,6 +21,7 @@ export interface ClientExercise {
   exerciseName?: string | null;
   category?: string | null;
   activeClientExercise: boolean;
+  imageUrl?: string | null;
 }
 
 export interface Session {

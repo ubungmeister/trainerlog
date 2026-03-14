@@ -1,12 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  type ReactNode,
-} from "react";
+import { createContext, useState, useEffect, useCallback, useMemo, type ReactNode } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -38,7 +30,8 @@ interface AuthContextType {
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// eslint-disable-next-line react-refresh/only-export-components
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -117,14 +110,4 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-
-  return context;
 }

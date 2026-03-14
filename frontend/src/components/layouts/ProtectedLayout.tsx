@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "contexts/AuthContext";
+import { useAuth } from "hooks/useAuth";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import { MobileDrawerMenu } from "./MobileDrawerMenu";
