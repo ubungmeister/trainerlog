@@ -28,10 +28,17 @@ export function ExerciseHistoryList({
   }, [trainingSessions]);
 
   const exerciseNameMap = useMemo(() => {
-    const map = new Map<string, string>();
+    const map = new Map<
+      string,
+      { name: string; category?: string | null; imageUrl?: string | null }
+    >();
     clientExercises.forEach((ce) => {
       if (ce.exerciseId && ce.exerciseName) {
-        map.set(ce.exerciseId, ce.exerciseName);
+        map.set(ce.exerciseId, {
+          name: ce.exerciseName,
+          category: ce.category,
+          imageUrl: ce.imageUrl,
+        });
       }
     });
     return map;
@@ -43,10 +50,13 @@ export function ExerciseHistoryList({
 
     sessionExercises.forEach((se) => {
       const session = sessionMap.get(se.trainingSessionId);
+      const exerciseInfo = exerciseNameMap.get(se.exerciseId);
       if (!groups.has(se.exerciseId)) {
         groups.set(se.exerciseId, {
           exerciseId: se.exerciseId,
-          exerciseName: exerciseNameMap.get(se.exerciseId) ?? "Unknown",
+          exerciseName: exerciseInfo?.name ?? "Unknown",
+          category: exerciseInfo?.category,
+          imageUrl: exerciseInfo?.imageUrl,
           entries: [],
         });
       }
@@ -107,18 +117,6 @@ export function ExerciseHistoryList({
           {filteredGroups.map((group) => (
             <ExerciseHistoryCard key={group.exerciseId} group={group} />
           ))}
-        </div>
-      )}
-
-      {filteredGroups.length > 0 && (
-        <div className="flex justify-end mt-4">
-          <button
-            onClick={onAddEntry}
-            className="flex items-center gap-2 bg-primary-bg text-white px-5 py-2.5 rounded-xl text-sm font-medium"
-          >
-            <Plus size={16} />
-            Add New Entry
-          </button>
         </div>
       )}
     </div>
